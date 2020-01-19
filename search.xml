@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>学习，随记</title>
+      <link href="/2020/01/16/20200116/"/>
+      <url>/2020/01/16/20200116/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/en_joker/article/details/78792179" target="_blank" rel="noopener">zookeeper testingserver</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 备记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 摘抄 </tag>
+            
+            <tag> 随记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MYSQL的utf-8,utf8mb4,COLLATE</title>
       <link href="/2020/01/15/20200115/"/>
       <url>/2020/01/15/20200115/</url>
