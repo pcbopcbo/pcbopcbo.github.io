@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>shell命令汇总备记</title>
+      <link href="/2020/01/20/2020012015/"/>
+      <url>/2020/01/20/2020012015/</url>
+      
+        <content type="html"><![CDATA[<h1 id="shell命令汇总备记"><a href="#shell命令汇总备记" class="headerlink" title="shell命令汇总备记"></a>shell命令汇总备记</h1><p>事先声明，本人就是一个菜鸟，这篇博客也就是为了学习下大佬的博客。</p><p> 陈皓和雷俊(Javaer/Emacser)-<a href="https://coolshell.cn/articles/19219.html" target="_blank" rel="noopener">打造高效的工作环境 – SHELL 篇</a></p><p> 无意间翻出来的，备注下链接，一点一点慢慢吸取下。</p><h2 id="下面两篇是文中提到的两篇博客，有趣也有用的。"><a href="#下面两篇是文中提到的两篇博客，有趣也有用的。" class="headerlink" title="下面两篇是文中提到的两篇博客，有趣也有用的。"></a>下面两篇是文中提到的两篇博客，有趣也有用的。</h2><p> <a href="https://coolshell.cn/articles/8619.html" target="_blank" rel="noopener">你可能不知道的SHELL</a><br> <a href="https://coolshell.cn/articles/8883.html" target="_blank" rel="noopener">应该知道的LINUX技巧</a></p><h3 id="摘抄"><a href="#摘抄" class="headerlink" title="摘抄"></a>摘抄</h3><ul><li><p><code>!$</code></p><p>这是个特殊的变量，代表上一个命令的最后一个字符串</p><p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_01.gif" data-fancybox="group" data-caption="!$示例" class="fancybox"><img alt="!$示例" title="!$示例" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_01.gif" src="/img/loading.gif" class="lazyload"></a></p></li></ul><ul><li><p><code>sudo !!</code> </p><p>以root的身份执行上一条命令  </p><p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_02.gif" data-fancybox="group" data-caption="shell_02" class="fancybox"><img alt="shell_02" title="shell_02" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_02.gif" src="/img/loading.gif" class="lazyload"></a></p></li><li><p><code>cd -</code></p><p>回到上一次的目录</p><p><code>cd ~</code> 是回到自己的Home目录，<code>cd ~user</code>，是进入某个用户的Home目录 </p></li><li><p><code>ALT+.</code> or <code>&lt;ESC&gt; .</code> </p><p>可以把上次命令的参数给重复出来。试了以下，没有想象中的好用。</p></li><li><p><code>^old^new</code> </p><p>替换前一条命令里的部分字符串。  </p><p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_03.gif" data-fancybox="group" data-caption="shell_03" class="fancybox"><img alt="shell_03" title="shell_03" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_03.gif" src="/img/loading.gif" class="lazyload"></a></p></li><li><p><code>du -s *| sort -n | tail</code></p></li></ul><p>列出当前目录里最大的10个文件 </p><ul><li><p><code>:w !sudo tee %</code></p><p>保存一个只有root可以写的文件，存疑。。。</p><p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_04.gif" data-fancybox="group" data-caption="shell_04" class="fancybox"><img alt="shell_04" title="shell_04" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_04.gif" src="/img/loading.gif" class="lazyload"></a></p></li><li><p><code>date -d@1234567890</code> </p><p>时间戳转时间，说不定啥时候调bug会用到。</p></li></ul><p><a href="https://pcbopcbo.github.io/img/2020012015.assets/1579512240869.png" data-fancybox="group" data-caption="1579512240869" class="fancybox"><img alt="1579512240869" title="1579512240869" data-src="https://pcbopcbo.github.io/img/2020012015.assets/1579512240869.png" src="/img/loading.gif" class="lazyload"></a></p><ul><li><p><code>&gt; file.txt</code></p><p>创建一个空文件，或者可以用 t<code>ouch file.txt</code>,不过这个确实短一些。</p></li><li><p>mtr coolshell.cn</p><p>这个，平时不搞这个，放过吧，虚拟机里面一个也没有。不过说是mtr命令比traceroute要好。 </p></li></ul><ul><li><p>在命令行前加空格，该命令不会进入history里。  </p></li><li><p>213</p><p>又是一个没有见过的命令，先搜个博客</p><p><a href="https://blog.51cto.com/12822117/2121101" target="_blank" rel="noopener">linux中at命令详解</a></p><p><a href="https://www.cnblogs.com/diantong/p/9366449.html" target="_blank" rel="noopener">linux命令之at</a></p><p>… 持续</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 备记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 摘抄 </tag>
+            
+            <tag> 随记 </tag>
+            
+            <tag> shell </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vim基本技巧汇总备记</title>
       <link href="/2020/01/19/2020011913/"/>
       <url>/2020/01/19/2020011913/</url>
@@ -74,9 +103,9 @@
       
         <tags>
             
-            <tag> 摘抄 </tag>
-            
             <tag> mysql </tag>
+            
+            <tag> 摘抄 </tag>
             
         </tags>
       
