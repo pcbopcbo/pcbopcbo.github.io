@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>shell命令笔记 | 漂泊的个人笔记</title><meta name="description" content="shell命令笔记"><meta name="keywords" content="摘抄,随记,shell"><meta name="author" content="thf"><meta name="copyright" content="thf"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="google-site-verification" content="MnCKd3fWGkWp-5KKPL8k2hc29Bqp_5xZUllSEH3X4zQ"><meta name="msvalidate.01" content="C15FC6A7DEA4FAD3FE60CF379150C000"><meta name="baidu-site-verification" content="KQOWCUYFxP"><meta name="360-site-verification" content="eb7da8480f7c402a6b3744b11efb3fd4"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="shell命令笔记"><meta name="twitter:description" content="shell命令笔记"><meta name="twitter:image" content="http://www.gx.xinhuanet.com/titlepic/1123358057_1535678022109_title1n.jpg"><meta property="og:type" content="article"><meta property="og:title" content="shell命令笔记"><meta property="og:url" content="http://pcbopcbo.github.io/2020/01/20/2020012015/"><meta property="og:site_name" content="漂泊的个人笔记"><meta property="og:description" content="shell命令笔记"><meta property="og:image" content="http://www.gx.xinhuanet.com/titlepic/1123358057_1535678022109_title1n.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="canonical" href="http://pcbopcbo.github.io/2020/01/20/2020012015/"><link rel="prev" title="git命令汇总备记" href="http://pcbopcbo.github.io/2020/01/21/2020012110/"><link rel="next" title="vim基本技巧笔记" href="http://pcbopcbo.github.io/2020/01/19/2020011913/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"},
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">漂泊的个人笔记</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-folder-open" aria-hidden="true"></i><span> 类别</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 全部</span></a></li><li><a class="site-page" href="/categories/%E5%A4%87%E8%AE%B0/"><i class="fa-fw fa fa-folder-open"></i><span> 备记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-folder-open" aria-hidden="true"></i><span> 类别</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 全部</span></a></li><li><a class="site-page" href="/categories/%E5%A4%87%E8%AE%B0/"><i class="fa-fw fa fa-folder-open"></i><span> 备记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#shell命令笔记"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">shell命令笔记</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#下面两篇是文中提到的两篇博客，有趣也有用的。"><span class="toc_mobile_items-number">1.1.</span> <span class="toc_mobile_items-text">下面两篇是文中提到的两篇博客，有趣也有用的。</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#又从里面看到的，算了我全都放这里了，慢慢啃吧"><span class="toc_mobile_items-number">1.1.1.</span> <span class="toc_mobile_items-text">又从里面看到的，算了我全都放这里了，慢慢啃吧</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#顺便把收藏的linux基本命令的流程图放上来"><span class="toc_mobile_items-number">1.2.</span> <span class="toc_mobile_items-text">顺便把收藏的linux基本命令的流程图放上来</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#摘抄-笔记"><span class="toc_mobile_items-number">1.3.</span> <span class="toc_mobile_items-text">摘抄+笔记</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#链接一：-你可能不知道的SHELL"><span class="toc_mobile_items-number">1.3.1.</span> <span class="toc_mobile_items-text">链接一： 你可能不知道的SHELL</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div id="web_bg" data-type="color"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#shell命令笔记"><span class="toc-number">1.</span> <span class="toc-text">shell命令笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下面两篇是文中提到的两篇博客，有趣也有用的。"><span class="toc-number">1.1.</span> <span class="toc-text">下面两篇是文中提到的两篇博客，有趣也有用的。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#又从里面看到的，算了我全都放这里了，慢慢啃吧"><span class="toc-number">1.1.1.</span> <span class="toc-text">又从里面看到的，算了我全都放这里了，慢慢啃吧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#顺便把收藏的linux基本命令的流程图放上来"><span class="toc-number">1.2.</span> <span class="toc-text">顺便把收藏的linux基本命令的流程图放上来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#摘抄-笔记"><span class="toc-number">1.3.</span> <span class="toc-text">摘抄+笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#链接一：-你可能不知道的SHELL"><span class="toc-number">1.3.1.</span> <span class="toc-text">链接一： 你可能不知道的SHELL</span></a></li></ol></li></ol></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(http://www.gx.xinhuanet.com/titlepic/1123358057_1535678022109_title1n.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">shell命令笔记</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 发表于 2020-01-20<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> 更新于 2020-02-11</time><span class="post-meta__separator">|</span><span><i class="fa fa-inbox post-meta__icon fa-fw" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></span><div class="post-meta-wordcount"><div class="post-meta-pv-cv"><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>阅读量:</span><span id="busuanzi_value_page_pv"></span><span class="post-meta__separator">|</span><i class="fa fa-comments-o post-meta__icon fa-fw" aria-hidden="true"></i><span>评论数:</span><a href="/2020/01/20/2020012015/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="shell命令笔记"><a href="#shell命令笔记" class="headerlink" title="shell命令笔记"></a>shell命令笔记</h1><p>事先声明，本人就是一个菜鸟，这篇博客也就是为了学习下大佬的博客。</p>
+<p> 陈皓和雷俊(Javaer/Emacser)-<a href="https://coolshell.cn/articles/19219.html" target="_blank" rel="noopener">打造高效的工作环境 – SHELL 篇</a></p>
+<p> 无意间翻出来的，备注下链接，一点一点慢慢吸取下。</p>
+<h2 id="下面两篇是文中提到的两篇博客，有趣也有用的。"><a href="#下面两篇是文中提到的两篇博客，有趣也有用的。" class="headerlink" title="下面两篇是文中提到的两篇博客，有趣也有用的。"></a>下面两篇是文中提到的两篇博客，有趣也有用的。</h2><p> <a href="https://coolshell.cn/articles/8619.html" target="_blank" rel="noopener">你可能不知道的SHELL</a><br> <a href="https://coolshell.cn/articles/8883.html" target="_blank" rel="noopener">应该知道的LINUX技巧</a></p>
+<h3 id="又从里面看到的，算了我全都放这里了，慢慢啃吧"><a href="#又从里面看到的，算了我全都放这里了，慢慢啃吧" class="headerlink" title="又从里面看到的，算了我全都放这里了，慢慢啃吧"></a>又从里面看到的，算了我全都放这里了，慢慢啃吧</h3><ul>
+<li><p><a href="https://coolshell.cn/articles/7829.html" target="_blank" rel="noopener">28个UNIX/LINUX的命令行神器</a></p>
+</li>
+<li><p>这个我没打开，网有点慢？<a href="https://coolshell.cn/articles/7166.html" target="_blank" rel="noopener">游戏：VIM大冒险</a></p>
+</li>
+<li><p><strong><em>简直是个宝藏：</em></strong> <a href="https://coolshell.cn/articles/7186.html" target="_blank" rel="noopener">做个环保主义的程序员</a></p>
+</li>
+<li><p><a href="https://coolshell.cn/articles/7126.html" target="_blank" rel="noopener">这到底是谁之错？</a></p>
+</li>
+</ul>
+<h2 id="顺便把收藏的linux基本命令的流程图放上来"><a href="#顺便把收藏的linux基本命令的流程图放上来" class="headerlink" title="顺便把收藏的linux基本命令的流程图放上来"></a>顺便把收藏的linux基本命令的流程图放上来</h2><p> <a href="https://www.processon.com/view/58f47536e4b0dfe7d6c93460#map" target="_blank" rel="noopener">基础的linux基本命令图</a></p>
+<h2 id="摘抄-笔记"><a href="#摘抄-笔记" class="headerlink" title="摘抄+笔记"></a>摘抄+笔记</h2><h3 id="链接一：-你可能不知道的SHELL"><a href="#链接一：-你可能不知道的SHELL" class="headerlink" title="链接一： 你可能不知道的SHELL"></a>链接一： <a href="https://coolshell.cn/articles/8619.html" target="_blank" rel="noopener">你可能不知道的SHELL</a></h3><ul>
+<li><p><code>!$</code></p>
+<p>这是个特殊的变量，代表上一个命令的最后一个字符串</p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_01.gif" data-fancybox="group" data-caption="!$示例" class="fancybox"><img alt="!$示例" title="!$示例" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_01.gif" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+</ul>
+<ul>
+<li><p><code>sudo !!</code> </p>
+<p>以root的身份执行上一条命令  </p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_02.gif" data-fancybox="group" data-caption="shell_02" class="fancybox"><img alt="shell_02" title="shell_02" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_02.gif" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+<li><p><code>cd -</code></p>
+<p>回到上一次的目录</p>
+<p><code>cd ~</code> 是回到自己的Home目录，<code>cd ~user</code>，是进入某个用户的Home目录 </p>
+</li>
+<li><p><code>ALT+.</code> or <code>&lt;ESC&gt; .</code> </p>
+<p>可以把上次命令的参数给重复出来。试了以下，没有想象中的好用。</p>
+</li>
+<li><p><code>^old^new</code> </p>
+<p>替换前一条命令里的部分字符串。  </p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_03.gif" data-fancybox="group" data-caption="shell_03" class="fancybox"><img alt="shell_03" title="shell_03" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_03.gif" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+<li><p><code>du -s *| sort -n | tail</code></p>
+<p>列出当前目录里最大的10个文件 </p>
+</li>
+<li><p><code>:w !sudo tee %</code></p>
+<p>保存一个只有root可以写的文件，存疑。。。</p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_04.gif" data-fancybox="group" data-caption="shell_04" class="fancybox"><img alt="shell_04" title="shell_04" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_04.gif" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+<li><p><code>date -d@1234567890</code> </p>
+<p>时间戳转时间，说不定啥时候调bug会用到。</p>
+</li>
+</ul>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/1579512240869.png" data-fancybox="group" data-caption="1579512240869" class="fancybox"><img alt="1579512240869" title="1579512240869" data-src="https://pcbopcbo.github.io/img/2020012015.assets/1579512240869.png" src="/img/loading.gif" class="lazyload"></a></p>
+<ul>
+<li><p><code>&gt; file.txt</code></p>
+<p>创建一个空文件，或者可以用 t<code>ouch file.txt</code>,不过这个确实短一些。</p>
+</li>
+<li><p>mtr coolshell.cn</p>
+<p>这个，平时不搞这个，放过吧，虚拟机里面一个也没有。不过说是mtr命令比traceroute要好。 </p>
+</li>
+</ul>
+<ul>
+<li><p>在命令行前加空格，该命令不会进入history里。  </p>
+</li>
+<li><p><code>echo &quot;ls -l&quot; | at midnight</code></p>
+<p>在某个时间运行某个命令。又是一个没有见过的命令，先搜个博客</p>
+<p><a href="https://blog.51cto.com/12822117/2121101" target="_blank" rel="noopener">linux中at命令详解</a></p>
+<p><a href="https://www.cnblogs.com/diantong/p/9366449.html" target="_blank" rel="noopener">linux命令之at</a></p>
+</li>
+<li><p><code>curl -u user:pass -d status=&quot;Tweeting from the shell&quot; http://twitter.com/statuses/update.xml</code></p>
+<p>命令行的方式更新twitter。</p>
+</li>
+<li><p><code>curl -u username --silent &quot;https://mail.google.com/mail/feed/atom&quot; | perl -ne &#39;print &quot;\t&quot; if /&lt;name&gt;/; print &quot;$2\n&quot; if /&lt;(title|name)&gt;(.*)&lt;\/\1&gt;/;&#39;</code></p>
+<p>检查你的gmail未读邮件。</p>
+</li>
+<li><p><code>ps aux | sort -nk +4 | tail</code></p>
+<p>列出头十个最耗内存的进程</p>
+</li>
+<li><p><code>man ascii</code></p>
+<p>显示ascii码表。</p>
+</li>
+<li><p><code>ctrl-x e</code></p>
+<p>快速启动你的默认编辑器（由变量$EDITOR设置）。</p>
+</li>
+<li><p><code>netstat –tlnp</code><br>列出本机进程监听的端口号。</p>
+</li>
+<li><p><code>netstat -anop</code><br>可以显示侦听在这个端口号的进程</p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/1579575056177.png" data-fancybox="group" data-caption="对比下，感觉上一个没啥用？" class="fancybox"><img alt="对比下，感觉上一个没啥用？" title="对比下，感觉上一个没啥用？" data-src="https://pcbopcbo.github.io/img/2020012015.assets/1579575056177.png" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+<li><p><code>tail -f /path/to/file.log | sed &#39;/^Finished: SUCCESS$/ q&#39;</code></p>
+<p>当file.log里出现Finished: SUCCESS时候就退出tail，这个命令用于实时监控并过滤log是否出现了某条记录。<br>这个不错</p>
+</li>
+<li><p><code>ssh user@server bash &lt; /path/to/local/script.sh</code></p>
+<p>在远程机器上运行一段脚本。这条命令最大的好处就是不用把脚本拷到远程机器上。</p>
+<p>不知道怎么才能指定目录执行，不然脚本写的有点死。</p>
+</li>
+<li><p><code>ssh user@host cat /path/to/remotefile | diff /path/to/localfile -</code></p>
+<p>比较一个远程文件和一个本地文件.  感觉我首先得学会看diff命令。</p>
+</li>
+<li><p><code>net rpc shutdown -I ipAddressOfWindowsPC -U username%password</code></p>
+<p>远程关闭一台Windows的机器</p>
+</li>
+<li><p><code>screen -d -m -S some_name ping my_router</code></p>
+<p>后台运行一段不终止的程序，并可以随时查看它的状态。-d -m参数启动“分离”模式，-S指定了一个session的标识。可以通过-R命令来重新“挂载”一个标识的session。更多细节请参考screen用法 man screen。</p>
+</li>
+<li><p><code>wget --random-wait -r -p -e robots=off -U mozilla http://www.example.com</code></p>
+<p>下载整个 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> 网站。（大佬注：别太过分，大部分网站都有防爬功能了：））</p>
+</li>
+<li><p><code>curl ifconfig.me</code></p>
+<p>当你的机器在内网的时候，可以通过这个命令查看外网的IP</p>
+<p>这个没搞懂，一个结果看不懂，一个干脆就是不通</p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/1579578337692.png" data-fancybox="group" data-caption="1579578337692" class="fancybox"><img alt="1579578337692" title="1579578337692" data-src="https://pcbopcbo.github.io/img/2020012015.assets/1579578337692.png" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+<li><p><code>convert input.png -gravity NorthWest -background transparent -extent 720x200  output.png</code></p>
+<p>改一下图片的大小尺寸。虚拟机没装convert这个命令，centos精简版好多没有啊。</p>
+</li>
+<li><p><code>isof -i</code></p>
+<p>实时查看本机网络服务的活动状态。</p>
+</li>
+<li><p><code>vim scp://username@host//path/to/somefile</code></p>
+<p>vim一个远程文件</p>
+</li>
+<li><p><code>python -m SimpleHTTPServer</code><br>一句话实现一个HTTP服务，把当前目录设为HTTP服务目录，可以通过 <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> 访问 这也许是这个星球上最简单的HTTP服务器的实现了。<br>这个挺有用的，需要python，linux上面应该都带了python。</p>
+</li>
+<li><p><code>history|awk &#39;{print $2}&#39;|awk &#39;BEGIN {FS=&quot;|&quot;}{print $1}&#39;|sort|uniq -c|sort -rn|head -10</code></p>
+<p>这行脚本能输出你最常用的十条命令，由此甚至可以洞察你是一个什么类型的程序员。</p>
+<p>原文中的这行命令引号可能错了，我直接复制粘贴不行，我重新敲了一遍。</p>
+</li>
+<li><p><code>tr -c &quot;[:digit:]&quot; &quot; &quot; &lt; /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR=&quot;1;32&quot; grep --color &quot;[^ ]&quot;</code></p>
+<p>想看看Marix的屏幕效果吗？（不是很像，但也很Cool!）</p>
+<p>停不下来，，按了几下<code>ctrl</code>+<code>c</code> 才停下来，蛮有意思的。</p>
+<p><a href="https://pcbopcbo.github.io/img/2020012015.assets/shell_05.gif" data-fancybox="group" data-caption="shell_05" class="fancybox"><img alt="shell_05" title="shell_05" data-src="https://pcbopcbo.github.io/img/2020012015.assets/shell_05.gif" src="/img/loading.gif" class="lazyload"></a></p>
+</li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">thf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pcbopcbo.github.io/2020/01/20/2020012015/">http://pcbopcbo.github.io/2020/01/20/2020012015/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pcbopcbo.github.io">漂泊的个人笔记</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%91%98%E6%8A%84/">摘抄    </a><a class="post-meta__tags" href="/tags/%E9%9A%8F%E8%AE%B0/">随记    </a><a class="post-meta__tags" href="/tags/shell/">shell    </a></div><div class="post_share"><div class="social-share" data-image="http://www.gx.xinhuanet.com/titlepic/1123358057_1535678022109_title1n.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/01/21/2020012110/"><img class="prev_cover lazyload" data-src="http://pic25.nipic.com/20121117/11395007_172927683156_2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>git命令汇总备记</span></div></a></div><div class="next-post pull_right"><a href="/2020/01/19/2020011913/"><img class="next_cover lazyload" data-src="https://cn.bing.com/th?id=OHR.SpeedFlying_ZH-CN1276366046_1920x1080.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>vim基本技巧笔记</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/01/19/2020011913/" title="vim基本技巧笔记"><img class="relatedPosts_cover lazyload"data-src="https://cn.bing.com/th?id=OHR.SpeedFlying_ZH-CN1276366046_1920x1080.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-19</div><div class="relatedPosts_title">vim基本技巧笔记</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/16/20200116/" title="zookeeper testingserver"><img class="relatedPosts_cover lazyload"data-src="https://tse3-mm.cn.bing.net/th/id/OIP.BsvPhvgIqhK6WdHztzfVIgHaE8?w=285&h=190&c=7&o=5&dpr=1.5&pid=1.7"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-16</div><div class="relatedPosts_title">zookeeper testingserver</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/21/2020012110/" title="git命令汇总备记"><img class="relatedPosts_cover lazyload"data-src="http://pic25.nipic.com/20121117/11395007_172927683156_2.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-21</div><div class="relatedPosts_title">git命令汇总备记</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/07/20200107/" title="hexo简单发布使用学习"><img class="relatedPosts_cover lazyload"data-src="http://infinitypro-img.infinitynewtab.com/findaphoto/bigLink/17026.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-07</div><div class="relatedPosts_title">hexo简单发布使用学习</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/15/20200115/" title="MYSQL的utf-8,utf8mb4,COLLATE"><img class="relatedPosts_cover lazyload"data-src="http://pic50.nipic.com/file/20141016/9885883_150813453000_2.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-15</div><div class="relatedPosts_title">MYSQL的utf-8,utf8mb4,COLLATE</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '64abbdccac9f2ffc5c33',
+  clientSecret: '13082e4b433ff82f067ca0fa3983ee5009e28f25',
+  repo: 'pcbopcbo.github.io',
+  owner: 'pcbopcbo',
+  admin: 'pcbopcbo',
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+}</script></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By thf</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/piao.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
