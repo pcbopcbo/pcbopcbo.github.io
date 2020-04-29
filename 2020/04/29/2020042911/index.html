@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>全网最全的高质量博客与网站（国内篇）（转载） | 漂泊的个人笔记</title><meta name="description" content="全网最全的高质量博客与网站（国内篇）（转载）"><meta name="keywords" content="随记"><meta name="author" content="thf"><meta name="copyright" content="thf"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="google-site-verification" content="MnCKd3fWGkWp-5KKPL8k2hc29Bqp_5xZUllSEH3X4zQ"><meta name="msvalidate.01" content="C15FC6A7DEA4FAD3FE60CF379150C000"><meta name="baidu-site-verification" content="KQOWCUYFxP"><meta name="360-site-verification" content="eb7da8480f7c402a6b3744b11efb3fd4"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="全网最全的高质量博客与网站（国内篇）（转载）"><meta name="twitter:description" content="全网最全的高质量博客与网站（国内篇）（转载）"><meta name="twitter:image" content="https://pic4.zhimg.com/v2-f75f778b740a05c9eee3c8256ad97fdb_1200x500.jpg"><meta property="og:type" content="article"><meta property="og:title" content="全网最全的高质量博客与网站（国内篇）（转载）"><meta property="og:url" content="http://pcbopcbo.github.io/2020/04/29/2020042911/"><meta property="og:site_name" content="漂泊的个人笔记"><meta property="og:description" content="全网最全的高质量博客与网站（国内篇）（转载）"><meta property="og:image" content="https://pic4.zhimg.com/v2-f75f778b740a05c9eee3c8256ad97fdb_1200x500.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="canonical" href="http://pcbopcbo.github.io/2020/04/29/2020042911/"><link rel="next" title="git命令汇总备记" href="http://pcbopcbo.github.io/2020/01/21/2020012110/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"},
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">漂泊的个人笔记</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-folder-open" aria-hidden="true"></i><span> 类别</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 全部</span></a></li><li><a class="site-page" href="/categories/%E5%A4%87%E8%AE%B0/"><i class="fa-fw fa fa-folder-open"></i><span> 备记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-folder-open" aria-hidden="true"></i><span> 类别</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 全部</span></a></li><li><a class="site-page" href="/categories/%E5%A4%87%E8%AE%B0/"><i class="fa-fw fa fa-folder-open"></i><span> 备记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><div class="sidebar-toc__content"></div></div></div><div id="body-wrap"><div id="web_bg" data-type="color"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(https://pic4.zhimg.com/v2-f75f778b740a05c9eee3c8256ad97fdb_1200x500.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">全网最全的高质量博客与网站（国内篇）（转载）</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 发表于 2020-04-29<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> 更新于 2020-04-29</time><span class="post-meta__separator">|</span><span><i class="fa fa-inbox post-meta__icon fa-fw" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></span><div class="post-meta-wordcount"><div class="post-meta-pv-cv"><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>阅读量:</span><span id="busuanzi_value_page_pv"></span><span class="post-meta__separator">|</span><i class="fa fa-comments-o post-meta__icon fa-fw" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/29/2020042911/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><blockquote>
+<p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="https://zhuanlan.zhihu.com/p/68386214" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/68386214</a></p>
+</blockquote>
+<blockquote>
+<p>知乎收藏的一篇博客，推荐了很多个网站，无奈总是放在收藏里面吃灰，简悦转码后放在这里吧，希望以后能多去这几个网站逛逛，学习学习。</p>
+</blockquote>
+<blockquote>
+<p>下面为转载内容：</p>
+</blockquote>
+<p>作为一个技术脑残粉，在学习技术的道路上怎么能忍受得了形单影只一路匍匐前行呢，怎么也得踩在巨人的肩膀上一路前行，啊呸，是站在巨人的肩膀上一路前行。大部分程序员在自学的路上都走过不少弯路，经常把自己搞得晕头转向的。就我自己来说，平时学习的过程中喜欢看一些比较系统、比较体系和一些教程式的博客和网站，所以废话不多说，今天给大家分享几个高质量的技术博客和网站。</p>
+<p>一、博客</p>
+<p>0、酷壳 - COOLSHELL</p>
+<p>博客地址是 <a href="https://coolshell.cn/" target="_blank" rel="noopener">https://coolshell.cn/</a>。 这个博客的作者是技术圈基本无人不知的技术大牛，江湖人称耗子叔，网名左耳朵耗子，原名叫陈皓，先后在阿里巴巴、亚马逊、汤森路透等大企业担任要职，职业背景是金融和电子商务行业，主要研究方向是一些大规模分布式系统的基础架构。目前在创业，创办了 MegaEase 公司，致力于为企业提供高可用、高并发、高性能的分布式技术产品，同时也提供物联网（loT）方向的技术产品。从大学毕业到现在 20 多年了仍然在写代码，从 2002 年开始写技术博客，后面一直在现在这个博客上分享一些技术文章和一些技术见解和心得。</p>
+<p>可以想象一下，现在很多年轻的技术大牛，当年学习的时候都从耗子叔的博客中受益，可见这个博客是有多么的硬核了吧？基本都不需要介绍太多，懂的人自然懂。在技术圈可以说是骨灰级的存在，人称骨灰级程序员。所以，首当其冲要推荐的就是耗子叔的博客，另外值得一提的是，作者在极客时间开办的专栏《左耳听风》也非常经典，订阅人数达到了恐怖的三万多人。需要重点提一下的是，博客中的《程序员练级攻略》和《程序员面试攻略》系列都堪称是经典中的经典。</p>
+<p>1、孤傲苍狼</p>
+<p>博客地址是　<a href="https://www.cnblogs.com/xdp-gacl/" target="_blank" rel="noopener">https://www.cnblogs.com/xdp-gacl/</a>。 这个博客主要以学习总结为主，目前博客已经不再更新，但依然还有将近两万的关注者，对于一个技术博客来说，能有如此之多的关注者，可以说是非常了不起了。博客上面出品了多个学习总结系列，如：Java 基础总结、Javascript 学习总结、JavaWeb 学习总结、Maven 学习总结、Android 开发学习总结等，全都是博主的亲身经历与总结，可以说全都是精品，都非常体系和全面，基本全都是图文并茂，相信你会有一种相见恨晚的感觉。</p>
+<p>2、芋道源码</p>
+<p>博客地址是　<a href="http://www.iocoder.cn" target="_blank" rel="noopener">http://www.iocoder.cn</a>。这个博客的座右铭是：愿半生编码，如一生老友。所以如果你也如博主这般，热爱技术，热爱源码，那么恭喜你来对了，这个博客一定是你的首选。这个博客目前出品了一系列精品的源码阅读，博主从学生时代开始阅读源码，一路升级打怪，现在已是大牛级别。目前已经出品的精品源码解析系列有：JDK 源码阅读、精尽 Dubbo 源码解析、精尽 Netty 源码解析、精尽 Spring 源码解析、精尽 MyBatis 源码解析、精尽 Spring MVC 源码解析等，同时还有一些其他非常优秀的非源码解析的系列也绝对值得一看，如：面试题汇总系列、学习指南汇总系列。</p>
+<p>3、Java 技术驿站</p>
+<p>博客地址是　<a href="http://cmsblogs.com/" target="_blank" rel="noopener">http://cmsblogs.com/</a>。 这个博客的作者是 chenssy，也是很厉害的一位技术大牛。博客出品了优秀的死磕系列，记得有次看到作者给读者的回复「学习如果不成体系那是多可怕的一件事儿」，这给我留下了非常深刻的印象。正如作者自己所言，学习要成体系，作者也是知行合一，打造了自成体系的精品死磕系列，在技术升级打怪的路上，怎么能少了这个优秀的博客呢？目前博客上出品的死磕系列有：死磕 Java 并发、死磕 Java 集合、死磕 Spring、死磕 SJDBC、死磕 Tomcat，都堪称是非常经典的了，其他的系列如微服务、架构 &amp; 分布式等也值得一看。</p>
+<p>4、R 大</p>
+<p>博客地址是　<a href="https://rednaxelafx.iteye.com/" target="_blank" rel="noopener">https://rednaxelafx.iteye.com/</a>。 引用作者在知乎的一个问题「R 大 @Rednaxelafx 的作品有哪些？」下的回答：</p>
+<blockquote>
+<p>俺是嘴炮型民科编程语言设计与实现爱好者。俺只有一些博客文章、知乎回答、知乎专栏、豆瓣读书笔记之类的。俺并没有什么 “作品”… 如果题主是想找俺自己开的开源项目的话，木有啊（汗~ 俺偶尔会参与现成的开源项目，吐点槽修个小 bug 啥的）。  </p>
+</blockquote>
+<p>一看作者就是在逗你玩儿呢，R 大的博客可以说是重核炸弹了，老实讲，看 R 大的博客会头皮发麻甚至会缺氧，知识点太密集，信息量太大。博客上面出品的文章有很多，作者精通多种语言，出品了经典的 Ruby 系列、C# 系列、Python 系列，但最出彩、最为人知的还是 Java 虚拟机、垃圾回收系列，文章的内容都很底层，所以都比较晦涩，不过还是推荐给需要的人，对 JVM、GC 这些底层感兴趣的童鞋，值得一看。</p>
+<p>5、纯洁的微笑</p>
+<p>博客地址是　<a href="http://www.ityouknow.com/" target="_blank" rel="noopener">http://www.ityouknow.com/</a>。 作者江湖人称「微笑哥」，人狠话不多，是一位有故事的程序员。曾在互联网金融公司，第三方支付公司工作，现为一名自由职业者。这个博客出品了一系列经典的 Spring Boot 和 Spring Cloud 的经典博文，在开源平台 github 上面的开源项目也广受欢迎。作者不但技术做得好，开源做得好，关键赚钱的点子也不少，非常爱折腾，有兴趣的童鞋可以收藏这个博客好好学习一番，和微笑哥一起用技术的角度去看看这个世界。</p>
+<p>6、程序员 DD</p>
+<p>博客地址是　<a href="http://blog.didispace.com/" target="_blank" rel="noopener">http://blog.didispace.com/</a>。 这个博客的专题不少，每个专题都写的很好，其中 Spring Boot 基础教程的专题目标是：打造全网最全、比收费教程更好的 Spring Boot 免费教程！可见作者是一位多么热爱分享又非常用心的博主了。同时，作者真的是一位实打实的技术大牛，不但出版过一本优秀的技术书籍《Spring Cloud 微服务实战》，而且个人的独立博客，在短短的三年时间内从零做到了千万访问，可以说真的是非常的了不起了。在这个博客中，除了可以获取《Spring Boot 1.x 基础教程》和《Spring Boot 2.x 基础教程》之外，还可以获取到目前内容与价格最良心的视频课程《玩转 Spring 全家桶》。</p>
+<p>二、网站</p>
+<p>0、http:/h/<a href="http://ow2j.cn/" target="_blank" rel="noopener">http://ow2j.cn/</a></p>
+<p>这个网站主要聚焦 Java 方面的学习，从 Java 基础、Java 中级、Java 高级到 Java 应用，从前端到后端，从 Java 框架到工具和中间件等等，提供了一系列的免费教程，对初学者非常友好，上面还有相应的天猫前端、天猫整站 J2EE、天猫整站 SSH、天猫整站 SSM 和天猫整站 Springboot 等实战项目，当然有些是要钱的，但都不贵，上面的教程都挺不错，非常适合初学者。</p>
+<p>1、金老师的自学网站</p>
+<p>网址是 <a href="http://www.jinxuliang.com/MainWebSite" target="_blank" rel="noopener">http://www.jinxuliang.com/MainWebSite</a>。 这个网站是由北京理工大学计算机学院金旭亮老师开发与维护，致力于为计算机技术自学者提供有效的指导和丰富的在线自学资源。 目前提供了一系列的公益类课程，说白了也就是免费课程。这些在线课程旨在提供系统的、完整的、循序渐进的学习资料。当前版本以提供 PDF 文档、源码及课程说明为主，日后将开发更多的功能，逐步走向数据可视化、交互性在线练习，以最适合的方式呈现学习内容。目前已经提供的课程有：Java 程序设计、我的第一门编程课（C# 版）、网易 MOOC 课程《面向对象软件开发实践》辅助学习资源、Web 开发第一步、计算机专业学习指南、Web 前端开发入门等课程。</p>
+<p>2、廖雪峰的官方网站</p>
+<p>网址是 <a href="https://www.liaoxuefeng.com" target="_blank" rel="noopener">https://www.liaoxuefeng.com</a>。 作者廖雪峰是一位全栈工程师，Java、Python 老师，有十余年的软件开发经验，精通 Java/Python/Ruby/Scheme/Objective C 等技术，同时也是一位技术作家，著有《Spring 2.0 核心技术与最佳实践》一书，在 GitHub 上有多个开源项目。这个网站提供了经典的 JavaSE、JavaEE、JavaScript 和 Python、Git 等系列教程，我认识的不少技术大佬很多都在这个网站上面跟着 Python 和 Git 等经典教程学习过，非常值得收藏的一个网站。</p>
+<p>3、leetcode 中国</p>
+<p>网址是 <a href="https://leetcode-cn.com/" target="_blank" rel="noopener">https://leetcode-cn.com/</a>， 通常我们会直接在英文版的 leetcode 上刷题，但有时难免会遇到一些实在做不出来的题目，这时通常会到讨论区去参考别人的答案。但是，英文版的 leetcode 上很多分享也基本都是英文的，对于一些英文不太好，一看到密密麻麻的英文就烦的同学来说，这个网站还是很友好的。不愿去 leetcode 英文网站上刷题的同学可以考虑下 leetcode 中国，全中文，每道题的讨论区都有很多同学分享自己的解题思路和答案，可以去试试哦。</p>
+<p>今天就先分享这么多吧，优秀的中文博客和网站实在是太多了，想要把我知道的全部都推荐给大家不现实，一篇文章也写不完，以上分享的都是我认为非常经典和实用的，有兴趣的同学按需所取。如果觉得还不够味，还希望我继续分享多几个优秀的中文博客或者网站的，可以公号后台给我留言或者加我微信给你分享。</p>
+<p>预告一下，今天分享的是《全网最全的高质量博客与网站（国内篇）》, 下一篇我们将要分享的是《全网最全的高质量博客与网站（国外篇）》，一起期待吧～</p>
+<p><strong>推荐阅读：</strong></p>
+<p><a href="https://blog.csdn.net/Big_Rotor/article/details/88772371/" target="_blank" rel="noopener">Spring AOP 历险记（一）</a></p>
+<p>​<a href="https://blog.csdn.net/Big_Rotor/article/details/91302133" target="_blank" rel="noopener">全网最全的高质量博客与网站（国外篇）</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">thf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pcbopcbo.github.io/2020/04/29/2020042911/">http://pcbopcbo.github.io/2020/04/29/2020042911/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pcbopcbo.github.io">漂泊的个人笔记</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9A%8F%E8%AE%B0/">随记    </a></div><div class="post_share"><div class="social-share" data-image="https://pic4.zhimg.com/v2-f75f778b740a05c9eee3c8256ad97fdb_1200x500.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/01/21/2020012110/"><img class="next_cover lazyload" data-src="http://pic25.nipic.com/20121117/11395007_172927683156_2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>git命令汇总备记</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/01/16/20200116/" title="zookeeper testingserver"><img class="relatedPosts_cover lazyload"data-src="https://tse3-mm.cn.bing.net/th/id/OIP.BsvPhvgIqhK6WdHztzfVIgHaE8?w=285&h=190&c=7&o=5&dpr=1.5&pid=1.7"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-16</div><div class="relatedPosts_title">zookeeper testingserver</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/20/2020012015/" title="shell命令笔记"><img class="relatedPosts_cover lazyload"data-src="http://www.gx.xinhuanet.com/titlepic/1123358057_1535678022109_title1n.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-20</div><div class="relatedPosts_title">shell命令笔记</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/21/2020012110/" title="git命令汇总备记"><img class="relatedPosts_cover lazyload"data-src="http://pic25.nipic.com/20121117/11395007_172927683156_2.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-21</div><div class="relatedPosts_title">git命令汇总备记</div></div></a></div><div class="relatedPosts_item"><a href="/2020/01/19/2020011913/" title="vim基本技巧笔记"><img class="relatedPosts_cover lazyload"data-src="https://cn.bing.com/th?id=OHR.SpeedFlying_ZH-CN1276366046_1920x1080.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-01-19</div><div class="relatedPosts_title">vim基本技巧笔记</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '64abbdccac9f2ffc5c33',
+  clientSecret: '13082e4b433ff82f067ca0fa3983ee5009e28f25',
+  repo: 'pcbopcbo.github.io',
+  owner: 'pcbopcbo',
+  admin: 'pcbopcbo',
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+}</script></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By thf</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/piao.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
