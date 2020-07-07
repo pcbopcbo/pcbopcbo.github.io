@@ -4,19 +4,50 @@
   
     
     <entry>
-      <title>Redis，Java 8 手册</title>
-      <link href="/2020/06/23/2020062318/"/>
-      <url>/2020/06/23/2020062318/</url>
+      <title>2020070716</title>
+      <link href="/2020/07/07/2020070716/"/>
+      <url>/2020/07/07/2020070716/</url>
       
-        <content type="html"><![CDATA[<p><a href="http://redisdoc.com/index.html" target="_blank" rel="noopener">redis手册</a></p><p><a href="https://www.runoob.com/redis/redis-tutorial.html" target="_blank" rel="noopener">redis-菜鸟教程</a></p><p><a href="http://try.redis.io/" target="_blank" rel="noopener">redis测试</a></p><p><a href="http://doc.redisfans.com/" target="_blank" rel="noopener">redis命令参考</a></p><p><a href="https://redis.io/" target="_blank" rel="noopener">redis官网</a></p><p><a href="https://pcbopcbo.github.io/files/OEBPS/Text/part0000.xhtml">Java 8实战 </a></p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="http://www.mybatis.cn/archives/762.html" target="_blank" rel="noopener">http://www.mybatis.cn/archives/762.html</a></p></blockquote><p>计算机有两大基本的功能：计算和存储。在存储方面，缓存的设计和实现也是一门学问。这门学问里面包含什么门道呢？不妨研究一下 MyBatis 缓存类 PerpetualCache，一定会大有收获的。</p><p>在 MyBatis 里面，存在一个 PerpetualCache，它是一级缓存、二级缓存的最基本实现，但 PerpetualCache 只不过包装了一下 HashMap。Perpetual 是 “永久、不间断” 之意，以 PerpetualCache 为根本，在 cache.decorators 包里面有多种缓存的代理，实现了各种清除策略。</p><h2 id="1、PerpetualCache-名字的含义"><a href="#1、PerpetualCache-名字的含义" class="headerlink" title="1、PerpetualCache 名字的含义"></a>1、PerpetualCache 名字的含义</h2><p>Perpetual 是 “永久、不间断” 之意，为什么这么命名呢？稍加联系，便能明白。缓存的设计有两个重点问题：如何存储数据和采用何种清除策略。存储的话，用哈希表即可完美解决。对于清除策略而言，往往有多种选择。MyBatis 作者 Clinton Begin 选择 Perpetual 来命名缓存，暗示这是一个最底层的缓存，数据一旦存储进来，永不清除，如果实现清除策略，请把 Perpetual 包装一下。在 cache.decorators 包里面有多种缓存，它们内部串联的主线就是按照 “不同的清除策略” 来贯穿的。</p><p><a href="http://www.mybatis.cn/usr/uploads/2019/10/297015096.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="http://www.mybatis.cn/usr/uploads/2019/10/297015096.jpg" src="/img/loading.gif" class="lazyload"></a></p><h2 id="2、PerpetualCache-的实现原理："><a href="#2、PerpetualCache-的实现原理：" class="headerlink" title="2、PerpetualCache 的实现原理："></a>2、PerpetualCache 的实现原理：</h2><p>PerpetualCache 仅仅是包装了 HashMap，代码如下所示：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class PerpetualCache implements Cache </span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  private final String id;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  private Map&lt;Object, Object&gt; cache &#x3D; new HashMap&lt;Object, Object&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><p>PerpetualCache 的读取数据，也是通过内部的 HashMap 来实现的，代码如下所示：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public void putObject(Object key, Object value) &#123;</span><br><span class="line"></span><br><span class="line">cache.put(key, value);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public Object getObject(Object key) &#123;</span><br><span class="line"></span><br><span class="line">return cache.get(key);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public Object removeObject(Object key) &#123;</span><br><span class="line"></span><br><span class="line">return cache.remove(key);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public void clear() &#123;</span><br><span class="line"></span><br><span class="line">cache.clear();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><h2 id="3、Key-的设计：CacheKey"><a href="#3、Key-的设计：CacheKey" class="headerlink" title="3、Key 的设计：CacheKey"></a>3、Key 的设计：CacheKey</h2><p>在 PerpetualCache 内部使用的 Java 自带的 HashMap：</p><p>Map&lt;Object, Object&gt; cache = new HashMap&lt;Object, Object&gt;();</p><p>但是，HashMap 的 Key 设计略显单薄，无法适应复杂的缓存场景，需要进行自定义设计。MyBatis 实现了 CacheKey 类，其功能非常的强大。</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class CacheKey implements Cloneable, Serializable</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    private final int multiplier;</span><br><span class="line"></span><br><span class="line">    private int hashcode;</span><br><span class="line"></span><br><span class="line">    private long checksum;</span><br><span class="line"></span><br><span class="line">    private int count;</span><br><span class="line"></span><br><span class="line">    private List&lt;Object&gt; updateList;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><p>代码分析如下所示：</p><p>（1）hashcode，用于表示 CacheKey 的哈希码<br>（2）checksum，总和校验，当出现复合 key 的时候，分布计算每个 key 的哈希码，然后求总和<br>（3）count，当出现复合 key 的时候，计算 key 的总个数<br>（4）updateList，当出现复合 key 的时候，保存每个 key</p><p>CacheKey 这个类设计的非常好，个人推荐感兴趣的人可以仔细读一读其源码。其初始化的过程如下所示:</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public CacheKey(Object[] objects)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    this();</span><br><span class="line"></span><br><span class="line">    updateAll(objects);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public void updateAll(Object[] objects)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    for (Object o : objects)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        update(o);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public void update(Object object)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    int baseHashCode &#x3D; object &#x3D;&#x3D; null ? 1 : ArrayUtil.hashCode(object);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    count++;</span><br><span class="line"></span><br><span class="line">    checksum +&#x3D; baseHashCode;</span><br><span class="line"></span><br><span class="line">    baseHashCode *&#x3D; count;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    hashcode &#x3D; multiplier * hashcode + baseHashCode;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    updateList.add(object);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>]]></content>
       
       
       <categories>
           
-          <category> 备记 </category>
+          <category> 转载 </category>
           
       </categories>
       
+      
+        <tags>
+            
+            <tag> tls3 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>2020070711</title>
+      <link href="/2020/07/07/2020070711/"/>
+      <url>/2020/07/07/2020070711/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Mybatis（Object-relation-mapping）"><a href="#Mybatis（Object-relation-mapping）" class="headerlink" title="Mybatis（Object relation mapping）"></a>Mybatis（Object relation mapping）</h2><h3 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h3><pre><code>1. 不支持线程池，每次连接数据库的开销较大2. sql需要写在代码中，返回结果的处理需要硬编码，修改后需要整体编译3. 五步：加载驱动-&gt;创建连接-&gt;创建statement-&gt;执行sql-&gt;解析结果</code></pre><h3 id="MYBATIS"><a href="#MYBATIS" class="headerlink" title="MYBATIS"></a>MYBATIS</h3><pre><code>是一个封装了JDBC的对象关系映射框架，相比于原生的jdbc，节省了大量的重复性操作。从加载驱动到解析结果中，仅仅需要将必须的数据库配置信息、对象信息。但同时，又提供了相当一部分的灵活性，可以在不同的业务场景下允许架构人员进行灵活的扩展。可以使用xml或者注解配置或者映射原生信息，以对象作为参数动态生成执行sql，再通过映射获取结果对象。</code></pre><p>​<br>​<br><a href="https://mybatis.org/mybatis-3/zh/java-api.html" target="_blank" rel="noopener">Mybatis 官方网址</a><br>​<br><a href="https://zhuanlan.zhihu.com/p/121646778" target="_blank" rel="noopener">可关注点，一般这些也是比较常用的点</a></p><p><a href="https://zhuanlan.zhihu.com/p/66795003" target="_blank" rel="noopener">MyBatis框架详解!!!(上篇)</a></p><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><pre><code>相对于jdbc，节省大量的编码与精力，专注于sql。基于jdbc的封装框架，所以可以很好的兼容数据库。非常容易的与spring集成提供xml便签，对象关系映射，面向表结构编程、灵活性高。</code></pre><h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><pre><code>移植性差、sql语句编写量大。</code></pre><h4 id="适合场景"><a href="#适合场景" class="headerlink" title="适合场景"></a>适合场景</h4><pre><code>需求变化大、性能要求严格。</code></pre><h4 id="Hibernate-JPA"><a href="#Hibernate-JPA" class="headerlink" title="Hibernate/JPA"></a>Hibernate/JPA</h4><pre><code>Hibernate、JPA与Mybatis的争论各有各的理由，具体的起因分析等，可以阅读下面的知乎回答。</code></pre><p><a href="https://zhuanlan.zhihu.com/p/109324776" target="_blank" rel="noopener">为啥国人偏爱 Mybatis，而老外喜欢 Hibernate/JPA 呢？</a></p><p><a href="https://pic.downk.cc/item/5f04266314195aa594790bac.jpg" data-fancybox="group" data-caption="Mybatis VS Hibernate" class="fancybox"><img alt="Mybatis VS Hibernate" title="Mybatis VS Hibernate" data-src="https://pic.downk.cc/item/5f04266314195aa594790bac.jpg" src="/img/loading.gif" class="lazyload"></a></p><p><a href="https://pic.downk.cc/item/5f0426b014195aa59479296e.jpg" data-fancybox="group" data-caption="Mybatis VS Hibernate2" class="fancybox"><img alt="Mybatis VS Hibernate2" title="Mybatis VS Hibernate2" data-src="https://pic.downk.cc/item/5f0426b014195aa59479296e.jpg" src="/img/loading.gif" class="lazyload"></a></p><h4 id="mybatis-一些插件扩展等"><a href="#mybatis-一些插件扩展等" class="headerlink" title="mybatis 一些插件扩展等"></a>mybatis 一些插件扩展等</h4><p><a href="https://github.com/abel533/Mapper" target="_blank" rel="noopener">tkmapper github地址</a></p><p><a href="https://github.com/abel533/Mapper/wiki/1.1-java" target="_blank" rel="noopener">tkmapper github文档地址</a></p><p><a href="https://mp.baomidou.com/" target="_blank" rel="noopener">Mybatis-Plus 地址</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> tls3 </tag>
+            
+        </tags>
       
     </entry>
     
@@ -44,6 +75,25 @@
             <tag> linux </tag>
             
         </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis，Java 8 手册</title>
+      <link href="/2020/06/23/2020062318/"/>
+      <url>/2020/06/23/2020062318/</url>
+      
+        <content type="html"><![CDATA[<p><a href="http://redisdoc.com/index.html" target="_blank" rel="noopener">redis手册</a></p><p><a href="https://www.runoob.com/redis/redis-tutorial.html" target="_blank" rel="noopener">redis-菜鸟教程</a></p><p><a href="http://try.redis.io/" target="_blank" rel="noopener">redis测试</a></p><p><a href="http://doc.redisfans.com/" target="_blank" rel="noopener">redis命令参考</a></p><p><a href="https://redis.io/" target="_blank" rel="noopener">redis官网</a></p><p><a href="https://pcbopcbo.github.io/files/OEBPS/Text/part0000.xhtml">Java 8实战 </a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 备记 </category>
+          
+      </categories>
+      
       
     </entry>
     
@@ -121,6 +171,33 @@
     
     
     <entry>
+      <title>洁癖者用 Git：pull --rebase 和 merge --no-ff（转载）</title>
+      <link href="/2020/01/21/2020051511/"/>
+      <url>/2020/01/21/2020051511/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html" target="_blank" rel="noopener">http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html</a></p></blockquote><h2 id="pull-–rebase"><a href="#pull-–rebase" class="headerlink" title="pull –rebase"></a>pull –rebase</h2><h3 id="首先是吐嘈"><a href="#首先是吐嘈" class="headerlink" title="首先是吐嘈"></a>首先是吐嘈</h3><p><a href="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>如果你正在 code review，看到上图（下文将称之为：提交线图）之后，特别是像我这样有某种洁癖的人，是否感觉特别难受？如果是的话，请看下文吧 :)</p><h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>Git 作为分布式版本控制系统，所有修改操作都是基于本地的，在团队协作过程中，假设你和你的同伴在本地中分别有各自的新提交，而你的同伴先于你 push 了代码到远程分支上，所以你必须先执行 <code>git pull</code> 来获取同伴的提交，然后才能 push 自己的提交到远程分支。而按照 Git 的默认策略，如果远程分支和本地分支之间的提交线图有分叉的话（即不是 fast-forwarded），Git 会执行一次 merge 操作，因此产生一次没意义的提交记录，从而造成了像上图那样的混乱。</p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>其实在 pull 操作的时候，，使用 <code>git pull --rebase</code> 选项即可很好地解决上述问题。 加上 <code>--rebase</code> 参数的作用是，提交线图有分叉的话，Git 会 rebase 策略来代替默认的 merge 策略。 使用 rebase 策略有什么好处呢？借用一下 <code>man git-merge</code> 中的图就可以很好地说明清楚了。</p><p>假设提交线图在执行 pull 前是这样的：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C  remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;</span><br><span class="line">D---E---F---G  master</span><br></pre></td></tr></table></figure></div><p>如果是执行 <code>git pull</code> 后，提交线图会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;         \</span><br><span class="line">D---E---F---G---H master</span><br></pre></td></tr></table></figure></div><p>结果多出了 <code>H</code> 这个没必要的提交记录。如果是执行 <code>git pull --rebase</code> 的话，提交线图就会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">            remotes&#x2F;origin&#x2F;master</span><br><span class="line">                |</span><br><span class="line">D---E---A---B---C---F&#39;---G&#39;  master</span><br></pre></td></tr></table></figure></div><p><code>F</code> <code>G</code> 两个提交通过 <code>rebase</code> 方式重新拼接在 <code>C</code> 之后，多余的分叉去掉了，目的达到。</p><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>大多数时候，使用 <code>git pull --rebase</code> 是为了使提交线图更好看，从而方便 code review。</p><p>不过，如果你对使用 git 还不是十分熟练的话，我的建议是 <code>git pull --rebase</code> 多练习几次之后再使用，因为 <strong>rebase 在 git 中，算得上是『危险行为』</strong>。</p><p>另外，还需注意的是，使用 <code>git pull --rebase</code> 比直接 pull 容易导致冲突的产生，如果预期冲突比较多的话，建议还是直接 pull。</p><h2 id="merge-–no-ff"><a href="#merge-–no-ff" class="headerlink" title="merge –no-ff"></a>merge –no-ff</h2><p>上述的 <code>git pull --rebase</code> 策略目的是修整提交线图，使其形成一条直线，而即将要用到的 <code>git merge --no-ff &lt;branch-name&gt;</code> 策略偏偏是反行其道，刻意地弄出提交线图分叉出来。</p><p>假设你在本地准备合并两个分支，而刚好这两个分支是 fast-forwarded 的，那么直接合并后你得到一个直线的提交线图，当然这样没什么坏处，但如果你想更清晰地告诉你同伴：<strong>这一系列的提交都是为了实现同一个目的</strong>，那么你可以刻意地将这次提交内容弄成一次提交线图分叉。</p><p>执行 <code>git merge --no-ff &lt;branch-name&gt;</code> 的结果大概会是这样的：</p><p><a href="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>中间的分叉线路图很清晰的显示这些提交都是为了实现 <strong>complete adjusting user domains and tags</strong></p><h3 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h3><p>往往我的习惯是，在合并分支之前（假设要在本地将 feature 分支合并到 dev 分支），会先检查 feature 分支是否『部分落后』于<strong>远程 dev 分支</strong>：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br><span class="line">git pull # 更新 dev 分支</span><br><span class="line">git log feature..dev</span><br></pre></td></tr></table></figure></div><p>如果没有输出任何提交信息的话，即表示 feature 对于 dev 分支是 up-to-date 的。如果有输出的话而马上执行了 <code>git merge --no-ff</code> 的话，提交线图会变成这样：</p><p><a href="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>所以这时在合并前，通常我会先执行：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase dev</span><br></pre></td></tr></table></figure></div><p>这样就可以将 feature 重新拼接到更新了的 dev 之后，然后就可以合并了，最终得到一个干净舒服的提交线图。</p><p><strong>再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失啊。</strong></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 <code>git pull --rebase</code> 和 <code>git merge --no-ff</code> 其实和直接使用 <code>git pull</code> <code>git merge</code> 得到的代码应该是一样。</p><p>使用 <code>git pull --rebase</code> 主要是为是将提交约线图平坦化，而 <code>git merge --no-ff</code> 则是刻意制造分叉。</p><p>一言以蔽之：如果你有点洁癖症状，才考虑用它们吧。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 转载 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 摘抄 </tag>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>git命令汇总备记</title>
       <link href="/2020/01/21/2020012110/"/>
       <url>/2020/01/21/2020012110/</url>
@@ -140,33 +217,6 @@
             <tag> 摘抄 </tag>
             
             <tag> 随记 </tag>
-            
-            <tag> git </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>洁癖者用 Git：pull --rebase 和 merge --no-ff（转载）</title>
-      <link href="/2020/01/21/2020051511/"/>
-      <url>/2020/01/21/2020051511/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html" target="_blank" rel="noopener">http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html</a></p></blockquote><h2 id="pull-–rebase"><a href="#pull-–rebase" class="headerlink" title="pull –rebase"></a>pull –rebase</h2><h3 id="首先是吐嘈"><a href="#首先是吐嘈" class="headerlink" title="首先是吐嘈"></a>首先是吐嘈</h3><p><a href="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>如果你正在 code review，看到上图（下文将称之为：提交线图）之后，特别是像我这样有某种洁癖的人，是否感觉特别难受？如果是的话，请看下文吧 :)</p><h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>Git 作为分布式版本控制系统，所有修改操作都是基于本地的，在团队协作过程中，假设你和你的同伴在本地中分别有各自的新提交，而你的同伴先于你 push 了代码到远程分支上，所以你必须先执行 <code>git pull</code> 来获取同伴的提交，然后才能 push 自己的提交到远程分支。而按照 Git 的默认策略，如果远程分支和本地分支之间的提交线图有分叉的话（即不是 fast-forwarded），Git 会执行一次 merge 操作，因此产生一次没意义的提交记录，从而造成了像上图那样的混乱。</p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>其实在 pull 操作的时候，，使用 <code>git pull --rebase</code> 选项即可很好地解决上述问题。 加上 <code>--rebase</code> 参数的作用是，提交线图有分叉的话，Git 会 rebase 策略来代替默认的 merge 策略。 使用 rebase 策略有什么好处呢？借用一下 <code>man git-merge</code> 中的图就可以很好地说明清楚了。</p><p>假设提交线图在执行 pull 前是这样的：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C  remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;</span><br><span class="line">D---E---F---G  master</span><br></pre></td></tr></table></figure></div><p>如果是执行 <code>git pull</code> 后，提交线图会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;         \</span><br><span class="line">D---E---F---G---H master</span><br></pre></td></tr></table></figure></div><p>结果多出了 <code>H</code> 这个没必要的提交记录。如果是执行 <code>git pull --rebase</code> 的话，提交线图就会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">            remotes&#x2F;origin&#x2F;master</span><br><span class="line">                |</span><br><span class="line">D---E---A---B---C---F&#39;---G&#39;  master</span><br></pre></td></tr></table></figure></div><p><code>F</code> <code>G</code> 两个提交通过 <code>rebase</code> 方式重新拼接在 <code>C</code> 之后，多余的分叉去掉了，目的达到。</p><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>大多数时候，使用 <code>git pull --rebase</code> 是为了使提交线图更好看，从而方便 code review。</p><p>不过，如果你对使用 git 还不是十分熟练的话，我的建议是 <code>git pull --rebase</code> 多练习几次之后再使用，因为 <strong>rebase 在 git 中，算得上是『危险行为』</strong>。</p><p>另外，还需注意的是，使用 <code>git pull --rebase</code> 比直接 pull 容易导致冲突的产生，如果预期冲突比较多的话，建议还是直接 pull。</p><h2 id="merge-–no-ff"><a href="#merge-–no-ff" class="headerlink" title="merge –no-ff"></a>merge –no-ff</h2><p>上述的 <code>git pull --rebase</code> 策略目的是修整提交线图，使其形成一条直线，而即将要用到的 <code>git merge --no-ff &lt;branch-name&gt;</code> 策略偏偏是反行其道，刻意地弄出提交线图分叉出来。</p><p>假设你在本地准备合并两个分支，而刚好这两个分支是 fast-forwarded 的，那么直接合并后你得到一个直线的提交线图，当然这样没什么坏处，但如果你想更清晰地告诉你同伴：<strong>这一系列的提交都是为了实现同一个目的</strong>，那么你可以刻意地将这次提交内容弄成一次提交线图分叉。</p><p>执行 <code>git merge --no-ff &lt;branch-name&gt;</code> 的结果大概会是这样的：</p><p><a href="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>中间的分叉线路图很清晰的显示这些提交都是为了实现 <strong>complete adjusting user domains and tags</strong></p><h3 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h3><p>往往我的习惯是，在合并分支之前（假设要在本地将 feature 分支合并到 dev 分支），会先检查 feature 分支是否『部分落后』于<strong>远程 dev 分支</strong>：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br><span class="line">git pull # 更新 dev 分支</span><br><span class="line">git log feature..dev</span><br></pre></td></tr></table></figure></div><p>如果没有输出任何提交信息的话，即表示 feature 对于 dev 分支是 up-to-date 的。如果有输出的话而马上执行了 <code>git merge --no-ff</code> 的话，提交线图会变成这样：</p><p><a href="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>所以这时在合并前，通常我会先执行：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase dev</span><br></pre></td></tr></table></figure></div><p>这样就可以将 feature 重新拼接到更新了的 dev 之后，然后就可以合并了，最终得到一个干净舒服的提交线图。</p><p><strong>再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失啊。</strong></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 <code>git pull --rebase</code> 和 <code>git merge --no-ff</code> 其实和直接使用 <code>git pull</code> <code>git merge</code> 得到的代码应该是一样。</p><p>使用 <code>git pull --rebase</code> 主要是为是将提交约线图平坦化，而 <code>git merge --no-ff</code> 则是刻意制造分叉。</p><p>一言以蔽之：如果你有点洁癖症状，才考虑用它们吧。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 转载 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 摘抄 </tag>
             
             <tag> git </tag>
             
@@ -276,9 +326,9 @@
       
         <tags>
             
-            <tag> 摘抄 </tag>
-            
             <tag> mysql </tag>
+            
+            <tag> 摘抄 </tag>
             
         </tags>
       
@@ -357,9 +407,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 摘抄 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
