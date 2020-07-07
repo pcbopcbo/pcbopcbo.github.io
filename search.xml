@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>2020070716</title>
+      <title>mybatis缓存</title>
       <link href="/2020/07/07/2020070716/"/>
       <url>/2020/07/07/2020070716/</url>
       
@@ -29,7 +29,7 @@
     
     
     <entry>
-      <title>2020070711</title>
+      <title>Mybatis相关链接点</title>
       <link href="/2020/07/07/2020070711/"/>
       <url>/2020/07/07/2020070711/</url>
       
@@ -48,6 +48,25 @@
             <tag> tls3 </tag>
             
         </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis，Java 8 手册</title>
+      <link href="/2020/06/23/2020062318/"/>
+      <url>/2020/06/23/2020062318/</url>
+      
+        <content type="html"><![CDATA[<p><a href="http://redisdoc.com/index.html" target="_blank" rel="noopener">redis手册</a></p><p><a href="https://www.runoob.com/redis/redis-tutorial.html" target="_blank" rel="noopener">redis-菜鸟教程</a></p><p><a href="http://doc.redisfans.com/" target="_blank" rel="noopener">redis命令参考</a></p><p><a href="https://pcbopcbo.github.io/files/OEBPS/Text/part0000.xhtml">Java 8实战 </a></p><h2 id="官方系列"><a href="#官方系列" class="headerlink" title="官方系列"></a>官方系列</h2><p><a href="https://redis.io/" target="_blank" rel="noopener">redis官网</a></p><p><a href="http://try.redis.io/" target="_blank" rel="noopener">redis测试</a></p><p><a href="https://docs.oracle.com/javase/tutorial/" target="_blank" rel="noopener">Java 8官方</a></p><p><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/" target="_blank" rel="noopener">Java平台，标准版故障排除指南</a></p><p><a href="https://docs.oracle.com/javase/8/javase-books.htm" target="_blank" rel="noopener">java 文档</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 备记 </category>
+          
+      </categories>
+      
       
     </entry>
     
@@ -75,25 +94,6 @@
             <tag> linux </tag>
             
         </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Redis，Java 8 手册</title>
-      <link href="/2020/06/23/2020062318/"/>
-      <url>/2020/06/23/2020062318/</url>
-      
-        <content type="html"><![CDATA[<p><a href="http://redisdoc.com/index.html" target="_blank" rel="noopener">redis手册</a></p><p><a href="https://www.runoob.com/redis/redis-tutorial.html" target="_blank" rel="noopener">redis-菜鸟教程</a></p><p><a href="http://try.redis.io/" target="_blank" rel="noopener">redis测试</a></p><p><a href="http://doc.redisfans.com/" target="_blank" rel="noopener">redis命令参考</a></p><p><a href="https://redis.io/" target="_blank" rel="noopener">redis官网</a></p><p><a href="https://pcbopcbo.github.io/files/OEBPS/Text/part0000.xhtml">Java 8实战 </a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 备记 </category>
-          
-      </categories>
-      
       
     </entry>
     
@@ -326,9 +326,9 @@
       
         <tags>
             
-            <tag> mysql </tag>
-            
             <tag> 摘抄 </tag>
+            
+            <tag> mysql </tag>
             
         </tags>
       
@@ -407,9 +407,9 @@
       
         <tags>
             
-            <tag> 摘抄 </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> 摘抄 </tag>
             
         </tags>
       
