@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>如何防止git使用的时候的冲突与解决冲突</title>
+      <link href="/2020/08/24/2020082411/"/>
+      <url>/2020/08/24/2020082411/</url>
+      
+        <content type="html"><![CDATA[<h2 id="如何防止git使用的时候的冲突"><a href="#如何防止git使用的时候的冲突" class="headerlink" title="如何防止git使用的时候的冲突"></a>如何防止git使用的时候的冲突</h2><h3 id="绝对新手"><a href="#绝对新手" class="headerlink" title="绝对新手"></a>绝对新手</h3><ol><li>每次修改前pull（拉取）</li><li>修改后stash save(保存贮藏)</li><li>pull(拉取)</li><li>stash pop（弹出贮藏），如果这个时候有冲突，自行合并后删除贮藏！</li><li>commit &amp; push （提交并推送）（较小可能冲突）</li></ol><h3 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h3><ol><li>每次修改前pull（拉取）</li><li>pull(拉取)</li><li>因为冲突拉取失败的时候，重复《绝对新手》的2-5步骤</li></ol><h3 id="第三阶段"><a href="#第三阶段" class="headerlink" title="第三阶段"></a>第三阶段</h3><ol><li>本地修改后commit（提交）未推送（push）</li><li>此时远程1-2-3，本地1-2-4，直接pull的时候会导致merge</li><li>本地混合重置到1-2，工作副本内容保持在1-2-4</li><li>拉取（因为冲突拉取失败的时候，重复《绝对新手》的2-5步骤）</li></ol><h3 id="第四阶段"><a href="#第四阶段" class="headerlink" title="第四阶段"></a>第四阶段</h3><ol><li>本地修改后commit（提交）未推送（push）</li><li>此时远程1-2-3，本地1-2-4，直接pull的时候会导致merge</li><li>记住4的sha值，硬重置到2，本地变成1-2，工作副本内容也变成1-2</li><li>pull(拉取)，本地1-2-3，副本1-2-3，摘取提交点4（这里用到前面用到的4的sha值），如果有冲突自己解决</li><li>推送（push）</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>redis基础</title>
+      <link href="/2020/08/14/2020081410/"/>
+      <url>/2020/08/14/2020081410/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h2><h3 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h3><ul><li><p>String 字符串</p></li><li><p>Hash  散列</p></li><li><p>List 列表</p></li><li><p>Set 集合</p></li><li><p>Sorted Set 有序集合</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> redis </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>简单代码片段</title>
       <link href="/2020/07/15/2020071517/"/>
       <url>/2020/07/15/2020071517/</url>
@@ -20,9 +70,9 @@
       
         <tags>
             
-            <tag> 开发 </tag>
-            
             <tag> mybatis </tag>
+            
+            <tag> 开发 </tag>
             
         </tags>
       
@@ -47,9 +97,9 @@
       
         <tags>
             
-            <tag> 开发 </tag>
-            
             <tag> mybatis </tag>
+            
+            <tag> 开发 </tag>
             
         </tags>
       
@@ -76,9 +126,9 @@
             
             <tag> 转载 </tag>
             
-            <tag> 开发 </tag>
-            
             <tag> mybatis </tag>
+            
+            <tag> 开发 </tag>
             
         </tags>
       
@@ -105,9 +155,9 @@
             
             <tag> 摘抄 </tag>
             
-            <tag> 开发 </tag>
-            
             <tag> mybatis </tag>
+            
+            <tag> 开发 </tag>
             
         </tags>
       
@@ -159,9 +209,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> shell </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -247,6 +297,33 @@
     
     
     <entry>
+      <title>洁癖者用 Git：pull --rebase 和 merge --no-ff（转载）</title>
+      <link href="/2020/01/21/2020051511/"/>
+      <url>/2020/01/21/2020051511/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html" target="_blank" rel="noopener">http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html</a></p></blockquote><h2 id="pull-–rebase"><a href="#pull-–rebase" class="headerlink" title="pull –rebase"></a>pull –rebase</h2><h3 id="首先是吐嘈"><a href="#首先是吐嘈" class="headerlink" title="首先是吐嘈"></a>首先是吐嘈</h3><p><a href="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>如果你正在 code review，看到上图（下文将称之为：提交线图）之后，特别是像我这样有某种洁癖的人，是否感觉特别难受？如果是的话，请看下文吧 :)</p><h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>Git 作为分布式版本控制系统，所有修改操作都是基于本地的，在团队协作过程中，假设你和你的同伴在本地中分别有各自的新提交，而你的同伴先于你 push 了代码到远程分支上，所以你必须先执行 <code>git pull</code> 来获取同伴的提交，然后才能 push 自己的提交到远程分支。而按照 Git 的默认策略，如果远程分支和本地分支之间的提交线图有分叉的话（即不是 fast-forwarded），Git 会执行一次 merge 操作，因此产生一次没意义的提交记录，从而造成了像上图那样的混乱。</p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>其实在 pull 操作的时候，，使用 <code>git pull --rebase</code> 选项即可很好地解决上述问题。 加上 <code>--rebase</code> 参数的作用是，提交线图有分叉的话，Git 会 rebase 策略来代替默认的 merge 策略。 使用 rebase 策略有什么好处呢？借用一下 <code>man git-merge</code> 中的图就可以很好地说明清楚了。</p><p>假设提交线图在执行 pull 前是这样的：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C  remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;</span><br><span class="line">D---E---F---G  master</span><br></pre></td></tr></table></figure></div><p>如果是执行 <code>git pull</code> 后，提交线图会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;         \</span><br><span class="line">D---E---F---G---H master</span><br></pre></td></tr></table></figure></div><p>结果多出了 <code>H</code> 这个没必要的提交记录。如果是执行 <code>git pull --rebase</code> 的话，提交线图就会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">            remotes&#x2F;origin&#x2F;master</span><br><span class="line">                |</span><br><span class="line">D---E---A---B---C---F&#39;---G&#39;  master</span><br></pre></td></tr></table></figure></div><p><code>F</code> <code>G</code> 两个提交通过 <code>rebase</code> 方式重新拼接在 <code>C</code> 之后，多余的分叉去掉了，目的达到。</p><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>大多数时候，使用 <code>git pull --rebase</code> 是为了使提交线图更好看，从而方便 code review。</p><p>不过，如果你对使用 git 还不是十分熟练的话，我的建议是 <code>git pull --rebase</code> 多练习几次之后再使用，因为 <strong>rebase 在 git 中，算得上是『危险行为』</strong>。</p><p>另外，还需注意的是，使用 <code>git pull --rebase</code> 比直接 pull 容易导致冲突的产生，如果预期冲突比较多的话，建议还是直接 pull。</p><h2 id="merge-–no-ff"><a href="#merge-–no-ff" class="headerlink" title="merge –no-ff"></a>merge –no-ff</h2><p>上述的 <code>git pull --rebase</code> 策略目的是修整提交线图，使其形成一条直线，而即将要用到的 <code>git merge --no-ff &lt;branch-name&gt;</code> 策略偏偏是反行其道，刻意地弄出提交线图分叉出来。</p><p>假设你在本地准备合并两个分支，而刚好这两个分支是 fast-forwarded 的，那么直接合并后你得到一个直线的提交线图，当然这样没什么坏处，但如果你想更清晰地告诉你同伴：<strong>这一系列的提交都是为了实现同一个目的</strong>，那么你可以刻意地将这次提交内容弄成一次提交线图分叉。</p><p>执行 <code>git merge --no-ff &lt;branch-name&gt;</code> 的结果大概会是这样的：</p><p><a href="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>中间的分叉线路图很清晰的显示这些提交都是为了实现 <strong>complete adjusting user domains and tags</strong></p><h3 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h3><p>往往我的习惯是，在合并分支之前（假设要在本地将 feature 分支合并到 dev 分支），会先检查 feature 分支是否『部分落后』于<strong>远程 dev 分支</strong>：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br><span class="line">git pull # 更新 dev 分支</span><br><span class="line">git log feature..dev</span><br></pre></td></tr></table></figure></div><p>如果没有输出任何提交信息的话，即表示 feature 对于 dev 分支是 up-to-date 的。如果有输出的话而马上执行了 <code>git merge --no-ff</code> 的话，提交线图会变成这样：</p><p><a href="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>所以这时在合并前，通常我会先执行：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase dev</span><br></pre></td></tr></table></figure></div><p>这样就可以将 feature 重新拼接到更新了的 dev 之后，然后就可以合并了，最终得到一个干净舒服的提交线图。</p><p><strong>再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失啊。</strong></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 <code>git pull --rebase</code> 和 <code>git merge --no-ff</code> 其实和直接使用 <code>git pull</code> <code>git merge</code> 得到的代码应该是一样。</p><p>使用 <code>git pull --rebase</code> 主要是为是将提交约线图平坦化，而 <code>git merge --no-ff</code> 则是刻意制造分叉。</p><p>一言以蔽之：如果你有点洁癖症状，才考虑用它们吧。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 转载 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+            <tag> 转载 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>git命令汇总备记</title>
       <link href="/2020/01/21/2020012110/"/>
       <url>/2020/01/21/2020012110/</url>
@@ -264,33 +341,6 @@
         <tags>
             
             <tag> 摘抄 </tag>
-            
-            <tag> git </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>洁癖者用 Git：pull --rebase 和 merge --no-ff（转载）</title>
-      <link href="/2020/01/21/2020051511/"/>
-      <url>/2020/01/21/2020051511/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html" target="_blank" rel="noopener">http://hungyuhei.github.io/2012/08/07/better-git-commit-graph-using-pull---rebase-and-merge---no-ff.html</a></p></blockquote><h2 id="pull-–rebase"><a href="#pull-–rebase" class="headerlink" title="pull –rebase"></a>pull –rebase</h2><h3 id="首先是吐嘈"><a href="#首先是吐嘈" class="headerlink" title="首先是吐嘈"></a>首先是吐嘈</h3><p><a href="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1ab8414195aa594ec35bd.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>如果你正在 code review，看到上图（下文将称之为：提交线图）之后，特别是像我这样有某种洁癖的人，是否感觉特别难受？如果是的话，请看下文吧 :)</p><h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>Git 作为分布式版本控制系统，所有修改操作都是基于本地的，在团队协作过程中，假设你和你的同伴在本地中分别有各自的新提交，而你的同伴先于你 push 了代码到远程分支上，所以你必须先执行 <code>git pull</code> 来获取同伴的提交，然后才能 push 自己的提交到远程分支。而按照 Git 的默认策略，如果远程分支和本地分支之间的提交线图有分叉的话（即不是 fast-forwarded），Git 会执行一次 merge 操作，因此产生一次没意义的提交记录，从而造成了像上图那样的混乱。</p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>其实在 pull 操作的时候，，使用 <code>git pull --rebase</code> 选项即可很好地解决上述问题。 加上 <code>--rebase</code> 参数的作用是，提交线图有分叉的话，Git 会 rebase 策略来代替默认的 merge 策略。 使用 rebase 策略有什么好处呢？借用一下 <code>man git-merge</code> 中的图就可以很好地说明清楚了。</p><p>假设提交线图在执行 pull 前是这样的：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C  remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;</span><br><span class="line">D---E---F---G  master</span><br></pre></td></tr></table></figure></div><p>如果是执行 <code>git pull</code> 后，提交线图会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      A---B---C remotes&#x2F;origin&#x2F;master</span><br><span class="line">     &#x2F;         \</span><br><span class="line">D---E---F---G---H master</span><br></pre></td></tr></table></figure></div><p>结果多出了 <code>H</code> 这个没必要的提交记录。如果是执行 <code>git pull --rebase</code> 的话，提交线图就会变成这样：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">            remotes&#x2F;origin&#x2F;master</span><br><span class="line">                |</span><br><span class="line">D---E---A---B---C---F&#39;---G&#39;  master</span><br></pre></td></tr></table></figure></div><p><code>F</code> <code>G</code> 两个提交通过 <code>rebase</code> 方式重新拼接在 <code>C</code> 之后，多余的分叉去掉了，目的达到。</p><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>大多数时候，使用 <code>git pull --rebase</code> 是为了使提交线图更好看，从而方便 code review。</p><p>不过，如果你对使用 git 还不是十分熟练的话，我的建议是 <code>git pull --rebase</code> 多练习几次之后再使用，因为 <strong>rebase 在 git 中，算得上是『危险行为』</strong>。</p><p>另外，还需注意的是，使用 <code>git pull --rebase</code> 比直接 pull 容易导致冲突的产生，如果预期冲突比较多的话，建议还是直接 pull。</p><h2 id="merge-–no-ff"><a href="#merge-–no-ff" class="headerlink" title="merge –no-ff"></a>merge –no-ff</h2><p>上述的 <code>git pull --rebase</code> 策略目的是修整提交线图，使其形成一条直线，而即将要用到的 <code>git merge --no-ff &lt;branch-name&gt;</code> 策略偏偏是反行其道，刻意地弄出提交线图分叉出来。</p><p>假设你在本地准备合并两个分支，而刚好这两个分支是 fast-forwarded 的，那么直接合并后你得到一个直线的提交线图，当然这样没什么坏处，但如果你想更清晰地告诉你同伴：<strong>这一系列的提交都是为了实现同一个目的</strong>，那么你可以刻意地将这次提交内容弄成一次提交线图分叉。</p><p>执行 <code>git merge --no-ff &lt;branch-name&gt;</code> 的结果大概会是这样的：</p><p><a href="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://pic.downk.cc/item/5ef1abbb14195aa594ec6abf.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>中间的分叉线路图很清晰的显示这些提交都是为了实现 <strong>complete adjusting user domains and tags</strong></p><h3 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h3><p>往往我的习惯是，在合并分支之前（假设要在本地将 feature 分支合并到 dev 分支），会先检查 feature 分支是否『部分落后』于<strong>远程 dev 分支</strong>：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br><span class="line">git pull # 更新 dev 分支</span><br><span class="line">git log feature..dev</span><br></pre></td></tr></table></figure></div><p>如果没有输出任何提交信息的话，即表示 feature 对于 dev 分支是 up-to-date 的。如果有输出的话而马上执行了 <code>git merge --no-ff</code> 的话，提交线图会变成这样：</p><p><a href="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="http://ww2.sinaimg.cn/large/a74e55b4jw1dvnijr276hj.jpg" src="/img/loading.gif" class="lazyload"></a></p><p>所以这时在合并前，通常我会先执行：</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase dev</span><br></pre></td></tr></table></figure></div><p>这样就可以将 feature 重新拼接到更新了的 dev 之后，然后就可以合并了，最终得到一个干净舒服的提交线图。</p><p><strong>再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失啊。</strong></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 <code>git pull --rebase</code> 和 <code>git merge --no-ff</code> 其实和直接使用 <code>git pull</code> <code>git merge</code> 得到的代码应该是一样。</p><p>使用 <code>git pull --rebase</code> 主要是为是将提交约线图平坦化，而 <code>git merge --no-ff</code> 则是刻意制造分叉。</p><p>一言以蔽之：如果你有点洁癖症状，才考虑用它们吧。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 转载 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 转载 </tag>
             
             <tag> git </tag>
             
