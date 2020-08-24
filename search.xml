@@ -29,21 +29,23 @@
     
     
     <entry>
-      <title>redis基础</title>
+      <title>redis数据结构与底层</title>
       <link href="/2020/08/14/2020081410/"/>
       <url>/2020/08/14/2020081410/</url>
       
-        <content type="html"><![CDATA[<h2 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h2><h3 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h3><ul><li><p>String 字符串</p></li><li><p>Hash  散列</p></li><li><p>List 列表</p></li><li><p>Set 集合</p></li><li><p>Sorted Set 有序集合</p></li></ul>]]></content>
+        <content type="html"><![CDATA[<h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><h3 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h3><ul><li><p>String 字符串</p></li><li><p>Hash  散列</p></li><li><p>List 列表</p></li><li><p>Set 集合</p></li><li><p>Sorted Set 有序集合</p></li></ul><h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><ul><li><p>bitmap 位图</p></li><li><p>GeoHash</p></li><li><p>HyperLogLogs</p></li></ul><h3 id="终极"><a href="#终极" class="headerlink" title="终极"></a>终极</h3><ul><li>Streams</li></ul><h2 id="Redis的内部编码"><a href="#Redis的内部编码" class="headerlink" title="Redis的内部编码"></a>Redis的内部编码</h2><ul><li><p>int</p></li><li><p>raw </p></li><li><p>embstr</p></li><li><p>linkedList</p></li><li><p>zipList</p></li><li><p>skipList</p></li><li><p>hashTable</p></li><li><p>intset</p></li></ul><ol><li><p>String(int raw embstr)</p></li><li><p>List(linkedList zipList)</p></li><li><p>sortedSet(zipList skipList)</p></li><li><p>Hash(zipList hashTable)</p></li><li><p>Set(hashTable intset)</p></li></ol><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ol><li><p>缓存（随机访问速度，Disk是ms级别，SSD是微秒级别，内存则是纳秒级别）</p></li><li><p>计数器</p></li><li><p>分布式ID生成（步进）</p></li><li><p>海量数据统计（bitmap）</p></li><li><p>会话缓存（应用会话缓存存储，保证应用的高可用可伸缩性）</p></li><li><p>分布式队列、阻塞队列（List，lpush/rpush rpop/lpop  读取写入数据）</p></li><li><p>分布式锁（setNx）</p></li><li><p>热点数据存储（list结构，ltrim）</p></li><li><p>社交需求</p><p> set交集（共同好友），set差集（好友推荐、文章推荐），排行榜zset</p></li><li><p>延迟队列（[时间戳+需要延迟时间]，score，消息内容作为元素，zadd生产消息，消费者使用zrangeByScore获取当前时间之前的数据，然后rem key）</p></li></ol><h2 id="redis的二进制数据安全特性-binary-safe"><a href="#redis的二进制数据安全特性-binary-safe" class="headerlink" title="redis的二进制数据安全特性 binary safe"></a>redis的二进制数据安全特性 binary safe</h2><pre><code>redis的String类型不同于C语言的string类型redis的String=&gt;SDS（Simple Dynamic String）</code></pre><h3 id="SDS的结构"><a href="#SDS的结构" class="headerlink" title="SDS的结构"></a>SDS的结构</h3><h4 id="3-2前"><a href="#3-2前" class="headerlink" title="3.2前"></a>3.2前</h4><pre><code>SDS=&gt;len（int），free（int），buffer（string）</code></pre><h4 id="3-2后"><a href="#3-2后" class="headerlink" title="3.2后"></a>3.2后</h4><pre><code>SDS=&gt;5种string类型SDS_TYPE_5， SDS_TYPE_8， SDS_TYPE_16， SDS_TYPE_32， SDS_TYPE_64。。。</code></pre><h2 id="内存与分配机制"><a href="#内存与分配机制" class="headerlink" title="内存与分配机制"></a>内存与分配机制</h2><pre><code>Redis扩容=&gt;(需加大小+原大小)x2</code></pre>]]></content>
       
       
       <categories>
           
-          <category> 基础 </category>
+          <category> 拓展 </category>
           
       </categories>
       
       
         <tags>
+            
+            <tag> 开发 </tag>
             
             <tag> redis </tag>
             
@@ -70,9 +72,9 @@
       
         <tags>
             
-            <tag> mybatis </tag>
-            
             <tag> 开发 </tag>
+            
+            <tag> mybatis </tag>
             
         </tags>
       
@@ -97,9 +99,9 @@
       
         <tags>
             
-            <tag> mybatis </tag>
-            
             <tag> 开发 </tag>
+            
+            <tag> mybatis </tag>
             
         </tags>
       
@@ -126,9 +128,9 @@
             
             <tag> 转载 </tag>
             
-            <tag> mybatis </tag>
-            
             <tag> 开发 </tag>
+            
+            <tag> mybatis </tag>
             
         </tags>
       
@@ -155,36 +157,9 @@
             
             <tag> 摘抄 </tag>
             
-            <tag> mybatis </tag>
-            
             <tag> 开发 </tag>
             
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>制作 SSH 登录远程服务器的 Shell 脚本</title>
-      <link href="/2020/06/23/2020062316/"/>
-      <url>/2020/06/23/2020062316/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="https://blog.csdn.net/kaikai136412162/article/details/80743641" target="_blank" rel="noopener">https://blog.csdn.net/kaikai136412162/article/details/80743641</a></p></blockquote><p>制作 SSH 登录远程服务器的 Shell 脚本</p><p>Ubuntu 环境需要安装 expect 安装包</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install expect</span><br></pre></td></tr></table></figure></div><p>使用 shell 脚本自动 ssh 登录远程服务器</p><p>login.sh</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect -f</span><br><span class="line"># 设置ssh连接的用户名</span><br><span class="line">set user liuben</span><br><span class="line"># 设置ssh连接的host地址</span><br><span class="line">set host 10.211.55.4</span><br><span class="line"># 设置ssh连接的port端口号</span><br><span class="line">set port 9999</span><br><span class="line"># 设置ssh连接的登录密码</span><br><span class="line">set password admin</span><br><span class="line"># 设置ssh连接的超时时间</span><br><span class="line">set timeout -1</span><br><span class="line"> </span><br><span class="line">spawn ssh $user@$host -p $port</span><br><span class="line">expect &quot;*password:&quot;</span><br><span class="line"># 提交密码</span><br><span class="line">send &quot;$password\r&quot;</span><br><span class="line"># 控制权移交</span><br><span class="line">interact</span><br></pre></td></tr></table></figure></div><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 确定login.sh脚本有可执行权限</span><br><span class="line">chmod +x login.sh</span><br><span class="line"># 执行login.sh脚本</span><br><span class="line">.&#x2F;login.sh</span><br><span class="line"># 第二种给脚本有可执行权限</span><br><span class="line">[root]# chmod 777 .&#x2F;login.sh</span><br><span class="line">[root]# .&#x2F;login.sh</span><br><span class="line"> </span><br><span class="line"># 注意</span><br><span class="line">不能按照习惯来用sh login.sh来这行expect的程序，会提示找不到命令，如下：</span><br><span class="line"> </span><br><span class="line">login.sh: line 3: spawn: command not found</span><br><span class="line">couldn&#39;t read file &quot;*password:&quot;: no such file or directory</span><br><span class="line">login.sh: line 5: send: command not found</span><br><span class="line">login.sh: line 6: interact: command not found</span><br><span class="line">因为expect用的不是bash所以会报错。因为bash和expect的脚本指定了不同的脚本解释器</span><br><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect -f</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">执行的时候直接.&#x2F;login.sh就可以了。～切记！</span><br></pre></td></tr></table></figure></div>]]></content>
-      
-      
-      <categories>
-          
-          <category> 转载 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 摘抄 </tag>
-            
-            <tag> linux </tag>
+            <tag> mybatis </tag>
             
         </tags>
       
@@ -237,6 +212,33 @@
         <tags>
             
             <tag> 链接收集 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>制作 SSH 登录远程服务器的 Shell 脚本</title>
+      <link href="/2020/06/23/2020062316/"/>
+      <url>/2020/06/23/2020062316/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="https://blog.csdn.net/kaikai136412162/article/details/80743641" target="_blank" rel="noopener">https://blog.csdn.net/kaikai136412162/article/details/80743641</a></p></blockquote><p>制作 SSH 登录远程服务器的 Shell 脚本</p><p>Ubuntu 环境需要安装 expect 安装包</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install expect</span><br></pre></td></tr></table></figure></div><p>使用 shell 脚本自动 ssh 登录远程服务器</p><p>login.sh</p><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect -f</span><br><span class="line"># 设置ssh连接的用户名</span><br><span class="line">set user liuben</span><br><span class="line"># 设置ssh连接的host地址</span><br><span class="line">set host 10.211.55.4</span><br><span class="line"># 设置ssh连接的port端口号</span><br><span class="line">set port 9999</span><br><span class="line"># 设置ssh连接的登录密码</span><br><span class="line">set password admin</span><br><span class="line"># 设置ssh连接的超时时间</span><br><span class="line">set timeout -1</span><br><span class="line"> </span><br><span class="line">spawn ssh $user@$host -p $port</span><br><span class="line">expect &quot;*password:&quot;</span><br><span class="line"># 提交密码</span><br><span class="line">send &quot;$password\r&quot;</span><br><span class="line"># 控制权移交</span><br><span class="line">interact</span><br></pre></td></tr></table></figure></div><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 确定login.sh脚本有可执行权限</span><br><span class="line">chmod +x login.sh</span><br><span class="line"># 执行login.sh脚本</span><br><span class="line">.&#x2F;login.sh</span><br><span class="line"># 第二种给脚本有可执行权限</span><br><span class="line">[root]# chmod 777 .&#x2F;login.sh</span><br><span class="line">[root]# .&#x2F;login.sh</span><br><span class="line"> </span><br><span class="line"># 注意</span><br><span class="line">不能按照习惯来用sh login.sh来这行expect的程序，会提示找不到命令，如下：</span><br><span class="line"> </span><br><span class="line">login.sh: line 3: spawn: command not found</span><br><span class="line">couldn&#39;t read file &quot;*password:&quot;: no such file or directory</span><br><span class="line">login.sh: line 5: send: command not found</span><br><span class="line">login.sh: line 6: interact: command not found</span><br><span class="line">因为expect用的不是bash所以会报错。因为bash和expect的脚本指定了不同的脚本解释器</span><br><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect -f</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">执行的时候直接.&#x2F;login.sh就可以了。～切记！</span><br></pre></td></tr></table></figure></div>]]></content>
+      
+      
+      <categories>
+          
+          <category> 转载 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 摘抄 </tag>
+            
+            <tag> linux </tag>
             
         </tags>
       
