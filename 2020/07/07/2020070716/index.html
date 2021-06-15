@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>mybatis缓存 | 漂泊的个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文由 简悦 SimpRead 转码， 原文地址 http:&#x2F;&#x2F;www.mybatis.cn&#x2F;archives&#x2F;762.html  计算机有两大基本的功能：计算和存储。在存储方面，缓存的设计和实现也是一门学问。这门学问里面包含什么门道呢？不妨研究一下 MyBatis 缓存类 PerpetualCache，一定会大有收获的。 在 MyBatis 里面，存在一个 PerpetualCache，它是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis缓存">
+<meta property="og:url" content="http://pcbopcbo.github.io/2020/07/07/2020070716/index.html">
+<meta property="og:site_name" content="漂泊的个人笔记">
+<meta property="og:description" content="本文由 简悦 SimpRead 转码， 原文地址 http:&#x2F;&#x2F;www.mybatis.cn&#x2F;archives&#x2F;762.html  计算机有两大基本的功能：计算和存储。在存储方面，缓存的设计和实现也是一门学问。这门学问里面包含什么门道呢？不妨研究一下 MyBatis 缓存类 PerpetualCache，一定会大有收获的。 在 MyBatis 里面，存在一个 PerpetualCache，它是一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.mybatis.cn/usr/uploads/2019/10/297015096.jpg">
+<meta property="article:published_time" content="2020-07-07T08:05:11.000Z">
+<meta property="article:modified_time" content="2020-07-07T08:05:11.000Z">
+<meta property="article:author" content="thf">
+<meta property="article:tag" content="转载">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="mybatis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.mybatis.cn/usr/uploads/2019/10/297015096.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="漂泊的个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">漂泊的个人笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/index.html">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pcbopcbo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020070716" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/07/2020070716/" class="article-date">
+  <time datetime="2020-07-07T08:05:11.000Z" itemprop="datePublished">2020-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mybatis缓存
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文由 <a target="_blank" rel="noopener" href="http://ksria.com/simpread/">简悦 SimpRead</a> 转码， 原文地址 <a target="_blank" rel="noopener" href="http://www.mybatis.cn/archives/762.html">http://www.mybatis.cn/archives/762.html</a></p>
+</blockquote>
+<p>计算机有两大基本的功能：计算和存储。在存储方面，缓存的设计和实现也是一门学问。这门学问里面包含什么门道呢？不妨研究一下 MyBatis 缓存类 PerpetualCache，一定会大有收获的。</p>
+<p>在 MyBatis 里面，存在一个 PerpetualCache，它是一级缓存、二级缓存的最基本实现，但 PerpetualCache 只不过包装了一下 HashMap。Perpetual 是 “永久、不间断” 之意，以 PerpetualCache 为根本，在 cache.decorators 包里面有多种缓存的代理，实现了各种清除策略。</p>
+<h2 id="1、PerpetualCache-名字的含义"><a href="#1、PerpetualCache-名字的含义" class="headerlink" title="1、PerpetualCache 名字的含义"></a>1、PerpetualCache 名字的含义</h2><p>Perpetual 是 “永久、不间断” 之意，为什么这么命名呢？稍加联系，便能明白。缓存的设计有两个重点问题：如何存储数据和采用何种清除策略。存储的话，用哈希表即可完美解决。对于清除策略而言，往往有多种选择。MyBatis 作者 Clinton Begin 选择 Perpetual 来命名缓存，暗示这是一个最底层的缓存，数据一旦存储进来，永不清除，如果实现清除策略，请把 Perpetual 包装一下。在 cache.decorators 包里面有多种缓存，它们内部串联的主线就是按照 “不同的清除策略” 来贯穿的。</p>
+<p><img src="http://www.mybatis.cn/usr/uploads/2019/10/297015096.jpg"></p>
+<h2 id="2、PerpetualCache-的实现原理："><a href="#2、PerpetualCache-的实现原理：" class="headerlink" title="2、PerpetualCache 的实现原理："></a>2、PerpetualCache 的实现原理：</h2><p>PerpetualCache 仅仅是包装了 HashMap，代码如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class PerpetualCache implements Cache </span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  private final String id;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  private Map&lt;Object, Object&gt; cache = new HashMap&lt;Object, Object&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>PerpetualCache 的读取数据，也是通过内部的 HashMap 来实现的，代码如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public void putObject(Object key, Object value) &#123;</span><br><span class="line"></span><br><span class="line">cache.put(key, value);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public Object getObject(Object key) &#123;</span><br><span class="line"></span><br><span class="line">return cache.get(key);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public Object removeObject(Object key) &#123;</span><br><span class="line"></span><br><span class="line">return cache.remove(key);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line"></span><br><span class="line">public void clear() &#123;</span><br><span class="line"></span><br><span class="line">cache.clear();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3、Key-的设计：CacheKey"><a href="#3、Key-的设计：CacheKey" class="headerlink" title="3、Key 的设计：CacheKey"></a>3、Key 的设计：CacheKey</h2><p>在 PerpetualCache 内部使用的 Java 自带的 HashMap：</p>
+<p>Map&lt;Object, Object&gt; cache = new HashMap&lt;Object, Object&gt;();</p>
+<p>但是，HashMap 的 Key 设计略显单薄，无法适应复杂的缓存场景，需要进行自定义设计。MyBatis 实现了 CacheKey 类，其功能非常的强大。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class CacheKey implements Cloneable, Serializable</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    private final int multiplier;</span><br><span class="line"></span><br><span class="line">    private int hashcode;</span><br><span class="line"></span><br><span class="line">    private long checksum;</span><br><span class="line"></span><br><span class="line">    private int count;</span><br><span class="line"></span><br><span class="line">    private List&lt;Object&gt; updateList;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>代码分析如下所示：</p>
+<p>（1）hashcode，用于表示 CacheKey 的哈希码<br>（2）checksum，总和校验，当出现复合 key 的时候，分布计算每个 key 的哈希码，然后求总和<br>（3）count，当出现复合 key 的时候，计算 key 的总个数<br>（4）updateList，当出现复合 key 的时候，保存每个 key</p>
+<p>CacheKey 这个类设计的非常好，个人推荐感兴趣的人可以仔细读一读其源码。其初始化的过程如下所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public CacheKey(Object[] objects)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    this();</span><br><span class="line"></span><br><span class="line">    updateAll(objects);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public void updateAll(Object[] objects)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    for (Object o : objects)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        update(o);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public void update(Object object)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    int baseHashCode = object == null ? 1 : ArrayUtil.hashCode(object);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    count++;</span><br><span class="line"></span><br><span class="line">    checksum += baseHashCode;</span><br><span class="line"></span><br><span class="line">    baseHashCode *= count;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    hashcode = multiplier * hashcode + baseHashCode;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    updateList.add(object);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pcbopcbo.github.io/2020/07/07/2020070716/" data-id="ckpxpgin9000xccub0i90gxnw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/10/2020071017/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mybatis简单阅读code
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/07/2020070711/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mybatis相关链接点</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" rel="tag">配置管理框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" rel="tag">链接收集</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mybatis/" style="font-size: 16px;">mybatis</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 12px;">shell</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 18px;">开发</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 20px;">摘抄</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">文件编码</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 16px;">转载</a> <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" style="font-size: 10px;">配置管理框架</a> <a href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" style="font-size: 12px;">链接收集</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/15/2021061500/">临时性备记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/2020082411/">如何防止git使用的时候的冲突与解决冲突</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/2020081410/">redis数据结构与底层</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/15/2020071517/">简单代码片段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 thf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>shell命令笔记 | 漂泊的个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="shell命令笔记事先声明，本人就是一个菜鸟，这篇博客也就是为了学习下大佬的博客。  陈皓和雷俊(Javaer&#x2F;Emacser)-打造高效的工作环境 – SHELL 篇  无意间翻出来的，备注下链接，一点一点慢慢吸取下。 下面两篇是文中提到的两篇博客，有趣也有用的。 你可能不知道的SHELL 应该知道的LINUX技巧 又从里面看到的，算了我全都放这里了，慢慢啃吧 28个UNIX&#x2F;LINUX的命令行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell命令笔记">
+<meta property="og:url" content="http://pcbopcbo.github.io/2020/01/20/2020012015/index.html">
+<meta property="og:site_name" content="漂泊的个人笔记">
+<meta property="og:description" content="shell命令笔记事先声明，本人就是一个菜鸟，这篇博客也就是为了学习下大佬的博客。  陈皓和雷俊(Javaer&#x2F;Emacser)-打造高效的工作环境 – SHELL 篇  无意间翻出来的，备注下链接，一点一点慢慢吸取下。 下面两篇是文中提到的两篇博客，有趣也有用的。 你可能不知道的SHELL 应该知道的LINUX技巧 又从里面看到的，算了我全都放这里了，慢慢啃吧 28个UNIX&#x2F;LINUX的命令行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef17b1c14195aa594be5eb1.gif">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef17bbc14195aa594bf4b72.gif">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef17bf714195aa594bfa1c4.gif">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef17c1f14195aa594bfe1c7.gif">
+<meta property="og:image" content="https://pcbopcbo.github.io/img/2020012015.assets/1579512240869.png">
+<meta property="og:image" content="https://pcbopcbo.github.io/img/2020012015.assets/1579575056177.png">
+<meta property="og:image" content="https://pcbopcbo.github.io/img/2020012015.assets/1579578337692.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef17cc214195aa594c0cd51.gif">
+<meta property="article:published_time" content="2020-01-20T07:21:49.000Z">
+<meta property="article:modified_time" content="2020-01-20T07:21:49.000Z">
+<meta property="article:author" content="thf">
+<meta property="article:tag" content="摘抄">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5ef17b1c14195aa594be5eb1.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="漂泊的个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">漂泊的个人笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/index.html">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pcbopcbo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020012015" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/01/20/2020012015/" class="article-date">
+  <time datetime="2020-01-20T07:21:49.000Z" itemprop="datePublished">2020-01-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      shell命令笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="shell命令笔记"><a href="#shell命令笔记" class="headerlink" title="shell命令笔记"></a>shell命令笔记</h1><p>事先声明，本人就是一个菜鸟，这篇博客也就是为了学习下大佬的博客。</p>
+<p> 陈皓和雷俊(Javaer/Emacser)-<a target="_blank" rel="noopener" href="https://coolshell.cn/articles/19219.html">打造高效的工作环境 – SHELL 篇</a></p>
+<p> 无意间翻出来的，备注下链接，一点一点慢慢吸取下。</p>
+<h2 id="下面两篇是文中提到的两篇博客，有趣也有用的。"><a href="#下面两篇是文中提到的两篇博客，有趣也有用的。" class="headerlink" title="下面两篇是文中提到的两篇博客，有趣也有用的。"></a>下面两篇是文中提到的两篇博客，有趣也有用的。</h2><p> <a target="_blank" rel="noopener" href="https://coolshell.cn/articles/8619.html">你可能不知道的SHELL</a><br> <a target="_blank" rel="noopener" href="https://coolshell.cn/articles/8883.html">应该知道的LINUX技巧</a></p>
+<h3 id="又从里面看到的，算了我全都放这里了，慢慢啃吧"><a href="#又从里面看到的，算了我全都放这里了，慢慢啃吧" class="headerlink" title="又从里面看到的，算了我全都放这里了，慢慢啃吧"></a>又从里面看到的，算了我全都放这里了，慢慢啃吧</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/7829.html">28个UNIX/LINUX的命令行神器</a></p>
+</li>
+<li><p>这个我没打开，网有点慢？<a target="_blank" rel="noopener" href="https://coolshell.cn/articles/7166.html">游戏：VIM大冒险</a></p>
+</li>
+<li><p><em><strong>简直是个宝藏：</strong></em> <a target="_blank" rel="noopener" href="https://coolshell.cn/articles/7186.html">做个环保主义的程序员</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/7126.html">这到底是谁之错？</a></p>
+</li>
+</ul>
+<h2 id="顺便把收藏的linux基本命令的流程图放上来"><a href="#顺便把收藏的linux基本命令的流程图放上来" class="headerlink" title="顺便把收藏的linux基本命令的流程图放上来"></a>顺便把收藏的linux基本命令的流程图放上来</h2><p> <a target="_blank" rel="noopener" href="https://www.processon.com/view/58f47536e4b0dfe7d6c93460#map">基础的linux基本命令图</a></p>
+<h2 id="摘抄-笔记"><a href="#摘抄-笔记" class="headerlink" title="摘抄+笔记"></a>摘抄+笔记</h2><h3 id="链接一：-你可能不知道的SHELL"><a href="#链接一：-你可能不知道的SHELL" class="headerlink" title="链接一： 你可能不知道的SHELL"></a>链接一： <a target="_blank" rel="noopener" href="https://coolshell.cn/articles/8619.html">你可能不知道的SHELL</a></h3><ul>
+<li><p><code>!$</code></p>
+<p>这是个特殊的变量，代表上一个命令的最后一个字符串</p>
+<p><img src="https://pic.downk.cc/item/5ef17b1c14195aa594be5eb1.gif" alt="!$示例"></p>
+</li>
+<li><p><code>sudo !!</code> </p>
+<p>以root的身份执行上一条命令  </p>
+<p><img src="https://pic.downk.cc/item/5ef17bbc14195aa594bf4b72.gif" alt="shell_02"></p>
+</li>
+<li><p><code>cd -</code></p>
+<p>回到上一次的目录</p>
+<p><code>cd ~</code> 是回到自己的Home目录，<code>cd ~user</code>，是进入某个用户的Home目录 </p>
+</li>
+<li><p><code>ALT+.</code> or <code>&lt;ESC&gt; .</code> </p>
+<p>可以把上次命令的参数给重复出来。试了以下，没有想象中的好用。</p>
+</li>
+<li><p><code>^old^new</code> </p>
+<p>替换前一条命令里的部分字符串。  </p>
+<p><img src="https://pic.downk.cc/item/5ef17bf714195aa594bfa1c4.gif" alt="shell_03"></p>
+</li>
+<li><p><code>du -s *| sort -n | tail</code></p>
+<p>列出当前目录里最大的10个文件 </p>
+</li>
+<li><p><code>:w !sudo tee %</code></p>
+<p>保存一个只有root可以写的文件，存疑。。。</p>
+<p><img src="https://pic.downk.cc/item/5ef17c1f14195aa594bfe1c7.gif" alt="shell_04"></p>
+</li>
+<li><p><code>date -d@1234567890</code> </p>
+<p>时间戳转时间，说不定啥时候调bug会用到。</p>
+</li>
+</ul>
+<p><img src="https://pcbopcbo.github.io/img/2020012015.assets/1579512240869.png" alt="1579512240869"></p>
+<ul>
+<li><p><code>&gt; file.txt</code></p>
+<p>创建一个空文件，或者可以用 t<code>ouch file.txt</code>,不过这个确实短一些。</p>
+</li>
+<li><p> mtr coolshell.cn</p>
+</li>
+</ul>
+<p>  这个，平时不搞这个，放过吧，虚拟机里面一个也没有。不过说是mtr命令比traceroute要好。 </p>
+<ul>
+<li><p>在命令行前加空格，该命令不会进入history里。  </p>
+</li>
+<li><p><code>echo &quot;ls -l&quot; | at midnight</code></p>
+<p>在某个时间运行某个命令。又是一个没有见过的命令，先搜个博客</p>
+<p><a target="_blank" rel="noopener" href="https://blog.51cto.com/12822117/2121101">linux中at命令详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/diantong/p/9366449.html">linux命令之at</a></p>
+</li>
+<li><p><code>curl -u user:pass -d status=&quot;Tweeting from the shell&quot; http://twitter.com/statuses/update.xml</code></p>
+<p>命令行的方式更新twitter。</p>
+</li>
+<li><p><code>curl -u username --silent &quot;https://mail.google.com/mail/feed/atom&quot; | perl -ne &#39;print &quot;\t&quot; if /&lt;name&gt;/; print &quot;$2\n&quot; if /&lt;(title|name)&gt;(.*)&lt;\/\1&gt;/;&#39;</code></p>
+<p>检查你的gmail未读邮件。</p>
+</li>
+<li><p><code>ps aux | sort -nk +4 | tail</code></p>
+<p>列出头十个最耗内存的进程</p>
+</li>
+<li><p><code>man ascii</code></p>
+<p>显示ascii码表。</p>
+</li>
+<li><p><code>ctrl-x e</code></p>
+<p>快速启动你的默认编辑器（由变量$EDITOR设置）。</p>
+</li>
+<li><p><code>netstat –tlnp</code><br>列出本机进程监听的端口号。</p>
+</li>
+<li><p><code>netstat -anop </code><br>可以显示侦听在这个端口号的进程</p>
+<p><img src="https://pcbopcbo.github.io/img/2020012015.assets/1579575056177.png" alt="对比下，感觉上一个没啥用？"></p>
+</li>
+<li><p><code>tail -f /path/to/file.log | sed &#39;/^Finished: SUCCESS$/ q&#39;</code></p>
+<p>当file.log里出现Finished: SUCCESS时候就退出tail，这个命令用于实时监控并过滤log是否出现了某条记录。<br>这个不错</p>
+</li>
+<li><p><code>ssh user@server bash &lt; /path/to/local/script.sh</code></p>
+<p>在远程机器上运行一段脚本。这条命令最大的好处就是不用把脚本拷到远程机器上。</p>
+<p>不知道怎么才能指定目录执行，不然脚本写的有点死。</p>
+</li>
+<li><p><code>ssh user@host cat /path/to/remotefile | diff /path/to/localfile -</code></p>
+<p>比较一个远程文件和一个本地文件.  感觉我首先得学会看diff命令。</p>
+</li>
+<li><p><code>net rpc shutdown -I ipAddressOfWindowsPC -U username%password</code></p>
+<p>远程关闭一台Windows的机器</p>
+</li>
+<li><p><code>screen -d -m -S some_name ping my_router</code></p>
+<p>后台运行一段不终止的程序，并可以随时查看它的状态。-d -m参数启动“分离”模式，-S指定了一个session的标识。可以通过-R命令来重新“挂载”一个标识的session。更多细节请参考screen用法 man screen。</p>
+</li>
+<li><p><code>wget --random-wait -r -p -e robots=off -U mozilla http://www.example.com</code></p>
+<p>下载整个 <a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a> 网站。（大佬注：别太过分，大部分网站都有防爬功能了：））</p>
+</li>
+<li><p><code>curl ifconfig.me</code></p>
+</li>
+</ul>
+<p> 当你的机器在内网的时候，可以通过这个命令查看外网的IP</p>
+<p> 这个没搞懂，一个结果看不懂，一个干脆就是不通</p>
+<p> <img src="https://pcbopcbo.github.io/img/2020012015.assets/1579578337692.png" alt="1579578337692"></p>
+<ul>
+<li><code>convert input.png -gravity NorthWest -background transparent -extent 720x200  output.png</code></li>
+</ul>
+<p> 改一下图片的大小尺寸。虚拟机没装convert这个命令，centos精简版好多没有啊。</p>
+<ul>
+<li><code>isof -i</code></li>
+</ul>
+<p> 实时查看本机网络服务的活动状态。</p>
+<ul>
+<li><p><code>vim scp://username@host//path/to/somefile</code></p>
+<p>vim一个远程文件</p>
+</li>
+<li><p><code>python -m SimpleHTTPServer</code><br>一句话实现一个HTTP服务，把当前目录设为HTTP服务目录，可以通过 <a target="_blank" rel="noopener" href="http://localhost:8000/">http://localhost:8000</a> 访问 这也许是这个星球上最简单的HTTP服务器的实现了。<br>这个挺有用的，需要python，linux上面应该都带了python。</p>
+</li>
+<li><p><code>history|awk &#39;&#123;print $2&#125;&#39;|awk &#39;BEGIN &#123;FS=&quot;|&quot;&#125;&#123;print $1&#125;&#39;|sort|uniq -c|sort -rn|head -10</code></p>
+<p>这行脚本能输出你最常用的十条命令，由此甚至可以洞察你是一个什么类型的程序员。</p>
+<p>原文中的这行命令引号可能错了，我直接复制粘贴不行，我重新敲了一遍。</p>
+</li>
+<li><p><code>tr -c &quot;[:digit:]&quot; &quot; &quot; &lt; /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR=&quot;1;32&quot; grep --color &quot;[^ ]&quot;</code></p>
+<p>想看看Marix的屏幕效果吗？（不是很像，但也很Cool!）</p>
+<p>停不下来，，按了几下<code>ctrl</code>+<code>c</code> 才停下来，蛮有意思的。</p>
+<p><img src="https://pic.downk.cc/item/5ef17cc214195aa594c0cd51.gif" alt="shell_05"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pcbopcbo.github.io/2020/01/20/2020012015/" data-id="ckpxpgims000accubc0nag7tl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/21/2020051511/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          洁癖者用 Git：pull --rebase 和 merge --no-ff（转载）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/19/2020011913/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vim基本技巧笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" rel="tag">配置管理框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" rel="tag">链接收集</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mybatis/" style="font-size: 16px;">mybatis</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 12px;">shell</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 18px;">开发</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 20px;">摘抄</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">文件编码</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 16px;">转载</a> <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" style="font-size: 10px;">配置管理框架</a> <a href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" style="font-size: 12px;">链接收集</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/15/2021061500/">临时性备记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/2020082411/">如何防止git使用的时候的冲突与解决冲突</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/2020081410/">redis数据结构与底层</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/15/2020071517/">简单代码片段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 thf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

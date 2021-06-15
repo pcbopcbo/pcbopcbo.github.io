@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用shell登录远程服务器执行多条命令，ssh登录之后执行脚本文件 | 漂泊的个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文由 简悦 SimpRead 转码， 原文地址 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;HYanqing&#x2F;p&#x2F;11687498.html  这个需求主要是我在 jenkins 中 pipeline 的代码里，需要使用 shell 语言执行远程连接并且部署的工作，但是大多数的 shell 和服务器交互是使用 expect 解释器 就是之前我写过的那个关于 expect 有关的文章，问题是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用shell登录远程服务器执行多条命令，ssh登录之后执行脚本文件">
+<meta property="og:url" content="http://pcbopcbo.github.io/2020/06/23/2020062317/index.html">
+<meta property="og:site_name" content="漂泊的个人笔记">
+<meta property="og:description" content="本文由 简悦 SimpRead 转码， 原文地址 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;HYanqing&#x2F;p&#x2F;11687498.html  这个需求主要是我在 jenkins 中 pipeline 的代码里，需要使用 shell 语言执行远程连接并且部署的工作，但是大多数的 shell 和服务器交互是使用 expect 解释器 就是之前我写过的那个关于 expect 有关的文章，问题是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef1b03f14195aa594f06670.jpg">
+<meta property="og:image" content="https://pic.downk.cc/item/5ef1b07014195aa594f091ff.jpg">
+<meta property="article:published_time" content="2020-06-23T07:21:49.000Z">
+<meta property="article:modified_time" content="2020-06-23T07:21:49.000Z">
+<meta property="article:author" content="thf">
+<meta property="article:tag" content="shell">
+<meta property="article:tag" content="转载">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5ef1b03f14195aa594f06670.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="漂泊的个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">漂泊的个人笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/index.html">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pcbopcbo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020062317" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/23/2020062317/" class="article-date">
+  <time datetime="2020-06-23T07:21:49.000Z" itemprop="datePublished">2020-06-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用shell登录远程服务器执行多条命令，ssh登录之后执行脚本文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文由 <a target="_blank" rel="noopener" href="http://ksria.com/simpread/">简悦 SimpRead</a> 转码， 原文地址 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/HYanqing/p/11687498.html">https://www.cnblogs.com/HYanqing/p/11687498.html</a></p>
+</blockquote>
+<p>这个需求主要是我在 jenkins 中 pipeline 的代码里，需要使用 shell 语言执行远程连接并且部署的工作，但是大多数的 shell 和服务器交互是使用 expect 解释器 就是之前我写过的那个关于 expect 有关的文章，问题是 jenkins 中默认的 shell 解释器只有 bash，不能更改解释器的。所以就很难受，国内的百度基本都是搬运过来的内容，毫无意义，浪费时间，在国外博客浪荡几天之后终于找到了解决方案。</p>
+<p>下面我来分享一下，大致意思呢就是执行完 ssh 连接远程主机之后需要执行的命令，可以进行如下操作，命令不要照抄，换成你自己的 user 名和 ip 地址。</p>
+<p>【我在我自己电脑和服务器之间都配置了 ssh 免密码登录 直接使用 ssh IP 地址就可以登录了，强烈建议配置 ssh，非常方便】</p>
+<h2 id="1，登录远程主机执行单条命令"><a href="#1，登录远程主机执行单条命令" class="headerlink" title="1，登录远程主机执行单条命令"></a>1，登录远程主机执行单条命令</h2><p>登录完主机之后执行一条命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 $ ssh USER@HOST &#x27;COMMAND&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>获取远程主机的最新更新时间</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 $ ssh root@192.168.1.1 &#x27;uptime&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>登录完远程主机就进行重启远程主机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 $ ssh root@192.168.1.1 &#x27;reboot&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>那么问题出来了，上面的都是执行一条命令，那如果我需要执行多条命令怎么办呢？之前困扰我最大的问题就是这个，执行多条命令，虽然直接堆叠多条 ssh 登录的语句 那些前缀也可以，但是看着就恶心。这样我们就可以使用以下几个方案, 原内容如下，我做了备注，这样比较一目了然。</p>
+<h2 id="2，登录远程主机执行多条命令"><a href="#2，登录远程主机执行多条命令" class="headerlink" title="2，登录远程主机执行多条命令"></a>2，登录远程主机执行多条命令</h2><p><img src="https://pic.downk.cc/item/5ef1b03f14195aa594f06670.jpg"></p>
+<p> 可能还有小伙伴会问，如果需要 ssh 登录远程之后执行指定的脚本文件怎么做？</p>
+<p>3，登录远程主机执行指定脚本文件<br> <img src="https://pic.downk.cc/item/5ef1b07014195aa594f091ff.jpg"> </p>
+<p>由此来看，英文还是非常重要的。不然遇到问题你都不知道怎么去搜了，不是我埋汰百度，确实国内搬运回答问题现象太严重，点进去一个除了站点不一样 内容都一样 连错别字都一样，如果你是经常和计算机打交道的一定下载个谷歌浏览器，必须可以使用谷歌，可以配置插件或者配置翻墙设备。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pcbopcbo.github.io/2020/06/23/2020062317/" data-id="ckpxpgin5000qccubgdqz2l35" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/06/23/2020062316/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          制作 SSH 登录远程服务器的 Shell 脚本
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/23/2020062318/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">链接收藏贴</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" rel="tag">配置管理框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" rel="tag">链接收集</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mybatis/" style="font-size: 16px;">mybatis</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 12px;">shell</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 18px;">开发</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 20px;">摘抄</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">文件编码</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 16px;">转载</a> <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" style="font-size: 10px;">配置管理框架</a> <a href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" style="font-size: 12px;">链接收集</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/15/2021061500/">临时性备记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/2020082411/">如何防止git使用的时候的冲突与解决冲突</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/2020081410/">redis数据结构与底层</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/15/2020071517/">简单代码片段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 thf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

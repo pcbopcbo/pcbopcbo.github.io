@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <link href="../Styles/style0001.css" rel="stylesheet" type="text/css"/>
+
+  <title></title>
+</head><body>
+  <h1 id="nav_point_44">第2章　普通模式</h1>
+
+  <p class="zw">普通模式是Vim的自然放松状态，如果本章看起来出奇的短，那是因为几乎整本书都在讲如何利用普通模式，而本章只涉及其中的一些核心概念以及通用技巧。</p>
+
+  <p class="zw">其他文本编辑器大部分时间都处于类似Vim插入模式的状态中，因此对Vim新手来说，把普通模式（normal mode）当成默认状态看起来很奇怪。在技巧7中，我们将以一个画家的工作区作为类比，来解释其原因。</p>
+
+  <p class="zw">许多普通模式命令可以在执行时指定执行的次数，这样它们就可以被执行多次。在技巧10中，我们将结识一对用于加减数值的命令，并且会看到这两条命令如何与次数结合在一起，进行简单的算术运算。</p>
+
+  <p class="zw">指定执行的次数可以减少按键个数，但并不是说一定要为此目的而这样做。我们将会看到一些例子，在这些例子中，简单地重复执行一条命令，要比花时间去计算想要执行多少次更好。</p>
+
+  <p class="zw">普通模式命令的强大，很大程度上源于它可以把操作符与动作命令结合在一起。在本章的最后，我们将看到这种结合达到的效果。</p>
+
+  <h2 id="nav_point_45">技巧7　停顿时请移开画笔</h2>
+
+  <blockquote>
+    <p class="zw">对于不习惯Vim的人来说，普通模式看上去是一种奇怪的缺省状态，但有经验的Vim用户却很难想象还有其他任何方式。本节使用了一个比喻来说明为什么Vim要采用这-种方式。</p>
+  </blockquote>
+
+  <p class="zw">你估计画家会花费多少时间用画笔在画布上作画？毫无疑问，这因人而异，但是，如果这占了画家全部工作时间的一半还要多的话，我会觉得非常诧异。</p>
+
+  <p class="zw">想一下除了画画外，画家还要做哪些事情。他们要研究主题，调整光线，把颜料混合成新的色彩，而且在把颜料往画布上画时，谁说他们必须要用画笔？画家也许会换用刻刀来实现不同的质地，或是用棉签来对已经画好的地方进行润色。</p>
+
+  <p class="zw">画家在休息时不会把画笔放在画布上。对Vim而言也是这样，普通模式就是Vim的自然放松状态，其名字已经寓示了这一点。</p>
+
+  <p class="zw">就像画家只花一小部分时间涂色一样，程序员也只花一小部分时间编写代码。绝大多数时间用来思考、阅读，以及在代码中穿梭浏览，而且当确实需要修改时，谁说一定要切换到插入模式才行？我们可以重新调整已有代码的格式，复制它们，移动其位置，或是删除它们。在普通模式中，我们有众多的工具可以利用。</p>
+
+  <h2 id="nav_point_46">技巧8　把撤销单元切成块</h2>
+
+  <blockquote>
+    <p class="zw">在其他编辑器中，输入一些词后使用撤销命令，可能会撤销最后输入的词或字符，然而在Vim中，我们自己可以控制撤销的粒度。</p>
+  </blockquote>
+
+  <p class="zw"><code>u</code> 键会触发撤销命令，它会撤销最新的修改。一次修改可以是改变文档内文本的任意操作，其中包括在普通模式、可视模式以及命令行模式中所触发的命令，而且一次修改也包括了在插入模式中输入（或删除）的文本，因此我们也可以说，<code>i{insert some text}&lt;Esc&gt;</code> 是一次修改。</p>
+
+  <p class="zw">在不区分模式的文本编辑器中，输入一些单词后使用撤销命令，有两种可能。一种是它可能会撤销最后输入的字符；另一种做得更好点，它可能会把字符分成块，使每次撤销操作删除一个单词而不是一个字符。</p>
+
+  <p class="zw">在Vim中，我们自己可以控制撤销命令的粒度。从进入插入模式开始，直到返回普通模式为止，在此期间输入或删除的任何内容都被当成一次修改。因此，只要控制好对 <code>&lt;Esc&gt;</code> 键的使用，就可使撤销命令作用于单词、句子或段落。</p>
+
+  <p class="zw">那么，应该多久离开一次插入模式呢？这是个人喜好的问题，不过我喜欢让每个“可撤销块”对应一次思考过程。在写这段文字时（当然是在Vim中写的），我经常在每句话的结尾停顿一下，想一想接下来该写什么。不管停顿的时间有多短，每次停顿都是一个自然的中断点，提示我该退出插入模式了。当我准备好继续写时，按 <code>A</code> 命令就可以回到原来的地方继续写作。</p>
+
+  <p class="zw">如果我认为已经走错了方向，就会切换到普通模式，然后按 <code>u</code> 撤销。每次做撤销时，文字都按我最初书写时的思路，被切分成条理清晰的块，也就是说我可以很容易地试着写一两句话，如果感到不合适的话，随后按一两下键就可以将其舍弃。</p>
+
+  <p class="zw">当处于插入模式时，如果光标位于行尾的话，另起一行最快的方式是按 <code>&lt;CR&gt;</code>。不过有时我更喜欢按 <code>&lt;Esc&gt;o</code>，这是因为我有预感，也许在撤销时我想拥有更细的粒度。如果听起来这不太好理解，不必担心，当你对Vim越来越熟悉时，就会感到切换模式越来越轻松。</p>
+
+  <p class="zw">一般来讲，如果你停顿的时间长到足以问“我应该退出插入模式吗？”这个问题，就退出吧。</p>
+
+  <blockquote>
+    <p class="zw"><span style="font-family: &quot;times new&quot;">在插入模式中移动光标会重置修改状态</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">当我提到撤销命令会回退从进入插入模式到退出此模式期间输入（或删除）的全部字符时，我略过了一个小细节。如果在插入模式中使用了 <code>&lt;Up&gt;</code>、<code>&lt;Down&gt;</code>、<code>&lt;Left&gt;</code>或 <code>&lt;Right&gt;</code> 这些光标键，将会产生一个新的撤销块。你可以把这想象为先切换回普通模式，然后用 <code>h</code> 、<code>j</code> 、<code>k</code> 或 <code>l</code> 命令对光标进行了移动，唯一区别是我们并没有退出插入模式。这也会对 <code>.</code> 命令的操作产生影响。</span></p>
+  </blockquote>
+
+  <h2 id="nav_point_47">技巧9　构造可重复的修改</h2>
+
+  <blockquote>
+    <p class="zw">Vim对重复操作进行了优化，要利用这一点，必须考虑该如何构造修改。</p>
+  </blockquote>
+
+  <p class="zw">在Vim中，要完成一件事，总是有不止一种方式。在评估哪种方式最好时，最显而易见的指标是效率，即哪种手段需要的按键次数最少（又名VimGolf <a id="ac21" href="part0011.xhtml#anchor21"><sup>[1]</sup></a>）。然而，在平局时该如何选择获胜者呢？</p>
+
+  <p class="zw">在下例中，假设光标位于行尾处的字符“h”上，而我们想要删除单词“nigh”：</p>
+
+  <p class="zw"><strong>normal_mode/the_end.txt</strong></p>
+  <pre class="代码无行号"><code>The end is nigh</code></pre>
+
+  <h3 id="nav_point_48">反向删除</h3>
+
+  <p class="zw">因为光标已经位于单词末尾，所以可以先反向删除该词。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is nig<strong>h</strong></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>db</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is <strong>h</strong></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>x</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is<strong><img alt=" " src="../Images/image00099.jpeg"/></strong></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">按 <code>db</code> 命令删除从光标起始位置到单词开头的内容，但会原封未动地留下最后一个字符 “h”，再按一下 <code>x</code> 键就可以删除这个捣乱的字符。这样，整个操作的 Vim高尔夫得分是3分。</p>
+
+  <h3 id="nav_point_49">正向删除</h3>
+
+  <p class="zw">这一次，让我们尝试一下正向删除。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is nig<strong>h</strong></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>b</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is <strong>n</strong>igh</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>dw</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is<strong><img alt=" " src="../Images/image00099.jpeg"/></strong></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">先用 <code>b</code> 命令把光标移到单词的开头，移动好后，就可以用一个 <code>dw</code> 命令删掉整个单词。这一次的Vim高尔夫得分也是3分。</p>
+
+  <h3 id="nav_point_50">删除整个单词</h3>
+
+  <p class="zw">到目前为止，已有的两种方式都要先做某种准备工作或清理工作。另外，也可以使用更为精准的 <code>aw</code> 文本对象（text object），而不是用动作命令（参见 <code>:h aw</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end is nig<strong>h</strong></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>daw</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">The end i<strong>s</strong></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">可以把 <code>daw</code> 命令解读为“delete a word”，这样比较容易记忆。在技巧52和技巧53中将介绍更多关于文本对象的细节。</p>
+
+  <h3 id="nav_point_51">决胜局：哪种方式最具重复性？</h3>
+
+  <p class="zw">我们尝试了3种不同的方式来删除一个词：<code>dbx</code>、<code>bdw</code> 以及 <code>daw</code>。每种情况的Vim高尔夫得分都是3分。那么要怎么回答这个问题：“哪种方式最好？”</p>
+
+  <p class="zw">还记得吗，Vim对重复操作进行了优化。让我们再回顾一下这3种方式，这一次我们跟着用一次 <code>.</code> 命令，看看会发生什么。我建议你自己也亲自试一下。</p>
+
+  <p class="zw">反向删除方案包含两步操作：<code>db</code> 命令删除至单词的开头，而后<code>x</code> 命令删除一个字符。如果我们跟着执行一次 <code>.</code> 命令，它会重复删除一个字符（ <code>.</code> = = <code>x</code> ）。我不觉得这有什么价值。</p>
+
+  <p class="zw">正向删除方案也包含两步。这一次，<code>b</code> 只是一次普通的移动，而 <code>dw</code> 完成修改。此时用 <code>.</code> 命令会重复 <code>dw</code>，删除从光标位置到下个单词开头的内容。不过因为我们刚好已经在行尾了，并没有“下一个单词”，所以在这个场景里 <code>.</code> 命令没什么用。不过，至少它代表了一个更长点的操作（<code>.</code> = = <code>dw</code>）。</p>
+
+  <p class="zw">最后的方案只调用一个操作：<code>daw</code>。这个操作不仅仅删除了该单词，它还会删除一个空格，因此光标最终会停在单词“is”的最后一个字符上。如果此时使用 <code>.</code> 命令，它会重复上次删除单词的命令。这一次， <code>.</code> 命令会做真正有用的事情（<code>.</code> = = <code>daw</code>）。</p>
+
+  <h3 id="nav_point_52">结论</h3>
+
+  <p class="zw"><code>daw</code> 可以发挥 <code>.</code> 命令的最大威力，因此我宣布它是本轮的获胜者。</p>
+
+  <p class="zw">要想充分利用 <code>.</code> 命令，事先常常需要进行一番周详的考虑。如果你发现自己要在几个地方做同样的小修改，就可以尝试构造你的修改，让它们能够被 <code>.</code> 命令重复执行。要识别出这类机会需要进行一定的实践，不过一旦养成了使修改可重复的习惯，你就会从 Vim 这里得到“奖赏”。</p>
+
+  <p class="zw">有时，我并没有看到用 <code>.</code> 命令的机会，然而在做完一次修改后，我发现要做另一次同样的操作，这时候，我脑海里会浮现出 <code>.</code> 命令，而它也已经准备好为我效力了。每当遇到这种情况时，我都会开心地笑起来。</p>
+
+  <h2 id="nav_point_53">技巧10　用次数做简单的算术运算</h2>
+
+  <blockquote>
+    <p class="zw">大多数普通模式命令可以在执行时指定次数，可以利用这个功能来做简单的算术运算。</p>
+  </blockquote>
+
+  <p class="zw">很多普通模式命令都可以带一个次数前缀，这样Vim就会尝试把该命令执行指定的次数，而不是只执行一次（参见 <code>:h count</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+
+  <p class="zw"><code>&lt;C-a&gt;</code> 和 <code>&lt;C-x&gt;</code> 命令分别对数字执行加和减操作。在不带次数执行时，它们会逐个加减，但如果带一个次数前缀，那么可以用它们加减任意整数。例如，如果把光标移到字符5上，执行 <code>10&lt;C-a&gt;</code> 就会把它变成15。</p>
+
+  <p class="zw">但是如果光标不在数字上会发生什么？文档里说， <code>&lt;C-a&gt;</code> 命令会“把当前光标之上或之后的数值加上 [count]”（参见 <code>:h ctrl-a</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。因此，如果光标不在数字上，那么 <code>&lt;C-a&gt;</code> 命令将在当前行正向查找一个数字，如果找到了，它就径直跳到那里。我们可以利用这一点简化操作。</p>
+
+  <p class="zw">下面是一段CSS片段。</p>
+
+  <p class="zw"><strong>normal_mode/sprite.css</strong></p>
+  <pre class="代码无行号"><code>.blog, .news { background-image: <em>url</em>(/<em>sprite.png</em>); }
+.blog { background-position: 0px 0px }</code></pre>
+
+  <p class="zw">我们要复制最后一行并且对其做两个小改动，即用“news”替换单词“blog”，以及把“0px”改为“-180px”。可以运行 <code>yyp</code> 来复制此行，然后用 <code>cW</code> 来修改第一个单词。但该怎么处理那个数值呢？</p>
+
+  <p class="zw">一种做法是用 <code>f0</code> 跳到此数字，然后进入插入模式手动修改它的值，即 <code>i-18&lt;Esc&gt;</code>。不过，运行 <code>180&lt;C-x&gt;</code> 则要快得多。由于光标不在要操作的数字上，所以该命令会正向跳到所找到的第一个数字上，从而省去了手动移光标的步骤。让我们看看整个操作过程。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog, .news { background-image: url(/sprite.png); }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格"><strong>.</strong>blog { background-position: 0px 0px }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>yyp</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog, .news { background-image: url(/sprite.png); }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog { background-position: 0px 0px }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格"><strong>.</strong>blog { background-position: 0px 0px }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>cW</strong>.news&lt;Esc&gt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog, .news { background-image: url(/sprite.png); }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog { background-position: 0px 0px }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.new<strong>s</strong> { background-position: 0px 0px }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>180&lt;C-x&gt;</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog, .news { background-image: url(/sprite.png); }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.blog { background-position: 0px 0px }</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">&nbsp;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">.news { background-position: -18<strong>0</strong>px 0px }</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">在本例中，只复制了一行并做出改动。但是，假设要复制10份，并对后续数字依次减180。如果要切换到插入模式去修改每个数字，每次都得输入不同的内容（-180，然后-360，以此类推）。但是如果用 <code>180&lt;C-x&gt;</code> 命令的话，对后续行也可以采用相同的操作过程。甚至还可以把这组按键操作录制成一个宏（参见第11章），然后根据需要执行多次。</p>
+
+  <blockquote>
+    <p class="zw"><span style="font-family: &quot;times new&quot;">数字的格式</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">007的后面是什么？不，这不是詹姆斯·邦德的恶作剧，我是在问：如果对007加1，你觉得会得到什么结果。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">如果你的答案是008，那么当你尝试对任意以0开头的数字使用 &lt;C-a&gt; 命令时，也许会感到诧异。像在某些编程语言中的约定一样，Vim把以0开头的数字解释为八进制值，而不是十进制。在八进制体系中，007 + 001 = 010，看起来像是十进制中的10，但实际上它是八进制中的8，糊涂了吗？</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">如果你经常使用八进制，Vim的缺省行为或许会适合你。如果不是这样，那么你可能想把下面这行加入你的vimrc里：</span></p>
+    <pre class="代码无行号"><code>set nrformats=</code></pre>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">这会让Vim把所有数字都当成十进制，不管它们是不是以0开头的。</span></p>
+  </blockquote>
+
+  <h2 id="nav_point_54">技巧11　能够重复，就别用次数</h2>
+
+  <blockquote>
+    <p class="zw">在处理某些特定工作时，使用次数可以使按键次数变得最少，不过并不是非得这样不可。我们需要认真考虑次数与重复各自的优缺点。</p>
+  </blockquote>
+
+  <p class="zw">假设在缓冲区里有如下文字。</p>
+  <pre class="代码无行号"><code>Delete <strong>m</strong>ore than one word</code></pre>
+
+  <p class="zw">想把这段文字改为“Delete one word”，也就是说，要像这段文字里所讲的那样删除两个单词。</p>
+
+  <p class="zw">有几种方式可以达到这一目的，<code>d2w</code> 和 <code>2dw</code> 都可以。使用 <code>d2w</code>，先调用删除命令，然后以 <code>2w</code> 作为动作命令，可以把它解读为“删除两个单词”；然而 <code>2dw</code> 做的相反，这一次，次数作用于删除命令，而动作命令只跨越一个单词，可以把这解读为“做两次删除单词的操作”。抛开语义不讲，无论哪种方法，结果都是相同的。</p>
+
+  <p class="zw">现在，让我们考虑另外一种方式，即<code>dw.</code>。这可以解读为“删除一个单词，然后重复上次的操作”。</p>
+
+  <p class="zw">概括一下，我们的3种选择 <code>d2w</code>、<code>2dw</code> 或者 <code>dw.</code> 都是3次按键，不过哪一种最好呢？</p>
+
+  <p class="zw">根据我们的讨论，<code>d2w</code> 和 <code>2dw</code> 是相同的，在执行完两者中的任一个后，可以按 <code>u</code> 键撤销，这样两个被删除的单词又会回来。或者，我们不是用撤销，而是用 <code>.</code> 命令重复执行它，这就会删除后面的两个单词。</p>
+
+  <p class="zw">对于 <code>dw.</code> 的情形，按 <code>u</code> 或 <code>.</code> 的结果会有细微的差别。这里的修改是 <code>dw</code>，即删除一个单词。因此，如果想恢复这两个被删除的单词，必须撤销两次，按 <code>uu</code>（或者，如果你愿意，也可以按 <code>2u</code>）。按 <code>.</code> 则只删除后面的一个单词，而不是两个。</p>
+
+  <p class="zw">现在假设我们原本是想删除3个单词，而不是2个。由于判断出了点差错，我们执行了 <code>d2w</code> 而不是 <code>d3w</code>，那接下来怎么做？我们不能使用 <code>.</code> 命令，因为那会总共删除4个单词。因此，我们或是先撤销而后修正次数（<code>ud3w</code>），或是继续删除下一个单词（<code>dw</code>）。</p>
+
+  <p class="zw">现在考虑另一种方案，如果我们在第一处地方用的是 <code>dw.</code> 命令，那么只要再多重复一次 <code>.</code> 命令就行了。因为我们最初的修改只是简单的 <code>dw</code>，因此<code>u</code> 命令和 <code>.</code> 命令都具有更细的粒度，每次只作用于一个单词。</p>
+
+  <p class="zw">现在假设我们想删除7个单词，我们可以运行 <code>d7w</code>，或是 <code>dw......</code>（即 <code>dw</code> 后面跟6次 <code>.</code> 命令）。计算一下按键的次数，哪个命令胜出是很显而易见的。不过你真地确信自己数对了次数吗？</p>
+
+  <p class="zw">计算次数很是讨厌，因此我宁愿按6次 <code>.</code> 命令，也不愿意只为减少按键的次数，而浪费同样的时间去统计次数。如果我多按了一次 <code>.</code> 命令怎么办？没关系，只要按一次 <code>u</code> 键就可以回退回来。</p>
+
+  <p class="zw">还记得吗，我们的口诀是（参见技巧4）：执行、重复、回退。这里就是在把它付诸行动。</p>
+
+  <h3 id="nav_point_55">只在必要时使用次数</h3>
+
+  <p class="zw">假设我们想把文字“I have a couple of questions”改为“I have some more questions”，可以用下面的方式做。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">I have <strong>a</strong> couple of questions.</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>c3w</strong>some more&lt;Esc&gt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">I have some mor<strong>e</strong> questions.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">在此场景中，使用 <code>.</code> 命令的意义不大，我们可以删除一个单词，然后再用 <code>.</code> 命令删除另一个，但随后我们还得切换到插入模式（例如，使用 <code>i</code> 或 <code>cw</code>）。对我来说这么做很不顺手，我反而更愿意用次数。</p>
+
+  <p class="zw">使用次数的另一个好处是：它保留了一个干净、连贯的撤销历史记录。完成这次修改后，按一下 <code>u</code> 键就可以撤销整个修改，这和技巧8中的讨论是一致的。</p>
+
+  <p class="zw">对于是用次数风格（<code>d5w</code>）还是用重复风格（<code>dw....</code>）也有同样的争论，因此我的偏好看起来似乎不太一致。对此，你要总结自己的观点，这取决于你怎么看保留干净撤销历史记录的价值，以及你是否觉得用次数令人生厌。</p>
+
+  <h2 id="nav_point_56">技巧12　双剑合璧，天下无敌</h2>
+
+  <blockquote>
+    <p class="zw">Vim的强大很大程度上源自操作符与动作命令相结合。在本节，我们将看到它是如何工作的，并考虑其寓义。</p>
+  </blockquote>
+
+  <h3 id="nav_point_57">操作符 + 动作命令 = 操作</h3>
+
+  <p class="zw"><code>d{motion}</code> 命令可以对一个字符（<code>dl</code>）、一个完整单词（<code>daw</code>）或一整个段落（<code>dap</code>）进行操作，它作用的范围由动作命令决定。<code>c{motion}</code>、<code>y{motion}</code> 以及其他一些命令也类似，它们被统称为操作符（operator）。可以用 <code>:h operator</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>来查阅完整的列表，表2-1总结了一些比较常见的操作符。</p>
+
+  <p class="zw"><code>g~</code>、<code>gu</code> 和 <code>gU</code> 命令要用两次按键来调用，我们可以把上述命令中的 <code>g</code> 当作一个前缀字符，用以改变其后面的按键行为，进一步的讨论请参见本技巧最后的“<strong>结识操作符待决模式</strong>”部分。</p>
+
+  <p class="zw">操作符与动作命令的结合形成了一种语法。这种语法的第一条规则很简单，即一个操作由一个操作符，后面跟一个动作命令组成。学习新的动作命令及操作符，就像是在学习Vim的词汇一样。如果掌握了这一简单的语法规则，在词汇量增长时，就能表达更多的想法。</p>
+
+  <p class="zw">假如我们已经知道如何用 <code>daw</code> 删除一个单词，然后又学到 <code>gU</code> 命令（参见 <code>:h gU</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。它也是个操作符，所以可以用 <code>gUaw</code> 把当前单词转换成大写形式。如果我们的词汇进一步扩充，学会了作用于段落的 <code>ap</code> 动作命令，就会发现我们可以进行两个新的操作：用 <code>dap</code> 删除整个段落，或者用 <code>gUap</code> 把整段文字转换为大写。</p>
+
+  <p class="zw">Vim的语法只有一条额外规则，即当一个操作符命令被连续调用两次时，它会作用于当前行。所以 <code>dd</code> 删除当前行，而 <code>&gt;&gt;</code> 缩进当前行。<code>gU</code> 命令是一种特殊情况，我们既可以用 <code>gUgU</code> ，也可以用简化版的 <code>gUU</code> 来使它作用于当前行。</p>
+
+  <p class="表题">表2-1　Vim的操作符命令</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">命令</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">用途</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>c</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">修改</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>d</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">删除</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>y</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">复制到寄存器</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>g~</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">反转大小写</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>gu</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">转换为小写</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>gU</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">转换为大写</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>&gt;</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">增加缩进</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>&lt;</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">减小缩进</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>=</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">自动缩进</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>!</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">使用外部程序过滤{motion}所跨越的行</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 id="nav_point_58">扩展命令组合的威力</h3>
+
+  <p class="zw">使用Vim缺省的操作符和动作命令，我们能够执行的操作的数目是巨大的，然而，我们还可以通过自定义动作命令及操作符来进一步扩充其数目。让我们想想这寓示着什么。</p>
+
+  <h3 id="nav_point_59">自定义操作符与已有动作命令协同工作</h3>
+
+  <p class="zw">随同Vim发布的标准操作符集合相对比较少，但可以定义新的操作符。Tim Pope的commentary.vim插件提供了一个很好的例子<a id="ac22" href="part0014.xhtml#anchor22"><sup>[2]</sup></a>，此插件为Vim支持的编程语言增添了注释及取消注释的命令。</p>
+
+  <p class="zw">注释命令以 <code>gc{motion}</code> 触发，它会切换指定行的注释状态。它是一个操作符命令，因此可以把它和所有动作命令结合在一起。<code>gcap</code> 将切换当前段落的注释状态， <code>gcG</code> 会把从当前行到文件结尾间的所有内容注释掉，<code>gcc</code> 则注释当前行。</p>
+
+  <p class="zw">如果你对如何创建自定义操作符感到好奇，可以先阅读一下文档 : h :map-operator <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>。</p>
+
+  <h3 id="nav_point_60">自定义动作命令与已有操作符协同工作</h3>
+
+  <p class="zw">Vim缺省的动作命令集已经相当全面了，但是我们还是可以定义新的动作命令及文本对象来进一步增强它。</p>
+
+  <p class="zw">Kana Natsuno的textobj-entire插件是一个很好的例子<a id="ac23" href="part0011.xhtml#anchor23"><sup>[3]</sup></a>，它为Vim增加了两种新的文本对象 <code>ie</code> 和 <code>ae</code>，它们作用于整个文件。</p>
+
+  <p class="zw">如果想用 <code>=</code> 命令自动缩进整个文件，可以执行 <code>gg=G</code> （就是说，先用 <code>gg</code> 跳到文件开头，然后用 <code>=G</code> 自动缩进从光标位置到文件结尾的所有内容）。但是如果安装了textobj-entire插件的话，简单地执行 <code>=ae</code> 就可以了。运行这条命令时光标在哪儿并不重要，因为它总是作用于整个文件。</p>
+
+  <p class="editing-tag 提示标签">注意：</p>
+
+  <blockquote class="提示 editing-block">
+    <p class="zw">　</p>
+
+    <p class="zw">如果同时安装了commentary和textobj-entire插件，就可以把它们放在一起使用。例如，执行 <code>gcae</code> 会切换整个文件的注释状态。</p>
+  </blockquote>
+
+  <p class="zw">如果你对如何创建自定义动作命令感到好奇，可以由阅读 :h omap-info <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>开始。</p>
+
+  <h4 class="sigil_not_in_toc"><span style="font-family: &quot;times new&quot;">结识操作符待决模式</span></h4>
+
+  <blockquote>
+    <p class="zw"><span style="font-family: &quot;times new&quot;">普通、插入及可视模式很容易辨识，但是Vim还有另外一些很容易被忽视的模式，操作符待决模式（operator-pending mode）就是一个例子。每天我们无数次地使用它，但通常它只持续不到一秒时间。举个例子，在执行命令 <code>dw</code> 时，就会激活该模式。这一模式只在按 <code>d</code> 及 <code>w</code> 键之间的短暂时间间隔内存在，一眨眼工夫就不见了。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">如果把Vim想象成有限状态机，那么操作符待决模式就是一个只接受动作命令的状态。这个状态在调用操作符时被激活，然后什么也不做，直到我们提供了一个动作命令，完成整个操作。当操作符待决模式被激活时，我们可以像平常一样按 <code>&lt;Esc&gt;</code> 中止该操作，返回到普通模式。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">很多命令都由两个或更多的按键来调用（查阅 <code>:h g</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>、<code>:h z</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>、<code>:h ctrl-w</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>，或者 <code>:h [</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>，可以看到一些例子），但在多数情况下，头一个按键只是第二个按键的前缀。这些命令不会激活操作符待决模式，相反，可以把它们当成命名空间（namespace），用来扩充可用命令的数目。只有操作符才会激活操作符待决模式。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">你也许想知道，为什么要有一个完整的模式，专门用于操作符和动作命令之间的短暂瞬间，而命名空间命令则仅仅是普通模式的一个扩充？好问题！这是因为我们能够创建自定义映射项来激活或终结操作符待决模式。换句话说，它允许我们创建自定义的操作符及动作命令，从而让我们可以扩充Vim的词汇。</span></p>
+  </blockquote>
+  <hr/>
+
+  <p class="footnote"><a id="anchor21" href="part0011.xhtml#ac21">[1]</a> 　<a href="http://vimgolf.com/">http://vimgolf.com/</a></p>
+
+  <p class="footnote"><a id="anchor22" href="part0011.xhtml#ac22">[2]</a> 　<a href="https://github.com/tpope/vim-commentary">https://github.com/tpope/vim-commentary</a></p>
+
+  <p class="footnote"><a id="anchor23" href="part0011.xhtml#ac23">[3]</a> 　<a href="https://github.com/kana/vim-textobj-entire">https://github.com/kana/vim-textobj-entire</a></p>
+
+  <p class="zw"><br style="page-break-after:always"/><div style="page-break-after:always"></div></p>
+</body></html>

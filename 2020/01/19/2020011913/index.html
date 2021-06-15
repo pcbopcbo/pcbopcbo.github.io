@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>vim基本技巧笔记 | 漂泊的个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="vim基本技巧笔记vim基本技巧 各种快捷技巧 [.]  重复操作 [u],[C-r]  回退重做命令 [:set hls] 高亮 [cw] 删除从光标位置到单词结尾间的字符，并进入插入模式 [c3w]   [f]  行内 单字母查找？[;] 重复查找上次 f 命令所查找的字符  [s] 删除字母，并进入insert模式 [;] 重复上次[f]命令  带到下一个目标字符上，仅仅指字符 [:s&#x2F;co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim基本技巧笔记">
+<meta property="og:url" content="http://pcbopcbo.github.io/2020/01/19/2020011913/index.html">
+<meta property="og:site_name" content="漂泊的个人笔记">
+<meta property="og:description" content="vim基本技巧笔记vim基本技巧 各种快捷技巧 [.]  重复操作 [u],[C-r]  回退重做命令 [:set hls] 高亮 [cw] 删除从光标位置到单词结尾间的字符，并进入插入模式 [c3w]   [f]  行内 单字母查找？[;] 重复查找上次 f 命令所查找的字符  [s] 删除字母，并进入insert模式 [;] 重复上次[f]命令  带到下一个目标字符上，仅仅指字符 [:s&#x2F;co">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pcbopcbo.github.io/img/vim_ex_copy.gif">
+<meta property="article:published_time" content="2020-01-19T05:53:49.000Z">
+<meta property="article:modified_time" content="2020-01-19T05:53:49.000Z">
+<meta property="article:author" content="thf">
+<meta property="article:tag" content="摘抄">
+<meta property="article:tag" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcbopcbo.github.io/img/vim_ex_copy.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="漂泊的个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">漂泊的个人笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/index.html">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pcbopcbo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020011913" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/01/19/2020011913/" class="article-date">
+  <time datetime="2020-01-19T05:53:49.000Z" itemprop="datePublished">2020-01-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vim基本技巧笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="vim基本技巧笔记"><a href="#vim基本技巧笔记" class="headerlink" title="vim基本技巧笔记"></a>vim基本技巧笔记</h1><p><a href="https://pcbopcbo.github.io/files/vim_basic/part0002.xhtml">vim基本技巧</a></p>
+<h2 id="各种快捷技巧"><a href="#各种快捷技巧" class="headerlink" title="各种快捷技巧"></a>各种快捷技巧</h2><ul>
+<li>[.]  重复操作</li>
+<li>[u],[C-r]  回退重做命令</li>
+<li>[:set hls] 高亮</li>
+<li>[cw] 删除从光标位置到单词结尾间的字符，并进入插入模式<ul>
+<li>[c3w]</li>
+</ul>
+</li>
+<li>[f]  行内 单字母查找？[;] 重复查找上次 <code>f</code> 命令所查找的字符 </li>
+<li>[s] 删除字母，并进入insert模式</li>
+<li>[;] 重复上次[f]命令  带到下一个目标字符上，仅仅指字符</li>
+<li>[:s/content/copy/g] 单行替换 content为copy</li>
+<li>[:%s/content/copy/g] 全局替换 content为copy</li>
+<li>[<Esc>o ]</li>
+<li>[x] 删除字符</li>
+<li>[db] 删除光标到单词开始的字符</li>
+<li>[b] 移动到单词开头</li>
+<li>[cc] 删除行</li>
+<li>[dw] 删掉到单词结尾的字符  [2dw],[d2w]<ul>
+<li>[daw]  删除一个单词</li>
+</ul>
+</li>
+<li>[ C-a ],[c-x] 12[c-a] …   数字加减</li>
+<li>[yyp]  复制一行</li>
+<li>[daw],[dap],[dl]  </li>
+<li>[gUaw]  当前单词转化为大写形式</li>
+<li>一个操作符命令被连续调用两次时，它会作用于当前行  <code>dd</code> 删除当前行，而 <code>&gt;&gt;</code> 缩进当前行 <ul>
+<li><code>gU</code> 命令是一种特殊情况，我们既可以用 <code>gUgU</code> ，也可以用简化版的 <code>gUU</code> 来使它作用于当前行。 </li>
+</ul>
+</li>
+<li>[<strong><C-r>=<strong>6*35</strong><CR></strong> ] ，插入模式下使用，计算器</li>
+<li>[<C-v>u{1234}] , 以字符编码输入字符，[<C-v>u00bf ]  <code>¿</code>，[ga]，查看光标下字符的编码。<ul>
+<li>如果<C-v> 后面是一个非数字键，则插入按键代表的本身字符   :h i_CTRL-V_digit </li>
+<li><strong><C-k>{char1}{char2}</strong>   以二合字母插入不常用字符      :h digraphs-default </li>
+</ul>
+</li>
+<li>[R] 替换模式 [gR] 虚拟替换模式<ul>
+<li>单次版本的替换模式及虚拟替换模式。<code>r&#123;char&#125;</code> 和 <code>gr&#123;char&#125;</code> 命令允许覆盖一个字符，之后马上又回到普通模式 </li>
+</ul>
+</li>
+<li><code>&lt;C-g&gt;</code> 可以在可视模式及选择模式间切换 </li>
+<li><code>viw</code> 来高亮选择这个词   进入可视模式，高亮选择<ul>
+<li><code>v</code> 进入可视模式  o切换选定方向</li>
+</ul>
+</li>
+<li><code>:n</code>  跳转指定行</li>
+<li>:h ex-cmd-index   Ex命令 ，命令行模式命令</li>
+<li>Ex命令读写文件（<code>:edit</code> 和 <code>:write</code>）、创建新标签页（<code>:tabnew</code>）、分割窗口（<code>:split</code>）、操作参数列表（<code>:prev``/``:next</code>）及缓冲区列表（<code>:bprev``/``:bnext</code>） </li>
+<li><code>:%s/replace/str</code>  <code>:3print</code>  替换，打印第三行  <code>:4</code>  跳转到第4行</li>
+<li><code>先执行 </code>2G<code>，再跟着执行 </code>VG<code>，就会选中如下一个高亮选区 </code>   <code>VG</code> 猜测是选定下一个高亮区</li>
+<li>normal  对选中区做指定操作</li>
+</ul>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><h4 id="一箭双雕"><a href="#一箭双雕" class="headerlink" title="一箭双雕"></a>一箭双雕</h4><p>我们可以这样说，A 命令把两个动作（$a）合并成了一次按键。不过它不是唯一一个这样的命令，很多Vim的单键命令都可以被看成两个或多个其他命令的组合。下表列出了类似的一些例子，你能找出它们之间别的共同点吗？</p>
+<table>
+<thead>
+<tr>
+<th>复合命令</th>
+<th>等效的长命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>C</strong></td>
+<td><strong>c$</strong></td>
+</tr>
+<tr>
+<td><strong>s</strong></td>
+<td><strong>cl</strong></td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td><strong>^C</strong></td>
+</tr>
+<tr>
+<td><strong>I</strong></td>
+<td><strong>^i</strong></td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td><strong>$a</strong></td>
+</tr>
+<tr>
+<td><strong>o</strong></td>
+<td><strong>A</strong></td>
+</tr>
+<tr>
+<td><strong>O</strong></td>
+<td><strong>ko</strong></td>
+</tr>
+</tbody></table>
+<h4 id="可重复操作及如何回退"><a href="#可重复操作及如何回退" class="headerlink" title="可重复操作及如何回退"></a>可重复操作及如何回退</h4><p>表1-1　可重复的操作及如何回退</p>
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th>操作</th>
+<th>重复</th>
+<th>回退</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>做出一个修改</td>
+<td>{edit}</td>
+<td><strong>.</strong></td>
+<td><strong>u</strong></td>
+</tr>
+<tr>
+<td>在行内查找下一指定字符</td>
+<td><strong>f{char}</strong>/<strong>t{char}</strong></td>
+<td><strong>;</strong></td>
+<td><strong>,</strong></td>
+</tr>
+<tr>
+<td>在行内查找上一指定字符</td>
+<td><strong>F{char}</strong>/<strong>T{char}</strong></td>
+<td><strong>;</strong></td>
+<td><strong>,</strong></td>
+</tr>
+<tr>
+<td>在文档中查找下一处匹配项</td>
+<td>/pattern</td>
+<td><strong>n</strong></td>
+<td><strong>N</strong></td>
+</tr>
+<tr>
+<td>在文档中查找上一处匹配项</td>
+<td>?pattern</td>
+<td><strong>n</strong></td>
+<td><strong>N</strong></td>
+</tr>
+<tr>
+<td>执行替换</td>
+<td>:s/target/replacement</td>
+<td><strong>&amp;</strong></td>
+<td><strong>u</strong></td>
+</tr>
+<tr>
+<td>执行一系列修改</td>
+<td><strong>qx{changes}q</strong></td>
+<td><strong>@x</strong></td>
+<td><strong>u</strong></td>
+</tr>
+</tbody></table>
+<h4 id="Vim的操作符命令"><a href="#Vim的操作符命令" class="headerlink" title="Vim的操作符命令"></a>Vim的操作符命令</h4><p>表2-1　Vim的操作符命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>c</strong></td>
+<td>修改</td>
+</tr>
+<tr>
+<td><strong>d</strong></td>
+<td>删除</td>
+</tr>
+<tr>
+<td><strong>y</strong></td>
+<td>复制到寄存器</td>
+</tr>
+<tr>
+<td><strong>g~</strong></td>
+<td>反转大小写</td>
+</tr>
+<tr>
+<td><strong>gu</strong></td>
+<td>转换为小写</td>
+</tr>
+<tr>
+<td><strong>gU</strong></td>
+<td>转换为大写</td>
+</tr>
+<tr>
+<td><strong>&gt;</strong></td>
+<td>增加缩进</td>
+</tr>
+<tr>
+<td><strong>&lt;</strong></td>
+<td>减小缩进</td>
+</tr>
+<tr>
+<td><strong>=</strong></td>
+<td>自动缩进</td>
+</tr>
+<tr>
+<td><strong>!</strong></td>
+<td>使用外部程序过滤{motion}所跨越的行</td>
+</tr>
+</tbody></table>
+<h4 id="激活可视模式"><a href="#激活可视模式" class="headerlink" title="激活可视模式"></a>激活可视模式</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>v</strong></td>
+<td>激活面向字符的可视模式</td>
+</tr>
+<tr>
+<td><strong>V</strong></td>
+<td>激活面向行的可视模式</td>
+</tr>
+<tr>
+<td><strong><C-v></strong></td>
+<td>激活面向列块的可视模式</td>
+</tr>
+<tr>
+<td><strong>gv</strong></td>
+<td>重选上次的高亮选区</td>
+</tr>
+</tbody></table>
+<h4 id="操作缓存区文本的Ex命令"><a href="#操作缓存区文本的Ex命令" class="headerlink" title="操作缓存区文本的Ex命令"></a>操作缓存区文本的Ex命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:[range]delete [x]</td>
+<td>删除指定范围内的行[到寄存器x中]</td>
+</tr>
+<tr>
+<td>:[range]yank [x]</td>
+<td>复制指定范围的行[到寄存器x中]</td>
+</tr>
+<tr>
+<td>:[line]put [x]</td>
+<td>在指定行后粘贴寄存器x中的内容</td>
+</tr>
+<tr>
+<td>:[range]copy {address}</td>
+<td>把指定范围内的行拷贝到 {address} 指定的行之下</td>
+</tr>
+<tr>
+<td>:[range]move {address}</td>
+<td>把指定范围内的行移动到 {address} 指定的行之下</td>
+</tr>
+<tr>
+<td>:[range]join</td>
+<td>连接指定范围内的行</td>
+</tr>
+<tr>
+<td>:[range]normal {commands}</td>
+<td>对指定范围内的每一行执行普通模式命令 {commands}</td>
+</tr>
+<tr>
+<td>:[range]substitute/{pattern}/ {string}/[flags]</td>
+<td>把指定范围内出现{pattern}的地方替换为{string}</td>
+</tr>
+<tr>
+<td>:[range]global/{pattern}/[cmd]</td>
+<td>对指定范围内匹配{pattern}的所有行执行Ex 命令{cmd}</td>
+</tr>
+</tbody></table>
+<h4 id="构建-Ex-命令的地址及范围的符号总结"><a href="#构建-Ex-命令的地址及范围的符号总结" class="headerlink" title="构建 Ex 命令的地址及范围的符号总结"></a>构建 Ex 命令的地址及范围的符号总结</h4><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>文件的第一行</td>
+</tr>
+<tr>
+<td>$</td>
+<td>文件的最后一行</td>
+</tr>
+<tr>
+<td>0</td>
+<td>虚拟行，位于文件第一行上方</td>
+</tr>
+<tr>
+<td>.</td>
+<td>光标所在行</td>
+</tr>
+<tr>
+<td>‘m</td>
+<td>包含位置标记m的行</td>
+</tr>
+<tr>
+<td>‘&lt;</td>
+<td>高亮选区的起始行</td>
+</tr>
+<tr>
+<td>‘&gt;</td>
+<td>高亮选区的结束行</td>
+</tr>
+<tr>
+<td>%</td>
+<td>整个文件（:1,$ 的简写形式）</td>
+</tr>
+</tbody></table>
+<h4 id="vim的剪切板"><a href="#vim的剪切板" class="headerlink" title="vim的剪切板"></a>vim的剪切板</h4><p>vim 有 12 个剪切板，分别是 0、1、2、…、9、a、“、＋；用 :reg 命令可以查看各个剪切板里的内容。在 vim 中简单用 y 命令只是复制到 “（双引号）剪切板里，同样用 p 命令粘贴的也是这个粘贴板里的内容；</p>
+<p>默认情况下使用的双引号的剪切板，+剪切板是系统剪切板。</p>
+<p>可视模式下，可以使用 双引号+剪切板号+y/p命令分别实现复制和粘贴功能。</p>
+<p>对比于Ex命令:copy(简写:t)来看的区别</p>
+<p>:copy命令不占用寄存器（这里我实际使用了git bash使用的时候，发现会占用冒号寄存器来存储命令！！！尚不明确！）</p>
+<p> <img src="https://pcbopcbo.github.io/img/vim_ex_copy.gif" alt="&quot;:t&quot; 占用冒号寄存器的情况"></p>
+<p>Ex命令适合远端操作，普通命令适合本地操作（可以减少移动光标的操作，不过如果不知道具体行数也不省事，首尾添加多行的情况比较喜欢用这个）</p>
+<ol>
+<li><p>常用复制快捷命令：</p>
+<p> yy    复制游标所在行整行<br> 2yy 或 y2y    复制 2 行<br> y^    复制至行首，或 y0<br> y$    复制至行尾<br> yw    复制一个 word<br> y2w    复制两个 word<br> yG    复制至文件尾<br> y1G    复制至文件首</p>
+</li>
+<li><p>常用剪切快捷命令： </p>
+<p> dd    剪切游标所在行整行<br> d^    剪切至行首，或 d0<br> d$    剪切至行尾<br> dw    剪切一个 word<br> dG    剪切至文件尾 </p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pcbopcbo.github.io/2020/01/19/2020011913/" data-id="ckpxpgimr0009ccub9lm89ei8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/20/2020012015/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          shell命令笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/14/20200114/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">springboot分离式打包</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" rel="tag">配置管理框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" rel="tag">链接收集</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mybatis/" style="font-size: 16px;">mybatis</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 12px;">shell</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 18px;">开发</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 20px;">摘抄</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">文件编码</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 16px;">转载</a> <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" style="font-size: 10px;">配置管理框架</a> <a href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" style="font-size: 12px;">链接收集</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/15/2021061500/">临时性备记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/2020082411/">如何防止git使用的时候的冲突与解决冲突</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/2020081410/">redis数据结构与底层</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/15/2020071517/">简单代码片段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 thf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

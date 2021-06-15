@@ -1,0 +1,1323 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <link href="../Styles/style0001.css" rel="stylesheet" type="text/css"/>
+
+  <title></title>
+</head><body>
+  <h1 id="nav_point_88">第5章　命令行模式</h1>
+
+  <blockquote>
+    <p class="zw">初时，先有 ed，ed 为 ex</p>
+
+    <p class="zw">之父，ex 为 vi 之父，而</p>
+
+    <p class="zw">vi为 Vim 之父。</p>
+
+    <p class="zw">➤ The Old Testament of Unix</p>
+  </blockquote>
+
+  <p class="zw">Vim的先祖是vi，正是vi开创了区分模式编辑的范例。相应的，vi奉一个名为ex的行编辑器为先祖，这就是为什么会有 Ex 命令。这些早期UNIX文本编辑器的血脉依旧流淌在现代Vim中，对某些基于行的编辑任务来说，Ex 命令仍然是最佳工具。在本章中，我们将学习如何使用命令行模式，这将为我们揭示 ex 编辑器的余风遗韵。</p>
+
+  <h2 id="nav_point_89">技巧27　认识Vim的命令行模式</h2>
+
+  <blockquote>
+    <p class="zw">命令行模式会提示我们输入一条 Ex 命令、一个查找模式，或一个表达式。在本节，我们将结识一些操作缓冲区中的文本的Ex命令，并学习一些可在此模式中使用的特殊按键映射项。</p>
+  </blockquote>
+
+  <p class="zw">在按下 <code>:</code> 键时，Vim会切换到命令行模式。这个模式和shell下的命令行有些类似，可以输入一条命令，然后按 <code>&lt;CR&gt;</code> 执行它。在任意时刻，都可以按 <code>&lt;Esc&gt;</code> 键从命令行模式切换回普通模式。</p>
+
+  <p class="zw">出于历史原因，在命令行模式中执行的命令又被称为 Ex 命令，参见<strong>Vim（及其家族）的词源</strong>。在按 <code>/</code> 调出查找提示符或用 <code>&lt;C-r&gt;=</code> 访问表达式寄存器（参见技巧16）时，命令行模式也会被激活。本节介绍的一些技巧在这些不同的提示符下都适用，不过本节内容主要侧重于Ex 命令。</p>
+
+  <p class="zw">可以用Ex命令读写文件（<code>:edit</code> 和 <code>:write</code>）、创建新标签页（<code>:tabnew</code>）、分割窗口（<code>:split</code>）、操作参数列表（<code>:prev``/``:next</code>）及缓冲区列表（<code>:bprev``/``:bnext</code>）。事实上，Vim为几乎所有功能都提供了相应的Ex命令（参见 <code>:h ex-cmd-index</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>可获得完整列表）。</p>
+
+  <p class="zw">本节主要关注那些用来编辑文本的 Ex 命令，5-1列出了其中最有用的一些命令。</p>
+
+  <p class="zw">在这些命令中，绝大部分都可指定操作的范围，将在技巧28中了解这意味着什么。<code>:copy</code> 命令对快速复制一行非常好用，这将在<strong>用‘：t’命令复制行</strong>中介绍。<code>:normal</code> 命令提供了一种便捷的方式来对指定范围内的行做相同的修改，这将在技巧30中介绍。</p>
+
+  <p class="zw">我们将在第10章学到更多关于 <code>:delete</code>、<code>:yank</code>及 <code>:put</code> 命令的知识。<code>:substitute</code> 命令和 <code>:globa``l</code> 命令非常强大，所以每个命令都用单独的一章来介绍，详细内容请看第14章和第15章。</p>
+
+  <p style="text-align: left">表5-1　操作缓冲区文本的 Ex 命令</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">命令</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">用途</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]delete [x]</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">删除指定范围内的行[到寄存器x中]</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]yank [x]</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">复制指定范围的行[到寄存器x中]</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[line]put [x]</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">在指定行后粘贴寄存器x中的内容</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]copy {address}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把指定范围内的行拷贝到 {address} 指定的行之下</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]move {address}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把指定范围内的行移动到 {address} 指定的行之下</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]join</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">连接指定范围内的行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]normal {commands}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">对指定范围内的每一行执行普通模式命令 {commands}</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]substitute/{pattern}/<br/>
+          {string}/[flags]</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把指定范围内出现{pattern}的地方替换为{string}</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]global/{pattern}/[cmd]</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">对指定范围内匹配{pattern}的所有行执行Ex 命令{cmd}</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 id="nav_point_90">Vim命令行模式中的特殊按键</h3>
+
+  <p class="zw">在命令行模式中，键盘上的大部分按键都只是简单输入一个字符，这点与插入模式类似。只不过在插入模式中，文本被输入缓冲区里，而在命令行模式中，文本出现在命令行上。另外，在这两种模式中都可以用组合键触发命令。</p>
+
+  <p class="zw">有些命令在插入模式和命令行模式中可以通用。例如，可以用 <code>&lt;C-w&gt;</code> 和 <code>&lt;C-u&gt;</code> 分别删除至上个单词的开头及行首，也可以用 <code>&lt;C-v&gt;</code> 或 <code>&lt;C-k&gt;</code> 来插入键盘上找不到的字符，还可以用 <code>&lt;C-r&gt;{register}</code> 命令把任意寄存器的内容插入命令行，就像在技巧15中见过的那样。然而，有些命令行模式中的组合键在插入模式中不存在，我们将在技巧33中结识几个这样的命令。</p>
+
+  <p class="zw">在命令行提示符下，可以使用的动作命令数量很有限。 <code>&lt;left&gt;</code> 和 <code>&lt;right&gt;</code> 光标键可以一次把光标向左或右移动一个字符，与我们已经习以为常的普通模式下的大量动作命令相比，这让人感觉极度受限。然而，正如我们即将在技巧34中看到的那样，Vim的命令行窗口提供了构造复杂命令所需的完整编辑能力。</p>
+
+  <h3 id="nav_point_91">Ex 命令影响范围广且距离远</h3>
+
+  <p class="zw">有时使用 Ex 命令，能比用普通模式命令更快地完成同样的工作。举个例子，普通模式命令一般操作当前字符或当前行，而 Ex 命令却可以在任意位置执行，这意味着无需移动光标就可以使用 Ex 命令做出修改。但使 Ex 命令脱颖而出的最让人赞叹的功能，是它们拥有能够在多行上同时执行的能力。</p>
+
+  <p class="zw">一般地说，Ex命令操作范围更大，并且能够在一次执行中修改多行。或者可以概括为，Ex命令影响的范围较广并且距离较远。</p>
+
+  <blockquote>
+    <p class="zw"><span style="font-family: &quot;times new&quot;">Vim（及其家族）的词源</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;"><code>ed</code> 是最初的 UNIX 文本编辑器，它编写于图形显示器很稀有的年代，那时源代码通常是打印在纸带上，并在电传终端机<a id="ac51" href="part0014.xhtml#anchor51"><sup>[1]</sup></a>上编辑。在终端上输入的命令被送到大型机上进行处理，每条命令的输出会被打印出来。在那个年代，从终端到大型机之间的连接很慢，以至于一个快速打字员比网络还快，他们输入命令的速度要比命令被发出去处理更快。在这种情况下，<code>ed</code> 能够提供一个简洁的语法变得异常重要。p 被用来打印当前行，而 <code>%p</code> 被用来打印整个文件，皆缘于此。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;"><code>ed</code>历经了几代的改进，包括<code>em</code>（意为“editor for mortals”，即“人类的编辑器”）、<code>en</code>，最终到<code>ex</code><a id="ac52" href="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"><sup>[2]</sup></a>。此时图形显示器已经比较普及了，<code>ex</code>增加了一个把终端屏幕设置成交互窗口的功能，并在窗口内显示文件的内容。这样，在做修改时实时看到变化成为了可能。此屏幕编辑模式由 :visual 命令激活，其简写为 :vi，这即是 <code>vi</code> 这个名字的由来。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">Vim 代表改进版的 vi （vi improved），然而这只是一种谦虚的说法，我实在无法忍受使用标准的 <code>vi</code>。通过查阅 :h vi-differences <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/> ，我们可以看到Vim支持而<code>vi</code> 不支持的功能列表。Vim 对功能的增强是必要的，但另一方面它却仍继承了大量的遗产。这些指导Vim 先祖们设计的约束，提供了一个非常高效的命令集，这在今天依然很有价值。</span></p>
+  </blockquote>
+
+  <h2 id="nav_point_92">技巧28　在一行或多个连续行上执行命令</h2>
+
+  <blockquote>
+    <p class="zw">很多 Ex 命令可以用 <code>[range]</code> 指定要操作的范围。可以用行号、位置标记或是查找模式来指定范围的开始位置及结束位置。</p>
+  </blockquote>
+
+  <p class="zw">Ex 命令的优点之一是它可以在某一范围内的所有行上执行。以下面这个简短的HTML文本作为示例。</p>
+
+  <p class="zw"><strong>cmdline_mode/practical-vim.html</strong></p>
+  <pre class="代码无行号"><code><strong>Line 1</strong> &lt;!DOCTYPE html&gt;
+        <strong>2 &lt;html&gt;</strong>
+        <strong>3   &lt;head&gt;&lt;title&gt;</strong>Practical Vim<strong>&lt;/title&gt;&lt;/head&gt;</strong>
+        <strong>4   &lt;body&gt;&lt;h1&gt;</strong>Practical Vim<strong>&lt;/h1&gt;&lt;/body&gt;</strong>
+        <strong>5 &lt;/html&gt;</strong></code></pre>
+
+  <p class="zw">我们将使用 <code>:print</code>命令作为演示。这条命令只是简单地在Vim命令行下方回显指定行的内容，它不产生什么实际影响，不过可以用它来说明一个范围由哪些行构成。当然，可以试着把以下示例中的 <code>:print</code>换成诸如 <code>:delete</code>、<code>:join</code>、<code>:substitute</code>或 <code>:normal</code>这样的命令，这样就能真切地感受到 Ex 命令是多么有用。</p>
+
+  <h3 id="nav_point_93">用行号作为地址</h3>
+
+  <p class="zw">如果输入一条只包含数字的Ex 命令，那么 Vim 会把这个数字解析成一个地址，并把光标移动到该数字指定的行上。例如，运行下面的命令将跳到文件的首行。</p>
+  <pre class="代码无行号"><code>➾ :1
+➾ :print
+<strong>《</strong> 1 &lt;!DOCTYPE html&gt;</code></pre>
+
+  <p class="zw">此文件只包含5行内容，如果要跳到文件的末尾，既可以输入 <code>:5</code>，也可以用特殊符号 <code>$</code></p>
+  <pre class="代码无行号"><code>➾ :$
+➾ :p
+<strong>《</strong> 5 &lt;/html&gt;</code></pre>
+
+  <p class="zw">我们在这里使用的是 <code>:p</code>，它是 <code>:print</code> 命令的简写。实际上，用不着分开执行这两条命令，可以像下面这样把这两条命令合成一条。</p>
+  <pre class="代码无行号"><code>➾ :3p
+<strong>《</strong> 3 &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;</code></pre>
+
+  <p class="zw">此命令会把光标移到第3行，然后显示该行的内容。记住，这里用 <code>:p``</code> 命令的目的只是进行讲解。如果执行的是 <code>:3d``</code> 命令，只需一条命令就可以跳到第3行并删除此行；而与之等效的普通模式命令，则要先执行 <code>3G</code>，再跟着执行 <code>dd</code>。因此，从这个例子可以看出，Ex 命令执行得要比普通模式命令更快。</p>
+
+  <h3 id="nav_point_94">用地址指定一个范围</h3>
+
+  <p class="zw">迄今为止，地址只是被当成一个单独的行号，不过也可以用它来指定一个范围，如下例所示。</p>
+  <pre class="代码无行号"><code>➾ :2,5p
+<strong>《</strong> 2 &lt;html&gt;
+   3   &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   4   &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;
+   5 &lt;/html&gt;</code></pre>
+
+  <p class="zw">此例会打印第2行到第5行之间的每一行的内容（含第2行及第5行）。注意，运行完这条命令后，光标将停留在第5行。通常，一个范围具有如下的形式。</p>
+  <pre class="代码无行号"><code>:{start},{end}</code></pre>
+
+  <p class="zw">需注意的是 <code>{start}</code> 和 <code>{end}</code> 都是地址。到目前为止，我们已经看到过用行号作为地址，然而很快就会看到也能用查找模式或是位置标记作为地址。</p>
+
+  <p class="zw">符号 <code>.</code> 代表当前行的地址。因此，可以很容易地写出一个范围，用以代表从当前位置到文件末尾间的所有行。</p>
+  <pre class="代码无行号"><code>➾ :2
+➾ :.,$p
+<strong>《 </strong>2 &lt;html&gt;
+   3   &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   4   &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;
+   5 &lt;/html&gt;</code></pre>
+
+  <p class="zw">符号 <code>%</code> 也有特殊含义，它代表当前文件中的所有行。</p>
+  <pre class="代码无行号"><code>➾ :%p
+<strong>《</strong> 1 &lt;!DOCTYPE html&gt;
+   2 &lt;html&gt;
+   3   &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   4   &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;
+   5 &lt;/html&gt;</code></pre>
+
+  <p class="zw">这和运行 <code>:1, $p</code>是等效的。这种简写形式在和 <code>:substitute</code> 命令一起使用时非常普遍。</p>
+  <pre class="代码无行号"><code>➾ :%s/Practical/Pragmatic/</code></pre>
+
+  <p class="zw">上述命令让 Vim 把每行内的第一个“Practical”替换为“Pragmatic”，我们将在第14章学习关于此命令的更多内容。</p>
+
+  <h3 id="nav_point_95">用高亮选区指定范围</h3>
+
+  <p class="zw">也可以用高亮选区选定一个范围，而不是用数字指定。如果先执行 <code>2G</code>，再跟着执行 <code>VG</code>，就会选中如下一个高亮选区。</p>
+  <pre class="代码无行号"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+   &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <p class="zw">如果现在按下 <code>:</code> 键，命令行上会预先填充一个范围 <code>:'&lt;,'&gt;</code>。这个范围看起来有点晦涩难懂，不过可以简单地把它理解为一个代表高亮选区的范围。接下来可以输入一条 Ex 命令，使它在每个被选中的行上执行。</p>
+  <pre class="代码无行号"><code>➾ :'&lt;,'&gt;p
+<strong>《 </strong>2 &lt;html&gt;
+   3   &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   4   &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;
+   5 &lt;/html&gt;</code></pre>
+
+  <p class="zw">如果只是想对文件的部分内容执行 <code>:substitute</code> 命令，用这种方式定义范围会很方便。</p>
+
+  <p class="zw">符号 <code>'&lt;</code> 是代表高亮选区首行的位置标记，<code>'&gt;</code> 则代表高亮选区的最后一行（更多关于位置标记的内容，请参见技巧54），这些位置标记即使在退出可视模式后仍然存在。如果尝试在普通模式下直接运行 <code>:'&lt;,'&gt;p</code>，它会始终回显上一次高亮选区选中的内容。</p>
+
+  <h3 id="nav_point_96">用模式指定范围</h3>
+
+  <p class="zw">Vim 也接受以模式作为一条 Ex 命令的地址，如下所示。</p>
+  <pre class="代码无行号"><code>➾ :/&lt;html&gt;/,/&lt;\/html&gt;/p
+<strong>《</strong> 2 &lt;html&gt;
+   3   &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   4   &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;
+   5 &lt;/html&gt;</code></pre>
+
+  <p class="zw">这个范围看起来比较复杂，但实际上它符合范围的一般形式 <code>:{start},{end}</code>。在本例中，<code>{start}</code> 地址是模式 <code>/&lt;html&gt;/</code>，而 <code>{end}</code> 地址是 <code>/&lt;\/html&gt;/</code>。换句话说，这个范围由 <code>&lt;html&gt;</code> 开标签所在的行开始，到对应闭标签所在的行结束。</p>
+
+  <p class="zw">在此例中，用地址 <code>:2,5</code> 也可以获得同样的结果，并且这种表示方式更简洁，不过它也更不可靠。用模式指定范围的话，命令总是对整个 <code>&lt;html&gt;&lt;/html&gt;</code> 范围进行操作，无论这个范围包含多少行都没问题。</p>
+
+  <h3 id="nav_point_97">用偏移对地址进行修正</h3>
+
+  <p class="zw">假设想对位于 <code>&lt;html&gt;&lt;/html&gt;</code>之间的每一行都运行一条 Ex 命令，但是不想包括 <code>&lt;html&gt;</code> 及 <code>&lt;/html&gt;</code> 标签所在的行，那么可以为之加上偏移。</p>
+  <pre class="代码无行号"><code>➾ :/&lt;html&gt;/+1,/&lt;\/html&gt;/-1p
+<strong>《</strong> 3 &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;
+   4 &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;</code></pre>
+
+  <p class="zw">偏移的一般形式如下。</p>
+  <pre class="代码无行号"><code>:{address}+n</code></pre>
+
+  <p class="zw">如果 n 被省略，那么缺省偏移量为1。<code>{address}</code> 可以是一个行号、一个位置标记，或是一个查找模式。</p>
+
+  <p class="zw">假设想对由当前行开始的特定几行执行一条命令，那么可以使用相对于当前行的偏移。</p>
+  <pre class="代码无行号"><code>➾ :2
+➾ :.,.+3p</code></pre>
+
+  <p class="zw">符号 <code>.</code> 代表当前行，所以上例中的 <code>:.,.+3</code>相当于 <code>:2,5</code>。</p>
+
+  <h3 id="nav_point_98">结论</h3>
+
+  <p class="zw">定义范围的语法非常灵活，既可以混合搭配行号、位置标记以及查找模式，也可以对它们加以偏移。下表对用来构建 Ex 命令的地址及范围的符号进行了总结。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">符号</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">地址</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">1</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">文件的第一行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">$</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">文件的最后一行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">0</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">虚拟行，位于文件第一行上方</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">.</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">光标所在行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">'m</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">包含位置标记m的行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">'&lt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">高亮选区的起始行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">'&gt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">高亮选区的结束行</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">%</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">整个文件（:1,$ 的简写形式）</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">第0行在文件中并不真实存在，但它作为一个地址，在某些特定场景下会很有用处。特别是在把指定范围内的行复制或移动到文件开头时，可以用它做 <code>:copy {address}</code> 及 <code>:move {address}</code> 命令的最后一个参数。将在接下来的两个技巧中看到这两条命令的应用实例。</p>
+
+  <p class="zw">在定义一个 <code>[range]</code>时，它总是代表一系列连续行，不过 <code>:global</code>命令也可以在一系列非连续行上执行Ex 命令，我们将在第15章学习这方面的更多知识。</p>
+
+  <h2 id="nav_point_99">技巧29　使用‘:t’和‘:m’命令复制和移动行</h2>
+
+  <blockquote>
+    <p class="zw">:copy 命令（及其简写形式 :t）让我们可以把一行或多行从文档的一部分复制到另一部分，:move 命令则可以让我们把一行或多行移到文档的其他地方。</p>
+  </blockquote>
+
+  <p class="zw">使用如下购物清单作为演示。</p>
+
+  <p class="zw"><strong>cmdline_mode/shopping-list.todo</strong></p>
+  <pre class="代码无行号"><code><strong>Line 1</strong> Shopping list
+        <strong>2</strong>      Hardware Store
+        <strong>3</strong>           Buy new hammer
+        <strong>4</strong>      Beauty Parlor
+        <strong>5</strong>           Buy nail polish remover
+        <strong>6</strong>           Buy nails</code></pre>
+
+  <h3 id="nav_point_100">用 ‘:t’ 命令复制行</h3>
+
+  <p class="zw">这个购物清单还没完成，我们也要在五金商店（hardware store）买些钉子（nails）。为完成这个清单，将重用文件的最后一行，即在“Hardware Store”下面为之创建一份副本。可以用 Ex 命令 :copy轻松地完成这项工作。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">Shopping list<br/>
+          　　<strong>H</strong>ardware Store<br/>
+          　　　 　Buy new hammer<br/>
+          　　Beauty Parlor<br/>
+          　　　 　Buy nail polish remover<br/>
+          　　　 　Buy nails</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:6copy.</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">Shopping list<br/>
+          　　Hardware Store<br/>
+          <strong>　　　 　B</strong>uy nails<br/>
+          　　　 　Buy new hammer<br/>
+          　　Beauty Parlor<br/>
+          　　　 　Buy nail polish remover<br/>
+          　　　 　Buy nails</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">copy命令的格式如下（参见 <code>:h :copy</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+  <pre class="代码无行号"><code>:[range]copy {address}</code></pre>
+
+  <p class="zw">在此例中，<code>[range]</code> 是第6行，而 <code>{address}</code> 用的是符号 <code>.</code>，它代表当前行。因此，可以把 <code>:6copy.</code> 命令解读为“为第6行创建一份副本，并放到当前行下方”。</p>
+
+  <p class="zw"><code>:copy</code> 命令可以简写为两个字母 <code>:co</code>，也可以用更加简练的<code>``:t</code> 命令，它是 <code>:copy</code> 命令的同义词。</p>
+
+  <p class="zw">为了更好地记忆，可以把该命令想成“复制<strong>到</strong>（<code>copy</code> TO）”。下表展示了 <code>:t</code> 命令的一些应用实例。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">命令</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">用途</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">:6t.</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把第6行复制到当前行下方</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:t6</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把当前行复制到第6行下方</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:t.</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">为当前行创建一个副本（类似于普通模式下的 <strong>yyp</strong>）</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:t$</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把当前行复制到文本结尾</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:'&lt;,'&gt;t0</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">把高亮选中的行复制到文件开头</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw"><code>:t.</code> 命令会创建一个当前行副本，另外一种做法则是用普通模式的复制和粘贴命令（<code>yyp</code>）来达到同样的效果。这两种复制当前行的技术有个需要关注的差别：<code>yyp</code> 会使用寄存器，<code>:t.</code> 则不会。因此，当我不想覆盖默认寄存器中的当前内容时，有时会使用 <code>:t.</code> 来复制行。</p>
+
+  <p class="zw">在上表中，也可以将 <code>yyp</code> 变化一下来复制想要的行，但不管怎样，这都需要一些额外的移动动作。先跳到想复制的行上（<code>6G</code>），复制该行（<code>yy</code>），快速跳回原先的位置（<code>&lt;C-o&gt;</code>），然后再用粘贴命令（<code>p</code>）创建一个副本。由此可见，在复制距离较远的行时，<code>:t</code> 命令通常更加高效。</p>
+
+  <p class="zw">在 <strong>Ex 命令影响范围广且距离远</strong> 中，我们已经了解了这个一般规律，即普通模式命令适合在本地进行操作，Ex 命令则可以远距离操作。本节以实例印证了这一规律。</p>
+
+  <h3 id="nav_point_101">用 ‘:m’ 命令移动行</h3>
+
+  <p class="zw"><code>:move</code> 命令看上去和 <code>:copy</code> 命令很相似（参见 <code>:h :move</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+  <pre class="代码无行号"><code>:[range]move {address}</code></pre>
+
+  <p class="zw">可以把它简写为一个字母 <code>:m</code>。假设想把Hardware Store一节移到Beauty Parlor一节的下方，用 <code>:move</code> 就可以实现这一点，如表5-2所示。</p>
+
+  <p class="zw">在选中高亮选区后，只需简单地执行命令 <code>:'&lt;,'&gt;m$</code>即可。另外还有种做法，可以执行 <code>dGp</code>，此命令可以分解为：<code>d</code> 删除高亮选区，<code>G</code> 跳转到文件结尾，<code>p</code> 则粘贴刚刚删除的文本。</p>
+
+  <p class="表题">表5-2　用‘:m’命令对一组进行移动</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">Shopping list<br/>
+          <strong>　　 H</strong>ardware Store<br/>
+          　　　 　Buy nails<br/>
+          　　　 　Buy new hammer<br/>
+          　　 Beauty Parlor<br/>
+          　　　 　Buy nail polish remover<br/>
+          　　　 　Buy nails</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>Vjj</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">Shopping list<br/>
+          <strong>　　 Hardware Store<br/>
+          　　　 　Buy nails<br/>
+          　 　<img alt="图像说明文字" src="../Images/image00102.jpeg"/> 　Buy new hammer<br/></strong> 　　 Beauty Parlor<br/>
+          　　　 　Buy nail polish remover<br/>
+          　　　 　Buy nails</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:'&lt;,'&gt;m$</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">Shopping list<br/>
+          　　 Beauty Parlor<br/>
+          　　　 　Buy nail polish remover<br/>
+          　　　 　Buy nails<br/>
+          　　 Hardware Store<br/>
+          　　　 　Buy nails<br/>
+          　　　 　<strong>B</strong>uy new hammer</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">记住，<code>'&lt;,'&gt;</code> 代表了高亮选区。因此可以很容易地选中另外一个高亮选区，然后重复执行 <code>:'&lt;,'&gt;m$</code> 命令把选中的文本移到文件结尾。重复上次的 Ex 命令非常简单，只需按 <code>@:</code> 即可（技巧31给出了另一个例子），所以这里采取的方式与使用普通模式命令相比，在重复执行时会更方便。</p>
+
+  <h2 id="nav_point_102">技巧30　在指定范围上执行普通模式命令</h2>
+
+  <blockquote>
+    <p class="zw">如果想在一系列连续行上执行一条普通模式命令，可以用 <code>:normal</code> 命令。此命令在与 <code>.</code> 命令或宏结合使用时，只需花费很少的努力就能完成大量重复性任务。</p>
+  </blockquote>
+
+  <p class="zw">想一下在技巧2中遇到过的例子，我们想在一系列行后添加一个分号。使用点范式让我们迅速完成了这项工作。但是在那个例子里，只需对连续的3行做此修改。如果不得不做50次同样的修改会怎么样呢？如果还用点范式的话，得按50次 <code>j.</code>，总共得100次按键动作！</p>
+
+  <p class="zw">这里有一种更好的方法。将在下面文件的每行后都添加一个分号，以此作为演示。为节省空间，此处只列出了5行内容，然而你可以想象这里有50行，那么这种方法看起来就颇具诱惑了。</p>
+
+  <p class="zw"><strong>cmdline_mode/foobar.js</strong></p>
+  <pre class="代码无行号"><code><strong>var</strong> foo = 1
+<strong>var</strong> bar = '<em>a</em>'
+<strong>var</strong> baz = '<em>z</em>'
+<strong>var</strong> foobar = foo + bar
+<strong>var</strong> foobarbaz = foo + bar + baz</code></pre>
+
+  <p class="zw">我们像之前做的那样，首先修改第一行。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格"><strong>v</strong>ar foo = 1<br/>
+          var bar = 'a'<br/>
+          var baz = 'z'<br/>
+          var foobar = foo + bar<br/>
+          var foobarbaz = foo + bar + baz</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>A</strong>;&lt;Esc&gt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">var foo = 1<strong>;</strong><br/>
+          var bar = 'a'<br/>
+          var baz = 'z'<br/>
+          var foobar = foo + bar<br/>
+          var foobarbaz = foo + bar + baz</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">接下来，不用一行一行地执行 <code>.</code> 命令，而是使用Ex 命令 <code>:normal</code>对整个范围内的所有行同时执行 <code>.</code> 命令。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>jVG</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">var foo = 1;<br/>
+          <strong>var bar = 'a'<br/>
+          var baz = 'z'<br/>
+          var foobar = foo + bar<br/>
+          var foobarbaz = foo + bar + baz</strong></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:'&lt;,'&gt;normal .</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">var foo = 1;<br/>
+          var bar = 'a';<br/>
+          var baz = 'z';<br/>
+          var foobar = foo + bar;<br/>
+          var foobarbaz = foo + bar + baz<strong>;</strong></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw"><code>:'&lt;,'&gt;normal .</code> 命令可以解读为“对高亮选区中的每一行，对其执行普通模式下的 <code>.</code> 命令”。无论是操作5行还是50行文本，这种方法都能出色地完成任务，更棒的是我们甚至都不需要计算行数，在可视模式中选中这些行使我们摆脱了计数的负担。</p>
+
+  <p class="zw">这个例子使用 <code>:normal</code> 执行 <code>.</code> 命令，但是也可以用这种方式执行任意其他的普通模式命令。例如，可以用如下命令解决上面的问题。</p>
+  <pre class="代码无行号"><code>➾ :%normal A;</code></pre>
+
+  <p class="zw">符号 <code>%</code> 代表整个文件范围，因此 <code>:%normal A;</code> 告诉 Vim 在文件每行的结尾都添加一个分号。在做此修改时会切换到插入模式，但是在修改完后，Vim会自动返回到普通模式。</p>
+
+  <p class="zw">在执行指定的普通模式命令之前，Vim会先把光标移到该行的起始处。因此在执行时，用不着担心光标的位置。例如，下面这条命令可以把整个JavaScript文件注释掉。</p>
+  <pre class="代码无行号"><code>➾ :%normal i//</code></pre>
+
+  <p class="zw">虽然用 <code>:normal</code> 命令可以执行任意的普通模式命令，但是我发现当它和 Vim 的重复命令结合在一起时，最为强大，既可以用 <code>:normal .</code> 应对简单的重复性工作，也可以用 <code>:normal @q</code> 应对较复杂的任务。具体的实例参见技巧68和技巧70。</p>
+
+  <p class="zw">在 <strong>Ex 命令影响范围广且距离远</strong> 中，我们说过 Ex 命令可以一次修改若干行。 <code>:normal</code> 命令则让我们可以把具有强大表现力的 Vim 普通模式命令与具有大范围影响力的 Ex 命令结合在一起，这种结合真的是珠联璧合！</p>
+
+  <p class="zw">对本节所涉及问题的另外一种解决方案，请参见技巧26。</p>
+
+  <h2 id="nav_point_103">技巧31　重复上次的 Ex 命令</h2>
+
+  <blockquote>
+    <p class="zw"><code>.</code> 命令可以重复上次的普通模式命令。然而，如果想重复上次的 Ex 命令，得使用 <code>@:</code> 才行。知道如何回退上次的命令永远是有价值的，因此本节也会讨论这一点。</p>
+  </blockquote>
+
+  <p class="zw">在第1章中，我们见识过如何用 <code>.</code> 命令重复上次的修改。但是，<code>.</code> 命令不会重复由 Vim 命令行中做出的修改。作为替代，可以用 <code>@:</code> 来重复上次的 Ex 命令（参见 <code>:h ``@:</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+
+  <p class="zw">例如，下面两条命令在遍历缓冲区列表的条目时非常有用，用 <code>:bn[ext]</code> 可以在列表中逐项正向移动，而 <code>:bp[revious]</code> 命令进行反向移动（技巧37详细讨论了缓冲区列表）。假设缓冲区列表中有大约十几个条目，而我们打算逐个查看每个缓冲区，因此可以输入一次下面的命令。</p>
+  <pre class="代码无行号"><code>➾ :bnext</code></pre>
+
+  <p class="zw">然后再用 <code>@:</code> 重复执行此命令。留意一下这和运行宏的相似之处（参见<strong>通过执行宏来回放命令序列</strong>），另外也需注意， <code>:</code> 寄存器总是保存着最后执行的命令行命令（参见 <code>:h quote_:</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。在运行过一次 <code>@:</code> 后，后面就可以用 <code>@@</code> 命令来重复它。</p>
+
+  <p class="zw">假设我们按得忘乎所以，执行了太多次 <code>@:</code> 命令以致于错过了目标。那要怎样才能改变方向往回跳呢？当然，可以执行 <code>:bprevious</code> 命令，但是想想如果以后再次执行 <code>@:</code> 命令会发生什么？没错，它会反向遍历缓冲区列表，恰恰与最初的方向相反。这会把人搞糊涂的。</p>
+
+  <p class="zw">在这种情况下，更好的选择是使用 <code>&lt;C-o&gt;</code> 命令（参见技巧56）。每次运行 <code>:bnext</code> 命令（或用 <code>@:</code> 命令重复执行它）时，它都会在跳转列表中添加一条记录，而 <code>&lt;C-o&gt;</code> 命令会回到跳转列表的上条记录。</p>
+
+  <p class="zw">可以执行一次 <code>:bnext</code>，然后用 <code>@:</code> 重复任意多次；如果想往回跳，就用 <code>&lt;C-o&gt;</code> 命令。这样一来，如果接下来还想继续正向遍历缓冲区列表，就可以继续用 <code>@:</code> 命令。请牢记技巧4中提到的口诀：执行、重复、回退。</p>
+
+  <p class="zw">Vim 为几乎所有功能都提供了相应的Ex 命令。虽然用 <code>@:</code> 总是可以重复上一条 Ex 命令，但如果想回退其影响，却没有这种直截了当的方式。用本节提到的 <code>&lt;C-o&gt;</code> 命令，也能够回退 <code>:next</code>、<code>:``cnext</code>、<code>:tnext</code> 等命令的执行结果；然而对于5-1中列出的Ex 命令，则要用 <code>u</code> 键才能撤销其影响。</p>
+
+  <h2 id="nav_point_104">技巧32　自动补全 Ex 命令</h2>
+
+  <blockquote>
+    <p class="zw">如同在shell中一样，在命令行上也可以用 <code>&lt;Tab&gt;</code> 键自动补全命令。</p>
+  </blockquote>
+
+  <p class="zw">Vim 在选取 Tab 补全的补全项时非常智能，它会检查命令行上已经输入的上下文，然后再构建合适的补全列表。例如，可以这样输入：</p>
+  <pre class="代码无行号"><code>➾ :col&lt;C-d&gt;
+<strong>《 </strong>colder colorscheme</code></pre>
+
+  <p class="zw"><code>&lt;C-d&gt;</code> 命令会让Vim 显示可用的补全列表（参见 <code>:h c_CTRL-D</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。另外，如果多次按 <code>&lt;Tab&gt;</code> 键，命令行上会依次显示<code>colder</code>、<code>colorscheme</code>，然后再回到最初的 <code>col</code>，如此循环往复。要想反向遍历补全列表，可以按 <code>&lt;S-Tab&gt;</code> 。</p>
+
+  <p class="zw">假设想改配色方案，但是不太记得要用的配色方案的名称，可以用 <code>&lt;C-d&gt;</code> 命令列出所有的可用选项。</p>
+  <pre class="代码无行号"><code>➾ :colorscheme &lt;C-d&gt;
+<strong>《 </strong>blackboard  desert      morning        shine
+   blue        elflord     murphy         slate
+   darkblue    evening              pablo        solarized
+   default     koehler              peachpuff          torte
+   delek       mac_classic     ron               zellner</code></pre>
+
+  <p class="zw">这一次，<code>&lt;C-d&gt;</code> 基于可用的配色方案显示一个补全列表。如果想激活solarized 方案，只需输入字母“so”，然后按 Tab 键即可补全此命令。</p>
+
+  <p class="zw">在很多场景中，Vim的 Tab 补全都能做出正确的选择。如果输入了一个以文件路径作为参数的命令（如 <code>:edit</code> 或 <code>:write</code>），那么 <code>&lt;Tab&gt;</code> 会用当前工作目录中的目录或文件名补全。在 <code>:tag</code> 命令中，它会自动补全标签名；而在 <code>:set</code> 及 <code>:help</code> 命令中，它可以补全 Vim 的每一个设置选项。</p>
+
+  <p class="zw">甚至在创建自定义 Ex 命令时，也能够定义该命令的 Tab 键补全行为。要想了解更多，请查阅 <code>:h :command-complete</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>。</p>
+
+  <h3 id="nav_point_105">在多个补全项间选择</h3>
+
+  <p class="zw">当 Vim 只找到一个Tab 补全项时，它会直接使用整个补全项。但是如果 Vim 找到了多个补全项，那么会有几种做法。缺省情况下，首次按下 Tab 键时，Vim 会用第一个补全项补全，以后每按一下 Tab 键，就会依次遍历剩余的补全项。</p>
+
+  <p class="zw">调整 <code>‘wildmode’</code> 选项可以自定义补全行为（参见 <code>:h 'wildmode'</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。如果习惯用bash shell的方式工作，那么下面的设置会满足你的需要。</p>
+  <pre class="代码无行号"><code><strong>set wildmode</strong>=longest,<strong>list</strong></code></pre>
+
+  <p class="zw">如果习惯于 zsh 提供的自动补全菜单，或许会想试试这个。</p>
+  <pre class="代码无行号"><code><strong>set wildmenu
+set wildmode</strong>=full</code></pre>
+
+  <p class="zw">当 <code>‘wildmenu’</code> 选项被启用时，Vim 会提供一个补全导航列表。可以按 <code>&lt;Tab&gt;</code> 、<code>&lt;C-n&gt;</code> 或 <code>&lt;Right&gt;</code> 正向遍历其列表项，也可以用 <code>&lt;S-Tab&gt;</code>、<code>&lt;C-p&gt;</code> 或 <code>&lt;Left&gt;</code> 对其进行反向遍历。</p>
+
+  <h2 id="nav_point_106">技巧33　把当前单词插入命令行</h2>
+
+  <blockquote>
+    <p class="zw">即使是在命令行模式下，Vim 也始终知道光标位于何处以及哪个分割窗口处于活动状态。为节省时间，可以把活动窗口中的当前单词（或字串）插入命令行中。</p>
+  </blockquote>
+
+  <p class="zw">在 Vim 的命令行下， <code>&lt;C-r&gt;&lt;C-w&gt;</code> 映射项会复制光标下的单词并把它插入命令行中。可以利用这一功能减少击键的次数。</p>
+
+  <p class="zw">假设想把下面这段代码中的变量 <code>tally</code>重命名为 <code>counter</code>。</p>
+
+  <p class="zw"><strong>cmdline_mode/loop.js</strong></p>
+  <pre class="代码无行号"><code><strong>var</strong> tally;
+<strong>for</strong> (tally=1; tally &lt;= 10; tally++) {
+  // <em>do something with tally</em>
+};</code></pre>
+
+  <p class="zw">把光标移到单词 <code>tally</code>上后，用 <code>*</code> 命令可以查找它出现的每处地方（<code>*</code> 命令等效于输入 <code>/\&lt;&lt;C-r&gt;&lt;C-w&gt;\&gt;&lt;CR&gt;</code> 序列，关于 <code>\&lt;</code> 和 <code>\&gt;</code>在模式中的作用，请参见技巧77的讨论）。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">var <strong>t</strong>ally;<br/>
+          for (tally=1; tally &lt;= 10; tally++) {<br/>
+          　　// do something with tally<br/>
+          };</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>*</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">var tally;<br/>
+          for (<strong>tally</strong>=1; <strong>tally</strong> &lt;= 10; <strong>tally</strong>++) {<br/>
+          　　// do something with <strong>tally</strong><br/>
+          };</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>cw</strong>counter&lt;Esc&gt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">var <strong>tally</strong>;<br/>
+          for (counte<strong>r</strong>=1; <strong>tally</strong> &lt;= 10; <strong>tally</strong>++) {<br/>
+          　　// do something with <strong>tally</strong><br/>
+          };</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">当按下 <code>*</code> 键时，光标会正向跳到下一处匹配项，不过光标始终停留在相同的单词上。接下来，可以输入 <code>cw</code>counter&lt;Esc&gt; 对其进行修改。</p>
+
+  <p class="zw">然后用 <code>:substitute</code> 命令完成其余的修改。由于光标已经在单词“counter”上了，因此无需再次输入它，而是直接用 <code>&lt;C-r&gt;&lt;C-w&gt;</code> 映射项把它插入替换域。</p>
+  <pre class="代码无行号"><code>➾ :%s//&lt;C-r&gt;&lt;C-w&gt;/g</code></pre>
+
+  <p class="zw">这条命令看起来没省多少事，但是用两次按键就能插入一个单词不算太糟。此处也用不着输入查找模式，而这要感谢 <code>*</code> 命令。要知道为什么可以像上面这样将查找域留空，请参考技巧91。</p>
+
+  <p class="zw"><code>&lt;C-r&gt;&lt;C-w&gt;</code> 用于插入光标下的单词，而如果想插入光标下的字串（参见技巧 49的说明），可以用 <code>&lt;C-r&gt;&lt;C-a&gt;</code>，更多细节请参见 <code>:h c_CTRL-R_CTRL-W</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>。虽然本例是以 <code>:substitute</code> 命令作为示例的，但实际上这些映射项可用于任意 Ex 命令。</p>
+
+  <p class="zw">这里介绍另一种应用场景。试着打开你的 <code>vimrc</code> 文件，把光标移到其中的一项设置上，然后输入 <code>:help &lt;C-r&gt;&lt;C-w&gt;</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>，就可以查阅该设置的文档了。</p>
+
+  <h2 id="nav_point_107">技巧34　回溯历史命令</h2>
+
+  <blockquote>
+    <p class="zw">Vim 会记录命令行模式中执行过的命令，并提供了两种方式回溯这些命令，用光标键回滚之前的命令或调出命令行窗口查看先前的命令。</p>
+  </blockquote>
+
+  <p class="zw">Vim 会记录命令行模式下的命令历史，并且可以很容易地回溯之前的命令，因此对于比较长的 Ex 命令来说，不用在命令行中多次输入它。</p>
+
+  <p class="zw">先按 <code>:</code> 键切换到命令行模式，在保持提示符为空的情况下按 <code>&lt;Up&gt;</code> 键，此时最后执行的那条Ex 命令就会被填充到命令行上。再接着按 <code>&lt;Up&gt;</code> 键，就可以回到更早的 Ex 历史命令；按 <code>&lt;Down&gt;</code> 键，则会沿相反方向滚动。</p>
+
+  <p class="zw">现在，尝试先输入 <code>:help</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>，然后按 <code>&lt;Up&gt;</code> 键遍历之前的 Ex 命令。这一次，Vim不会显示所有的历史命令，而是会对列表进行过滤，只有以单词“help”开头的 Ex 命令才会被包含在列表中。</p>
+
+  <p class="zw">Vim 缺省会记录最后20条命令，对内存越发便宜的现代计算机来说，保存更多历史命令只是小菜一碟，因此可以修改 <code>‘``history``’</code> 选项，以提高其保存的上限。可以试着把下面这行内容加入 <code>vimrc</code> 文件。</p>
+  <pre class="代码无行号"><code>set history=200</code></pre>
+
+  <p class="editing-tag 提示标签">注意：</p>
+
+  <blockquote class="提示 editing-block">
+    <p class="zw">　</p>
+
+    <p class="zw">命令历史不仅是为当前编辑会话记录的，这些历史即使在退出Vim再重启之后仍然存在（参见 <code>:h viminfo</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>），因此提高历史记录的数目非常有价值。</p>
+  </blockquote>
+
+  <p class="zw">Vim 不仅会记录 Ex 命令的历史，还会为查找命令单独保存一份历史记录。在按 <code>/</code> 调出查找提示符后，用 <code>&lt;Up&gt;</code> 和 <code>&lt;Down&gt;</code> 键可以正向或反向遍历之前的查找记录。从本质上讲，查找提示符只是命令行模式的另一种形式。</p>
+
+  <h3 id="nav_point_108">结识命令行窗口</h3>
+
+  <p class="zw">像插入模式一样，命令行模式适合从头开始构建命令，但它却不是一个编辑文本的好地方。</p>
+
+  <p class="zw">假设我们正在写一个简单的Ruby脚本，然后发现每做出一个修改时，都会执行下面两条命令。</p>
+  <pre class="代码无行号"><code>➾ :write
+➾ :!ruby %</code></pre>
+
+  <p class="zw">在接连执行了几次这两条命令后，我们意识到可以简化工作过程，把这两条命令合为一条。这样，以后就可以从历史中选择该完整命令并再次执行。</p>
+  <pre class="代码无行号"><code>➾ :write | !ruby %</code></pre>
+
+  <p class="zw">这些命令都已经在历史中了，所以不必从头输入整条命令。但要怎样才能把历史中的两条记录合并成一条呢？请输入 <code>q:</code>，先结识一下命令行窗口（参见 <code>:h cmdwin</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+
+  <p class="zw">命令行窗口就像是一个常规的 Vim 缓冲区，只不过它的每行内容都对应着命令历史中的一个条目。可以用 <code>k</code> 及 <code>j</code> 键在历史中向前或向后移动，也可以用 Vim 的查找功能查找某一行。在按下 <code>&lt;CR&gt;</code> 键时，会把当前行的内容当成Ex命令加以执行。</p>
+
+  <p class="zw">命令行窗口的好处在于它允许使用 Vim 完整的、区分模式的编辑能力来修改历史命令。可以用任何习以为常的动作命令进行移动，也可以在高亮选区上操作，或是切换到插入模式中，甚至还能对命令行窗口中的内容执行 Ex 命令。</p>
+
+  <p class="zw">在按 <code>q:</code> 调出命令行窗口后，可以像下面这样解决问题。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">按键操作</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">缓冲区内容</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">{start}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格"><strong>w</strong>rite<br/>
+          !ruby %</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>A</strong>␣｜&lt;Esc&gt;</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">write <strong>｜</strong><br/>
+          !ruby %</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>J</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">write ｜<img alt="图像说明文字" src="../Images/image00103.jpeg"/>!ruby %</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:s/write/update</p>
+        </td>
+
+        <td>
+          <p class="表格单元格"><strong>u</strong>pdate ｜<strong><img alt="图像说明文字" src="../Images/image00103.jpeg"/></strong>!ruby %</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">修改完后，按 <code>&lt;CR&gt;</code> 就会执行 <code>:update | !ruby%</code> 命令，就好像在命令行输入了这条命令一样。</p>
+
+  <p class="zw">当命令行窗口处于打开状态时，它会始终拥有焦点。这意味着，除非关闭命令行窗口，否则无法切换到其他窗口。要想关闭命令行窗口，可以执行 <code>:q</code> 命令（就像关闭普通 Vim 窗口那样），或是按 <code>&lt;CR&gt;</code> 。</p>
+
+  <p class="editing-tag 提示标签">注意</p>
+
+  <blockquote class="提示 editing-block">
+    <p class="zw">：</p>
+
+    <p class="zw">在命令行窗口内按 <code>&lt;CR&gt;</code> 时，该命令在活动窗口的上下文中执行。活动窗口是指在调出命令窗口前，处于活动状态的那个窗口。当命令行窗口处于打开状态时，Vim 并不会提示哪个窗口是活动窗口，因此如果使用了分割窗口，就需要特别留意。</p>
+  </blockquote>
+
+  <p class="zw">假设正在命令行上构建一条 Ex 命令，做到一半时，才意识到需要更强大的编辑能力，这时该怎么办呢？当处于命令行模式下时，可以用 <code>&lt;C-f&gt;</code> 映射项切换到命令行窗口中，此前已经输入命令行上的内容仍然会得以保留。下表总结了打开命令行窗口的几种方式。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">命令</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">动作</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>q/</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">打开查找命令历史的命令行窗口</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>q:</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">打开 Ex 命令历史的命令行窗口</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格"><strong>&lt;Ctrl-f&gt;</strong></p>
+        </td>
+
+        <td>
+          <p class="表格单元格">从命令行模式切换到命令行窗口</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw"><code>q:</code> 命令和 <code>:q</code> 命令很容易混淆。我敢肯定我们都曾经不小心打开过命令行窗口，而实际上我们只是想退出 Vim。这的确让人羞赧，因为这个功能是如此的有用，但是很多人在他们第一次（意外）遭遇它时却感觉很沮丧。要看命令行窗口的另一个应用实例，请跳到技巧85。</p>
+
+  <h2 id="nav_point_109">技巧35　运行Shell命令</h2>
+
+  <blockquote>
+    <p class="zw">不用离开Vim就能方便地调用外部程序。更棒的是，还可以把缓冲区的内容作为标准输入发送给一个外部命令，或是把外部命令的标准输出导入缓冲区里。</p>
+  </blockquote>
+
+  <p class="zw">本节讨论的命令在终端 Vim 中工作得最好。如果在运行 GVim（或 MacVim），那么命令运行得也许没那么顺畅。这没什么好奇怪的，如果 Vim 自身在 shell 里运行，那把工作委派给 shell 也会容易得多。GVim 在某些其他方面做得更好一些，但是终端 Vim在这件事上则更有优势。</p>
+
+  <h3 id="nav_point_110">执行 Shell 中的程序</h3>
+
+  <p class="zw">在 Vim 的命令行模式中，给命令加一个叹号前缀（参见 <code>:h :!</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）就可以调用外部程序。例如，如果想查看当前目录的内容，可以运行下面的命令。</p>
+  <pre class="代码无行号"><code>➾ :!ls
+
+<strong>《</strong>  duplicate.todo         loop.js
+    emails.csv                    practical-vim.html
+    foobar.js              shopping-list.todo
+    history-scrollers.vim
+
+    Press ENTER or type command to continue</code></pre>
+
+  <p class="zw">注意区分 <code>:!ls</code> 和 <code>:ls</code> 的不同之处。前者调用的是 shell 中的 <code>l</code>s 命令，而 <code>:ls</code> 调用的是 Vim的内置命令，用来显示缓冲区列表的内容。</p>
+
+  <p class="zw">在 Vim 的命令行中，符号 <code>%</code> 代表当前文件名（参见 <code>:h cmdline-special</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。在运行那些操作当前文件的外部命令时，可以使用它。例如，如果正在编辑某个Ruby 文件，那么可以用下面的方式执行此文件。</p>
+  <pre class="代码无行号"><code>➾ :!ruby %</code></pre>
+
+  <p class="zw">Vim 也提供了一组文件名修饰符，让我们可以从当前文件名中提取出诸如文件路径或扩展名之类的信息（参见 <code>:h filename-modifiers</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>），技巧45中有一个使用这些修饰符的例子。</p>
+
+  <p class="zw"><code>:!{cmd}</code> 这种语法适用于执行一次性命令，但是如果想在 shell 中执行几条命令要怎么做？对于这种情况，可以执行 Vim 的 <code>:shell</code> 命令来启动一个交互的 shell 会话（参见 <code>:h :shell</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+  <pre class="代码无行号"><code>➾ :shell
+
+➾ $ pwd
+
+<strong>《</strong> /Users/drew/books/PracticalVim/code/cmdline_mode
+
+➾ $ ls
+
+<strong>《</strong> duplicate.todo        loop.js
+   emails.csv         practical-vim.html
+   foobar.js          shopping-list.todo
+   history-scrollers.vim
+
+➾ $ exit</code></pre>
+
+  <p class="zw">用 <code>exit</code> 命令可以退出此 shell 并返回 Vim。</p>
+
+  <blockquote>
+    <p class="zw"><span style="font-family: &quot;times new&quot;">把Vim置于后台</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;"><code>:shell</code> 命令是 Vim 提供的一个功能，它可以切换到一个交互 shell中。但是，如果Vim自身是在终端中运行的，那么也能直接访问终端内置的 shell 命令。例如，bash shell支持作业控制，让我们可以暂停一个作业，把它放到后台，然后在稍后某个时间再把它调回前台继续运行。</span></p>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">假设正在 bash shell 中运行 Vim，然后需要执行一些 shell 命令。可以先按 <code>Ctrl-z</code> 挂起Vim 所属的进程，并把控制权交还给bash。此时 Vim 进程在后台处于挂起状态，让我们可以像往常一样与 bash 会话进行交互。运行下面这条命令可以查看当前的作业列表。</span></p>
+    <pre class="代码无行号"><code>➾ $ jobs
+ <strong>《</strong>[1]+ Stopped      vim</code></pre>
+
+    <p class="zw"><span style="font-family: &quot;times new&quot;">在 bash 中，可以用 <code>fg</code> 命令唤醒一个被挂起的作业，把它移到前台。这会让 Vim 恢复成挂起前的状态。<code>Ctrl-z</code> 和 <code>fg</code> 命令比 Vim 提供的 <code>:shell</code> 和 <code>exit</code> 命令更加方便快捷。要想了解更多信息，请运行 <code>man bash</code>，然后阅读作业控制（job control）一节。</span></p>
+  </blockquote>
+
+  <h3 id="nav_point_111">把缓冲区内容作为标准输入或输出</h3>
+
+  <p class="zw">在用 <code>:!{cmd}``</code> 时，Vim 会回显 <code>{cmd}</code> 命令的输出。如果命令的输出很少或没有输出，这工作得很好；但如果命令会产生大量输出，这样回显用处不大。另外一种做法是可以用 <code>:read !{cmd}</code> 命令，把 <code>{cmd}</code> 命令的输出读入当前缓冲区中（参见 <code>:h :read!``</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。</p>
+
+  <p class="zw"><code>:read !{cmd}</code> 命令让我们把命令的标准输出重定向到缓冲区。正如你所期望的一样，<code>:write !{cmd}</code> 做相反的事。它把缓冲区内容作为指定 <code>{cmd}</code> 的标准输入（参见 <code>:h :write_c</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>），跳到技巧46可以看到此功能的一个应用实例。</p>
+
+  <p class="zw">根据叹号在命令行上的位置不同，它的含义也不大相同。比较以下命令。</p>
+  <pre class="代码无行号"><code>➾ :write !sh
+➾ :write ! sh
+➾ :write! sh</code></pre>
+
+  <p class="zw">前两个命令都会把缓冲区的内容传给外部的 <code>sh</code> 命令作为标准输入，而最后一条命令调用 <code>:write!</code> 命令把缓冲区内容写到一个名为 <code>sh</code> 的文件，这里的叹号会让Vim 覆盖任何已存的 <code>sh</code> 文件。正如你看到的那样，叹号放的位置不同，命令的作用也大相径庭。因此，在构建这类命令时要多加小心。</p>
+
+  <p class="zw"><code>:write !sh</code> 命令的作用是在shell中执行当前缓冲区中的每行内容，查阅<code>:h`` ``rename-files``</code> <img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/> 可看到该命令的一个绝佳示例。</p>
+
+  <h3 id="nav_point_112">使用外部命令过滤缓冲区内容</h3>
+
+  <p class="zw">当给定一个范围时，<code>:!{cmd}</code> 命令就具有了不同的含义。由 <code>[range]``</code> 指定的行会传给 <code>{cmd}</code> 作为标准输入，然后又会用 <code>{cmd}</code> 的输出覆盖 <code>[range]</code>内原本的内容。换一种说法就是 <code>[range]</code> 内的文本会被指定的 <code>{cmd}</code> 过滤（参见 <code>:h :range!</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。Vim 把过滤器定义为“一个由标准输入读取文本，并对其进行某种形式的修改后输出到标准输出的程序”。</p>
+
+  <p class="zw">作为演示，将用外部的 <code>sort</code> 命令对下列 CSV 文件中的记录进行排序。</p>
+
+  <p class="zw"><strong>cmdline_mode/emails.csv</strong></p>
+  <pre class="代码无行号"><code>first name,last name,email
+john,smith,john@example.com
+drew,neil,drew@vimcasts.org
+jane,doe,jane@example.com</code></pre>
+
+  <p class="zw">我们想基于第二个字段“姓氏”来重排这些记录。可以用 <code>-``t’``,``’</code> 参数告诉 <code>sort</code> 命令，这些记录以逗号分隔，然后再用 <code>-``k2</code> 参数指定按第二个字段进行排序。</p>
+
+  <p class="zw">因为文件的第一行是标题信息，我们想把它们保留在文件顶部，因此需要用范围 <code>:2,$</code> 把它排除在排序范围之外。下列命令将完成我们想要的功能。</p>
+  <pre class="代码无行号"><code>➾ :2,$!sort -t',' -k2</code></pre>
+
+  <p class="zw">现在 CSV 文件中的内容就是按姓氏排序的了。</p>
+  <pre class="代码无行号"><code>first name,last name,email
+jane,doe,jane@example.com
+drew,neil,drew@vimcasts.org
+john,smith,john@example.com</code></pre>
+
+  <p class="zw">Vim 提供了一种方便的快捷方式来设置 <code>:[range]!{filter}</code> 命令中的范围。可以用 <code>!{motion}</code> 操作符切换到命令行模式，并把指定 <code>{motion}</code> 涵盖的范围预置在命令行上（参见 <code>:h !</code><img alt="" src="../Images/image00096.jpeg" style="width: 3%" width="3%"/>）。例如，如果把光标移到第2行，然后执行 <code>!G</code>，Vim 就会打开命令行并把范围 <code>:.,$!</code> 预置在命令行上。虽然此后仍需输入剩下的 <code>{filter}</code> 命令，但这毕竟节省了部分工作。</p>
+
+  <h3 id="nav_point_113">结论</h3>
+
+  <p class="zw">在 Vim中操作时，可以很方便地调用shell 命令。下表选取了最有用的一些调用外部命令的方式。</p>
+
+  <table border="1" width="90%">
+    <thead>
+      <tr>
+        <th>
+          <p class="表头单元格">命令</p>
+        </th>
+
+        <th>
+          <p class="表头单元格">用途</p>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <p class="表格单元格">:shell</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">启动一个shell (输入exit返回 Vim)</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:!{cmd}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">在shell 中执行 {cmd}</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:read !{cmd}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">在shell 中执行 {cmd} ，并把其标准输出插入光标下方</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]write !{cmd}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">在 shell 中执行 {cmd} ，以 [range] 作为其标准输入</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="表格单元格">:[range]!{filter}</p>
+        </td>
+
+        <td>
+          <p class="表格单元格">使用外部程序 {filter} 过滤指定的 [range]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="zw">Vim 对某些外部命令会另眼相待。例如，<code>make</code> 及 <code>grep</code> 在 Vim 中都有包装命令，这些命令不仅执行起来更方便，而且Vim会将它们的输出解析、导入 quickfix 列表中。将在第17章和第18章用很大篇幅介绍这两条命令。</p>
+
+  <h2 id="nav_point_114">技巧36　批处理运行Ex命令</h2>
+
+  <blockquote>
+    <p class="zw">如果要执行一连串Ex命令，可以把它们置于脚本之中，从而节省工作量。当再想执行那一组命令时，只需加载脚本文件即可，而无需逐条输入这些命令。</p>
+  </blockquote>
+
+  <p class="zw">以下内容来源于Vimcasts.org归档网页中前两部主题的链接。</p>
+
+  <p class="zw"><strong>cmdline_mode/vimcasts/episodes-1.html</strong></p>
+  <pre class="代码无行号"><code><strong>&lt;ol&gt;</strong>
+  <strong>&lt;li&gt;</strong>
+     <strong>&lt;a</strong> href="/<em>episodes</em>/<em>show-invisibles</em>/"&gt;
+        Show invisibles
+     <strong>&lt;/a&gt;</strong>
+  <strong>&lt;li&gt;</strong>
+  <strong>&lt;li&gt;</strong>
+     <strong>&lt;a</strong> href="/episodes/<em>tabs-and-spaces</em>/"&gt;
+        Tabs and Spaces
+    <strong> &lt;/a&gt;</strong>
+    <strong>&lt;/li&gt;</strong>
+<strong>&lt;/ol&gt;</strong></code></pre>
+
+  <p class="zw">我们想把其内容转成纯文本格式，标题在前，URL在后。</p>
+
+  <p class="zw"><strong>cmdline_mode/vimcasts-episodes-1.txt</strong></p>
+  <pre class="代码无行号"><code>Show invisibles: http://vimcasts.org/episodes/show-invisibles/
+Tabs and Spaces: http://vimcasts.org/episodes/tabs-and-spaces/</code></pre>
+
+  <p class="zw">假设需要对一组格式相似的文件进行这种转换，来看一下几种不同的操作方法。</p>
+
+  <h3 id="nav_point_115">逐条执行Ex命令</h3>
+
+  <p class="zw">其实用一条 <code>:substitue</code> 命令就可以实现这种格式转换，不过我更倾向于用几条小命令来完成。以下Ex命令序列就是一种可行的方案。</p>
+  <pre class="代码无行号"><code>➾ <strong>:g/href/j</strong>
+➾ <strong>:v/href/d</strong>
+<strong>《</strong>  8 fewer lines
+➾ <strong>:%norm A: http://vimcasts.org</strong>
+➾ <strong>:%norm yi"$p</strong>
+➾ <strong>:%s/\v^[^\&gt;]+\&gt;\s//g</strong></code></pre>
+
+  <p class="zw">不理解这些命令也没关系，这不会影响你对本技巧的学习。不过如果你感兴趣的话，下面是对这些命令的简要介绍。 <code>:global</code> 命令和 <code>:vglobal</code> 命令结合在一起使用，用于把此文件缩减成两行，其中包含了我们所需要的内容，只不过前后次序是颠倒的（技巧 99）；而 <code>:normal</code> 命令会在行尾加上 Vimcast 网站的根链接（技巧30）；最后的 <code>:substitute</code> 命令会删除 &lt;a href=””&gt;标签。就像我常说的那样，理解命令的最佳途径就是自己实践一下。</p>
+
+  <h3 id="nav_point_116">把Ex命令存成脚本并加载</h3>
+
+  <p class="zw">除了可以逐条执行命令，还可以把它们存成一个文件，比如存为 batch.vim（使用扩展名 .vim可以使 Vim显示正确的语法高亮）。文件中的每一行都对应前文中的一条 Ex 命令。在这种情况下，不必为每一行加上前缀字符 <strong>:</strong>。在把 Ex 命令保存到文件时，我个人更倾向于使用命令的全名，因为此时更关注脚本的易读性，而不是节省按键次数。</p>
+
+  <p class="zw"><strong>cmdline_mode/batch.vim</strong></p>
+  <pre class="代码无行号"><code>global/href/<strong>join</strong>
+vglobal/href/<strong>delete</strong>
+%normal A: http://vimcasts.org
+%normal yi"$p
+%substitute/\v^[^\&gt;]+\&gt;\s//g</code></pre>
+
+  <p class="zw">可以用 <code>:source</code> 来执行batch.vim脚本（参见 :h source）。脚本中的每一行都会被当成一条 Ex 命令执行，就像在 Vim 的命令行中输入这些命令一样。在之前的场景中，你也许已经见识过 <code>:source``</code> 命令了：它常用于在运行时加载vimrc文件（更多信息，请参见<strong>将配置信息存至vimrc文件</strong>）。</p>
+
+  <p class="zw">我建议你亲自试一下。这些代码可以从位于Pragmatic Bookshelf网站的Practical Vim主页下载。进入cmdline_mode 目录，就可以看到 batch.vim 以及episodes-1.html，然后再打开 Vim。</p>
+  <pre class="代码无行号"><code>➾ <strong>$ pwd</strong>
+<strong>《</strong>  ~/dnvim2/code/cmdline_mode
+➾ <strong>$ ls *.vim</strong>
+<strong>《</strong>  batch.vim          history-scrollers.vim
+➾ <strong>$ vim vimcasts/episodes-1.html</strong></code></pre>
+
+  <p class="zw">现在就可以执行此脚本了：</p>
+  <pre class="代码无行号"><code>➾ <strong>:source batch.vim</strong></code></pre>
+
+  <p class="zw">仅用这一条命令，就可以执行batch.vim中的所有Ex命令了。如果你改变了主意，只需按下 <code>u</code> 键即可让文档完好如初。</p>
+
+  <h3 id="nav_point_117">用此脚本修改多个文件</h3>
+
+  <p class="zw">如果脚本只执行一次，那么把 Ex 命令存成文件没有多大意义。只有想多次运行一组 Ex 命令，这一技巧才彰显其价值。</p>
+
+  <p class="zw">随书提供的代码例库包含了一些格式与episodes-1.html相同的文件。请确保在启动Vim之前切换到cmdline_mode目录。</p>
+  <pre class="代码无行号"><code>➾ <strong>$ pwd</strong>
+<strong>《</strong>  ~/dnvim2/code/cmdline_mode
+➾ <strong>$ ls vimcasts</strong>
+<strong>《</strong> episodes-1.html episodes-2.html episodes-3.html
+➾ <strong>$ vim vimcasts/*.html</strong></code></pre>
+
+  <p class="zw">使用通配符启动Vim时，匹配该通配符的所有文件会被加入 Vim 的参数列表里。可以一个个地遍历这些文件，逐一执行batch.vim。</p>
+  <pre class="代码无行号"><code>➾ <strong>:args</strong>
+<strong>《</strong> [vimcasts/episodes-1.html] vimcasts/episodes-2.html vimcasts/episodes-3.html
+➾ <strong>:first</strong>
+➾ <strong>:source batch.vim</strong>
+➾ <strong>:next</strong>
+➾ <strong>:source batch.vim</strong>
+<strong>《</strong> etc.</code></pre>
+
+  <p class="zw">不过更棒的方法是使用 <code>:argdo</code> 命令。</p>
+  <pre class="代码无行号"><code>➾ <strong>:argdo source batch.vim</strong></code></pre>
+
+  <p class="zw">只需这一条命令，就可以对参数列表里的每个文件执行 batch.vim 中的Ex 命令了。</p>
+
+  <p class="zw">我之所以用几种不同的 Ex 命令来展示这一技术，只是为了说明这一技巧适用的可能性。在实践中，如果发现要一遍又一遍地执行某几条 <code>:substitute``</code> 命令时，我常常会用脚本完成。在执行完batch.vim后，我通常会把它删掉；但如果我认为将来可能会再用到的话，也会将其纳入版本控制。</p>
+  <hr/>
+
+  <p class="footnote"><a id="anchor51" href="part0014.xhtml#ac51">[1]</a> 　<a>http://en.wikipedia.org/wiki/Teleprinter</a></p>
+
+  <p class="footnote"><a id="anchor22" href="part0011.xhtml#ac22">[2]</a> 　<a>http://www.theregiscer.co.uk/2003/09111/biu-joys.greatert_gifo/</a></p>
+
+  <p class="zw"><br style="page-break-after:always"/><div style="page-break-after:always"></div></p>
+</body></html>

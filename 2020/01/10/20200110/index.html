@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>文件编码、字符集，编码集，UTF-8，GBK等 | 漂泊的个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="文件编码参考链接参考链接1 -从字符编码的发展历史理解ANSI、GB2312、Unicode、UTF8和UTF16区别 参考链接2 -字符编码 参考链接2 -字符编码pdf版 参考链接3 区位码、国标码、机内码的区别和内在机制  [参考链接4  推荐阅读，总结的最好的一篇 关于字符编码，你所需要知道的]ASCII,Unicode,Ut  [参考链接4 pdf版  参考链接5 百度百科 ISO885">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件编码、字符集，编码集，UTF-8，GBK等">
+<meta property="og:url" content="http://pcbopcbo.github.io/2020/01/10/20200110/index.html">
+<meta property="og:site_name" content="漂泊的个人笔记">
+<meta property="og:description" content="文件编码参考链接参考链接1 -从字符编码的发展历史理解ANSI、GB2312、Unicode、UTF8和UTF16区别 参考链接2 -字符编码 参考链接2 -字符编码pdf版 参考链接3 区位码、国标码、机内码的区别和内在机制  [参考链接4  推荐阅读，总结的最好的一篇 关于字符编码，你所需要知道的]ASCII,Unicode,Ut  [参考链接4 pdf版  参考链接5 百度百科 ISO885">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pcbopcbo.github.io/img/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E.assets/1578990932276.png">
+<meta property="article:published_time" content="2020-01-10T08:11:30.000Z">
+<meta property="article:modified_time" content="2020-01-10T08:11:30.000Z">
+<meta property="article:author" content="thf">
+<meta property="article:tag" content="摘抄">
+<meta property="article:tag" content="文件编码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcbopcbo.github.io/img/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E.assets/1578990932276.png">
+  
+    <link rel="alternate" href="/atom.xml" title="漂泊的个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">漂泊的个人笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/index.html">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pcbopcbo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20200110" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/01/10/20200110/" class="article-date">
+  <time datetime="2020-01-10T08:11:30.000Z" itemprop="datePublished">2020-01-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      文件编码、字符集，编码集，UTF-8，GBK等
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h1><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://www.jeepxie.net/article/271098.html">参考链接1 -从字符编码的发展历史理解ANSI、GB2312、Unicode、UTF8和UTF16区别</a></p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81">参考链接2 -字符编码</a></p>
+<p><a href="https://pcbopcbo.github.io/files/wiki1.pdf">参考链接2 -字符编码pdf版</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lxpblsc/article/details/9619295">参考链接3 区位码、国标码、机内码的区别和内在机制 </a></p>
+<p>[<a target="_blank" rel="noopener" href="https://jerryc.me/posts/f5f84b52/">参考链接4  推荐阅读，总结的最好的一篇 关于字符编码，你所需要知道的]ASCII,Unicode,Ut</a> </p>
+<p>[<a href="https://pcbopcbo.github.io/files/blog1.pdf">参考链接4 pdf版</a> </p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/ISO8859/8581782?fromtitle=ISO-8859&fromid=834118">参考链接5 百度百科 ISO8859</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tupx/articles/3503924.html">参考链接6 编码的故事</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lizhengyu891231/article/details/90900818">参考链接7  MySQL UTF-8 使用请注意</a></p>
+<h2 id="文件编码总结"><a href="#文件编码总结" class="headerlink" title="文件编码总结"></a>文件编码总结</h2><p>一直对于字符编码，编码集，utf-8，gbk，gb2312,iso8859,这样的概念搞得一脑袋懵，现在参考网上的一些知识，尝试下对它们做下总结。</p>
+<h3 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h3><p>关于字符编码、子集码、字符集、现代编码模型的解释，可以查看<a href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5">参考链接</a></p>
+<p>以我自己的理解来说</p>
+<ul>
+<li><p><em><strong>字符编码</strong></em> 可以是指一个特定对象的编码，比如说三原色，把一种颜色称之为红，另外一种为绿，最一种为蓝。</p>
+</li>
+<li><p><em><strong>编码集</strong></em>，<em><strong>字符集</strong></em> , 不同的标准下编码的规则是不一致的，同一个标准下的编码单元集合就是一个字符集。计算机发展的早期，逐渐产生了<em><strong>ASCII(1963)<em><strong>和</strong></em>EBCDIC(1964)<em><strong>。这里也说 <em><strong>字符编码</strong></em>，</strong></em>编码集</strong></em>，<em><strong>字符集</strong></em>的概念也可以认为是一种概念，不过方便理解我自己区分了一下。</p>
+</li>
+<li><p><em><strong>简单字符集</strong></em>，应该就是指上面的*ASCII(1963)<em>和</em>EBCDIC(1964)*这两种字符编码时期的概念。</p>
+</li>
+<li><p><em><strong>现代编码模型</strong></em>，区别于<em><strong>简单字符集</strong></em>，由<em><strong>统一码</strong></em>和<em><strong>通用字符集</strong></em>构成。<em><strong>字符编码</strong></em>的概念被分解为：</p>
+<ol>
+<li>有哪些字符  (抽象字符表)</li>
+<li>字符的编号  （编码字符集，引申出了编码空间，码位，码位值）</li>
+<li>这些编号如何编码成一系列的“码元” （字符编码表）</li>
+<li>如何组成八位字节流 （字符编码方案，将码元映射到8位字节序列，以便编码后数据的存储等，Unicode需要一个字符指定大端序小端序，utf-8不需要，ISO/IEC 2022 使用控制字符转义序列）（传输编码语法）</li>
+</ol>
+</li>
+<li><p><em><strong>字符集</strong></em>，<em><strong>代码页</strong></em>，<em><strong>字符映射</strong></em></p>
+<ul>
+<li><p><em><strong>码元</strong></em>，已编码的文本中具有最短比特组合的单元，如utf-8是8比特长</p>
+</li>
+<li><p><em><strong>代码页</strong></em>，通常意味着面向字节的编码，强调是一套用于不能语言的编码方案的集合,如”windows”代码页系列，“IBM/DOW代码页系列”</p>
+<ul>
+<li>Unix与linux不使用代码页系列</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="多字节字符集（MBCS）和中文字符集"><a href="#多字节字符集（MBCS）和中文字符集" class="headerlink" title="多字节字符集（MBCS）和中文字符集"></a>多字节字符集（MBCS）和中文字符集</h3><p>理解了上面的概念，起码大概有一个印象（比如本人）接下来，可以查看参考链接4 的1.3章 <a href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5">参考链接</a> </p>
+<p>单字节字符集是对于英文来说的，甚至于说是拉丁语系都没有问题，256个字符已经足够用了。但是对于其他语种，比如说是中文，单字节字符集已经不够用了。多字节字符集是兼容***ASCII(1963)***的。</p>
+<p><em><strong>代码页</strong></em>，这里用到代码页的概念。</p>
+<p>常用的中文字符集是GB2312、GBK，其中GB2312涵盖了所有的简体字符集和其他的字符，GBK(K代表扩展)加入了繁体字等，GB18030不常用到（本人没用过）</p>
+<blockquote>
+<p>Windows系统採用936代码页来实现对GBK字符集的编解码。在解析字节流的时候，如果遇到字节的最高位是0的话，那么就使用936代码页中的第1张码錶进行解码，这就和单字节字符集的编解码方式一致了。</p>
+</blockquote>
+<h3 id="ANSI标準、国家标準、ISO标準"><a href="#ANSI标準、国家标準、ISO标準" class="headerlink" title="ANSI标準、国家标準、ISO标準"></a>ANSI标準、国家标準、ISO标準</h3><blockquote>
+<p>不同ASCII衍生字符集的出现，让文档交流变得非常困难，因此各种组织都陆续进行了标準化流程。例如美国ANSI组织制定了ANSI标準字符编码（注意，我们现在通常説到ANSI编码，通常指的是平台的默认编码，例如英文操作系统中是ISO-8859-1，中文系统是GBK），ISO组织制定的各种ISO标準字符编码，还有各国也会制定一些国家标準字符集，例如中国的GBK，GB2312和GB18030。</p>
+</blockquote>
+<h3 id="Unicode的出现"><a href="#Unicode的出现" class="headerlink" title="Unicode的出现"></a>Unicode的出现</h3><blockquote>
+<p>虽然通过使用不同字符集，我们可以在一台机器上查閲不同语言的文档，但是我们仍然无法解决一个问题：在一份文档中显示所有字符。为了解决这个问题，我们需要一个全人类达成共识的巨大的字符集，这就是Unicode字符集。</p>
+</blockquote>
+<p>UTF-8应该是目前应用最广泛的一种Unicode编码方案。</p>
+<p>文件编码格式的检测找不到一个可靠的工具，从上面的各个博客看来，各种兼容的历史问题导致的这一问题。</p>
+<p>下面是遇到的一些编码的问题，应该都是从网上摘抄来的，备记一下，但是已经不记得出处了，抱歉抱歉。</p>
+<h3 id="linux的cp936"><a href="#linux的cp936" class="headerlink" title="linux的cp936"></a>linux的cp936</h3><blockquote>
+<p>一直为GB2312，GBK，GB18030和CP936之间的关系头痛，今天得到Python群里一位高人指点，明白了cp936就是指系统里第936号编码格式，也就是GB2312。 </p>
+</blockquote>
+<h3 id="vim设置读取不同编码格式的文件"><a href="#vim设置读取不同编码格式的文件" class="headerlink" title="vim设置读取不同编码格式的文件"></a>vim设置读取不同编码格式的文件</h3><p> 在 ~/.vimrc 文件中加入下面这段内容</p>
+<blockquote>
+<p>:set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp936</p>
+</blockquote>
+<h3 id="设置别名，用来转换文件编码格式，参考使用"><a href="#设置别名，用来转换文件编码格式，参考使用" class="headerlink" title="设置别名，用来转换文件编码格式，参考使用"></a>设置别名，用来转换文件编码格式，参考使用</h3><blockquote>
+<p>alias gbk2utf8=’iconv -f gbk -t utf-8’</p>
+</blockquote>
+<h3 id="查看支持的编码格式"><a href="#查看支持的编码格式" class="headerlink" title="查看支持的编码格式"></a>查看支持的编码格式</h3><blockquote>
+<p>iconv -l|grep UTF-8</p>
+</blockquote>
+<h3 id="查看文件编码格式"><a href="#查看文件编码格式" class="headerlink" title="查看文件编码格式"></a>查看文件编码格式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">file  文件名</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">vim  文件</span><br><span class="line"></span><br><span class="line">:set fileencoding</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用file命令查看文件的时候有时候会看到</p>
+<p><img src="https://pcbopcbo.github.io/img/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E.assets/1578990932276.png" alt="1578990932276"></p>
+<p>4.txt中有数字字符，简体中文，繁体中文，非常令人迷惑！使用vim的时候可以看到是cp936。</p>
+<blockquote>
+<p><strong>sed -i ‘s/\r//’ filename</strong> </p>
+<p>替换换行符的方式</p>
+</blockquote>
+<h3 id="mysql-的utf-8格式"><a href="#mysql-的utf-8格式" class="headerlink" title="mysql 的utf-8格式"></a>mysql 的utf-8格式</h3><p>mysql使用utf-8格式的时候一定要慎重，我们广为人知的utf-8格式在mysql中的名字是utf8mb4 ，这也是为了防止莫名其妙的乱码问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pcbopcbo.github.io/2020/01/10/20200110/" data-id="ckpxpgimk0003ccubci9chbz7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/14/20200114/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          springboot分离式打包
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/07/20200107/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo简单发布使用学习</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" rel="tag">配置管理框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" rel="tag">链接收集</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mybatis/" style="font-size: 16px;">mybatis</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 12px;">shell</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 18px;">开发</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 20px;">摘抄</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">文件编码</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 16px;">转载</a> <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" style="font-size: 10px;">配置管理框架</a> <a href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" style="font-size: 12px;">链接收集</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/15/2021061500/">临时性备记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/2020082411/">如何防止git使用的时候的冲突与解决冲突</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/2020081410/">redis数据结构与底层</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/15/2020071517/">简单代码片段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 thf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

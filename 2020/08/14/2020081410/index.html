@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>redis数据结构与底层 | 漂泊的个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Redis的数据结构基本数据结构 String 字符串  Hash  散列  List 列表  Set 集合  Sorted Set 有序集合   进阶 bitmap 位图  GeoHash  HyperLogLogs   终极 Streams  Redis的内部编码 int  raw   embstr  linkedList  zipList  skipList  hashTable  ints">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis数据结构与底层">
+<meta property="og:url" content="http://pcbopcbo.github.io/2020/08/14/2020081410/index.html">
+<meta property="og:site_name" content="漂泊的个人笔记">
+<meta property="og:description" content="Redis的数据结构基本数据结构 String 字符串  Hash  散列  List 列表  Set 集合  Sorted Set 有序集合   进阶 bitmap 位图  GeoHash  HyperLogLogs   终极 Streams  Redis的内部编码 int  raw   embstr  linkedList  zipList  skipList  hashTable  ints">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-14T08:54:02.000Z">
+<meta property="article:modified_time" content="2020-08-14T08:54:02.000Z">
+<meta property="article:author" content="thf">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="漂泊的个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">漂泊的个人笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/index.html">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pcbopcbo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020081410" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/14/2020081410/" class="article-date">
+  <time datetime="2020-08-14T08:54:02.000Z" itemprop="datePublished">2020-08-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis数据结构与底层
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><h3 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h3><ul>
+<li><p>String 字符串</p>
+</li>
+<li><p>Hash  散列</p>
+</li>
+<li><p>List 列表</p>
+</li>
+<li><p>Set 集合</p>
+</li>
+<li><p>Sorted Set 有序集合</p>
+</li>
+</ul>
+<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><ul>
+<li><p>bitmap 位图</p>
+</li>
+<li><p>GeoHash</p>
+</li>
+<li><p>HyperLogLogs</p>
+</li>
+</ul>
+<h3 id="终极"><a href="#终极" class="headerlink" title="终极"></a>终极</h3><ul>
+<li>Streams</li>
+</ul>
+<h2 id="Redis的内部编码"><a href="#Redis的内部编码" class="headerlink" title="Redis的内部编码"></a>Redis的内部编码</h2><ul>
+<li><p>int</p>
+</li>
+<li><p>raw </p>
+</li>
+<li><p>embstr</p>
+</li>
+<li><p>linkedList</p>
+</li>
+<li><p>zipList</p>
+</li>
+<li><p>skipList</p>
+</li>
+<li><p>hashTable</p>
+</li>
+<li><p>intset</p>
+</li>
+</ul>
+<ol>
+<li><p>String(int raw embstr)</p>
+</li>
+<li><p>List(linkedList zipList)</p>
+</li>
+<li><p>sortedSet(zipList skipList)</p>
+</li>
+<li><p>Hash(zipList hashTable)</p>
+</li>
+<li><p>Set(hashTable intset)</p>
+</li>
+</ol>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ol>
+<li><p>缓存（随机访问速度，Disk是ms级别，SSD是微秒级别，内存则是纳秒级别）</p>
+</li>
+<li><p>计数器</p>
+</li>
+<li><p>分布式ID生成（步进）</p>
+</li>
+<li><p>海量数据统计（bitmap）</p>
+</li>
+<li><p>会话缓存（应用会话缓存存储，保证应用的高可用可伸缩性）</p>
+</li>
+<li><p>分布式队列、阻塞队列（List，lpush/rpush rpop/lpop  读取写入数据）</p>
+</li>
+<li><p>分布式锁（setNx）</p>
+</li>
+<li><p>热点数据存储（list结构，ltrim）</p>
+</li>
+<li><p>社交需求</p>
+<p> set交集（共同好友），set差集（好友推荐、文章推荐），排行榜zset</p>
+</li>
+<li><p>延迟队列（[时间戳+需要延迟时间]，score，消息内容作为元素，zadd生产消息，消费者使用zrangeByScore获取当前时间之前的数据，然后rem key）</p>
+</li>
+</ol>
+<h2 id="redis的二进制数据安全特性-binary-safe"><a href="#redis的二进制数据安全特性-binary-safe" class="headerlink" title="redis的二进制数据安全特性 binary safe"></a>redis的二进制数据安全特性 binary safe</h2><pre><code>redis的String类型不同于C语言的string类型
+
+redis的String=&gt;SDS（Simple Dynamic String）
+</code></pre>
+<h3 id="SDS的结构"><a href="#SDS的结构" class="headerlink" title="SDS的结构"></a>SDS的结构</h3><h4 id="3-2前"><a href="#3-2前" class="headerlink" title="3.2前"></a>3.2前</h4><pre><code>SDS=&gt;len（int），free（int），buffer（string）
+</code></pre>
+<h4 id="3-2后"><a href="#3-2后" class="headerlink" title="3.2后"></a>3.2后</h4><pre><code>SDS=&gt;5种string类型
+
+SDS_TYPE_5， SDS_TYPE_8， SDS_TYPE_16， SDS_TYPE_32， SDS_TYPE_64
+
+。。。
+</code></pre>
+<h2 id="内存与分配机制"><a href="#内存与分配机制" class="headerlink" title="内存与分配机制"></a>内存与分配机制</h2><pre><code>Redis扩容=&gt;(需加大小+原大小)x2
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pcbopcbo.github.io/2020/08/14/2020081410/" data-id="ckpxpgiod002rccubgrct8d1v" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/24/2020082411/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何防止git使用的时候的冲突与解决冲突
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/15/2020071517/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">简单代码片段</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%87%E8%AE%B0/">备记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8B%93%E5%B1%95/">拓展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%BD%AC%E8%BD%BD/">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E6%8A%84/" rel="tag">摘抄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" rel="tag">文件编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" rel="tag">配置管理框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" rel="tag">链接收集</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mybatis/" style="font-size: 16px;">mybatis</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 12px;">shell</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 18px;">开发</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 20px;">摘抄</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">文件编码</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 16px;">转载</a> <a href="/tags/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6/" style="font-size: 10px;">配置管理框架</a> <a href="/tags/%E9%93%BE%E6%8E%A5%E6%94%B6%E9%9B%86/" style="font-size: 12px;">链接收集</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/15/2021061500/">临时性备记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/2020082411/">如何防止git使用的时候的冲突与解决冲突</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/2020081410/">redis数据结构与底层</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/15/2020071517/">简单代码片段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 thf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
